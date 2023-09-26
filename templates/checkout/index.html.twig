@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {{ dump(module) }}
+        <div class="row">
+            <div class="col-md-3">
+                <ul id="calendar-draggable" class="list-group">
+                    {% for schedule in module.schedules %}
+                        <li class="list-group-item draggable-element"  data-event='{ "title": "Créneau {{ loop.index }}", "duration": "01:30" }'>
+                            Créneau {{ loop.index }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <ul class="list-group">
+                    {% for subModule in module.subModules %}
+                        <li class="list-group-item">{{ subModule.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('checkout') }}
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('checkout') }}
+{% endblock %}

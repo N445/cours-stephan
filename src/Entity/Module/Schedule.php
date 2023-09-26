@@ -14,27 +14,15 @@ class Schedule
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $duration = null;
-
     #[ORM\ManyToOne(inversedBy: 'schedules')]
     private ?Module $module = null;
+
+    #[ORM\Column]
+    private ?\DateInterval $duration = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDuration(): ?\DateTimeInterface
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(\DateTimeInterface $duration): static
-    {
-        $this->duration = $duration;
-
-        return $this;
     }
 
     public function getModule(): ?Module
@@ -45,6 +33,18 @@ class Schedule
     public function setModule(?Module $module): static
     {
         $this->module = $module;
+
+        return $this;
+    }
+
+    public function getDuration(): ?\DateInterval
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(\DateInterval $duration): static
+    {
+        $this->duration = $duration;
 
         return $this;
     }

@@ -3,12 +3,15 @@
 namespace App\Entity\Module;
 
 use App\Repository\Module\ModuleRepository;
+use Carbon\CarbonInterval;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
+#[UniqueEntity('name')]
 class Module
 {
     #[ORM\Id]
@@ -32,6 +35,11 @@ class Module
     {
         $this->subModules = new ArrayCollection();
         $this->schedules = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 
     public function getId(): ?int
@@ -94,8 +102,21 @@ class Module
     }
 
     /**
-     * @return Collection<int, Schedule>
+     * @return string
+     * @throws \Exception
      */
+    public function getTotalDuration(): string
+    {
+        $total = CarbonInterval::create(0,0,0,0,0,0,0);
+        dump($total);
+
+        /** @var Schedule $schedule */
+        foreach ($this->getSchedules() as $schedule) {
+            $total->add($schedule->getDuration());
+        }
+        return $total->forHumans(['short' => true]);
+    }
+
     public function getSchedules(): Collection
     {
         return $this->schedules;

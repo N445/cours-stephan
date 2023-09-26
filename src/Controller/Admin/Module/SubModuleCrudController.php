@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Module;
 
 use App\Entity\Module\SubModule;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class SubModuleCrudController extends AbstractCrudController
 {
@@ -12,14 +13,10 @@ class SubModuleCrudController extends AbstractCrudController
         return SubModule::class;
     }
 
-    /*
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            TextField::new('name', 'Nom'),
         ];
     }
-    */
 }
