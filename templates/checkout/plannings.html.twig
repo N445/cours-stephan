@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Planning{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% for planning in plannings %}
+            <p>
+                <a href="{{ path('APP_PLANNING',{planningId:planning.id}) }}">
+                    {{ planning.name }}
+                </a>
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('planning') }}
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('planning') }}
+{% endblock %}

@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name       : 'app:module:create-module',
+    name: 'app:module:create-module',
     description: 'Créer les module de base',
 )]
 class ModuleCreateModuleCommand extends Command
@@ -47,30 +47,26 @@ class ModuleCreateModuleCommand extends Command
             $subModulesNames[$item->getName()] = $item;
         }
 
-        $nbCreatedModule    = 0;
+        $nbCreatedModule = 0;
         $nbCreatedSubModule = 0;
         foreach ($this->getModules() as $moduleName => $subModules) {
-            if (array_key_exists($moduleName, $modulesNames)) {
+            if ($modulesNames[$moduleName] ?? null) {
                 continue;
             }
-            $module                           = (new Module())
-                ->setName($moduleName)
-            ;
+
+            $module = (new Module())
+                ->setName($moduleName);
             $modulesNames[$module->getName()] = $module;
             $nbCreatedModule++;
-            foreach ($subModules as $subModule) {
-                if (in_array($subModule, $subModulesNames)) {
-                    $module->addSubModule($subModulesNames[$subModule]);
-                    continue;
-                }
-                $nbCreatedSubModule++;
-                $subModule                              = (new SubModule())->setName($subModule);
-                $subModulesNames[$subModule->getName()] = $subModule;
-                $module->addSubModule($subModule);
-            }
 
-            foreach (range(1, 4) as $item) {
-                $module->addSchedule((new Schedule())->setDuration(new \DateInterval('PT1H30M')));
+            foreach ($subModules as $subModuleName) {
+                if (!$subModule = $subModulesNames[$moduleName] ?? null) {
+                    $subModule = (new SubModule())->setName($subModuleName);
+                    $subModulesNames[$subModule->getName()] = $subModule;
+                    $nbCreatedSubModule++;
+                }
+                $module->addSubModule($subModule);
+                $this->em->persist($subModule);
             }
 
             $this->em->persist($module);
@@ -87,26 +83,26 @@ class ModuleCreateModuleCommand extends Command
     {
 
         return [
-            "Module « commentaire composé »"                                                                                => [
+            "Module « commentaire composé »" => [
                 "Description des composantes (les « ingrédients »)",
                 "La méthode (une « recette »)",
                 "Application immédiate de la méthode",
                 "Constitution d’un modèle complet, rédigé",
                 "Un devoir blanc à effectuer par l’étudiant* (corrigé et annoté par mes soins)",
             ],
-            "Module « dissertation bac français »"                                                                          => [
+            "Module « dissertation bac français »" => [
                 "Description des composantes (les « ingrédients »)",
                 "La méthode (une « recette »)",
                 "Application immédiate de la méthode",
                 "Constitution d’un modèle complet, rédigé",
                 "Un devoir blanc à effectuer par l’étudiant* (corrigé et annoté par mes soins)",
             ],
-            "Module « entrainement à l’écrit de français »"                                                                 => [
+            "Module « entrainement à l’écrit de français »" => [
                 "3h, 3 sujets d’entrainement au commentaire",
                 "3h, 3 sujets d’entrainement à la dissertation",
                 "2 devoirs complets à effectuer par l’étudiant* (corrigés et annotés par mes soins)",
             ],
-            "Module « préparation oral du bac »"                                                                            => [
+            "Module « préparation oral du bac »" => [
                 "Comment faire une fiche sur la base d’un cours",
                 "Une application et un modèle de fiche",
                 "Comment apprendre une fiche",
@@ -114,20 +110,20 @@ class ModuleCreateModuleCommand extends Command
                 "Construction de la présentation de l’œuvre choisie",
                 "1 oral blanc complet",
             ],
-            "Module « dissertation de philo »"                                                                              => [
+            "Module « dissertation de philo »" => [
                 "Description des composantes (les « ingrédients »)",
                 "La méthode (une « recette »)",
                 "Application",
                 "Constitution d’un modèle complet, rédigé",
                 "Un devoir blanc à effectuer par l’étudiant* (corrigé et annoté par mes soins)",
             ],
-            "Module « l’essentiel du brevet »"                                                                              => [
+            "Module « l’essentiel du brevet »" => [
                 "Le sujet de réflexion et l’invention",
                 "Comment répondre efficacement aux questions sur un texte",
                 "Les notions essentielles (grammaire, rhétorique)",
                 "Remise à niveau de l’orthographe",
             ],
-            "Module « préparation de l’épreuve du brevet »"                                                                 => [
+            "Module « préparation de l’épreuve du brevet »" => [
                 "6 heures, 4 sujets d’entrainement",
                 "2 devoirs complets à effectuer par l’élève* (corrigés et annotés par mes soins)",
             ],
