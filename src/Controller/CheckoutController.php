@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Module\Module;
 use App\Repository\Module\ModuleRepository;
-use App\Repository\Module\PlanningRepository;
+use App\Repository\Module\SheduleRepository;
+use App\Service\Module\ModuleRRuleProvider;
 use RRule\RRule;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,61 +14,33 @@ use Symfony\Component\Routing\Annotation\Route;
 class CheckoutController extends AbstractController
 {
     public function __construct(
-        private readonly ModuleRepository   $moduleRepository,
-        private readonly PlanningRepository $planningRepository
+        private readonly ModuleRepository    $moduleRepository,
+        private readonly SheduleRepository   $sheduleRepository,
+        private readonly ModuleRRuleProvider $moduleRRuleProvider,
     )
     {
     }
 
-    #[Route('/plannings', name: 'APP_PLANNINGS')]
+    #[Route('/programmes', name: 'APP_SHEDULES')]
     public function plannings(): Response
     {
         return $this->render('checkout/plannings.html.twig', [
-            'plannings' => $this->planningRepository->findAll()
+            'shedules' => $this->sheduleRepository->findAll(),
         ]);
     }
 
-    #[Route('/planning/{planningId}', name: 'APP_PLANNING')]
-    public function planning(int $planningId): Response
+    #[Route('/programme/{sheduleId}', name: 'APP_SHEDULE')]
+    public function planning(int $sheduleId): Response
     {
-        if (!$planning = $this->planningRepository->find($planningId)) {
+        if (!$shedule = $this->sheduleRepository->find($sheduleId)) {
             return $this->redirectToRoute('APP_PLANNINGS');
         }
 
-        $events = [];
         $modules = $this->moduleRepository->findAll();
 
-        foreach ($modules as $module) {
-            foreach ($module->getDays() as $day) {
-                $rrule = new RRule([
-                    'BYDAY' => $day,
-                    'FREQ' => RRule::WEEKLY,
-                    'INTERVAL' => 1,
-                    'DTSTART' => $planning->getStartAt()->format('Y-m-d'),
-                    'UNTIL' => $planning->getEndAt()->format('Y-m-d'),
-                ]);
-
-                /** @var \DateTime $occurrence */
-                foreach ($rrule as $occurrence) {
-                    foreach ($module->getHours() as $hour) {
-                        $startAt = (clone $occurrence)->add(new \DateInterval($hour));
-                        $endAt = (clone $startAt)->add(new \DateInterval('PT1H30M'));
-
-                        $events[] = [
-                            "title" => $module->getName(),
-                            "start" => $startAt->format(DATE_ATOM),
-                            "end" => $endAt->format(DATE_ATOM)
-                        ];
-                    }
-                }
-            }
-        }
-
-        dump($events);
-
         return $this->render('checkout/planning.html.twig', [
-            'planning' => $planning,
-            'events' => $events,
+            'shedule' => $shedule,
+            'events'  => $this->moduleRRuleProvider->getModulesRRulesDates($shedule, $modules),
         ]);
     }
 

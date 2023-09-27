@@ -25,19 +25,16 @@ class Module
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: SubModule::class,cascade: ['persist','remove'])]
+    #[ORM\ManyToMany(targetEntity: SubModule::class, inversedBy: 'modules')]
     private Collection $subModules;
 
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $days = [];
-
-    #[ORM\Column(type: Types::ARRAY)]
-    private array $hours = [];
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Planning::class)]
+    private Collection $plannings;
 
     public function __construct()
     {
         $this->subModules = new ArrayCollection();
-        $this->schedules = new ArrayCollection();
+        $this->plannings  = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -86,7 +83,6 @@ class Module
     {
         if (!$this->subModules->contains($subModule)) {
             $this->subModules->add($subModule);
-            $subModule->setModule($this);
         }
 
         return $this;
@@ -94,36 +90,49 @@ class Module
 
     public function removeSubModule(SubModule $subModule): static
     {
-        if ($this->subModules->removeElement($subModule)) {
-            // set the owning side to null (unless already changed)
-            if ($subModule->getModule() === $this) {
-                $subModule->setModule(null);
-            }
+        $this->subModules->removeElement($subModule);
+
+        return $this;
+    }
+
+    /**
+     * @param Shedule $shedule
+     *
+     * @return Planning|null
+     */
+    public function getPlanningByShedule(Shedule $shedule): ?Planning
+    {
+        return array_filter($this->plannings->toArray(), static function (Planning $planning) use ($shedule) {
+            return $planning->getShedule() === $shedule;
+        })[0] ?? null;
+    }
+
+    /**
+     * @return Collection<int, Planning>
+     */
+    public function getPlannings(): Collection
+    {
+        return $this->plannings;
+    }
+
+    public function addPlanning(Planning $planning): static
+    {
+        if (!$this->plannings->contains($planning)) {
+            $this->plannings->add($planning);
+            $planning->setModule($this);
         }
 
         return $this;
     }
 
-    public function getDays(): array
+    public function removePlanning(Planning $planning): static
     {
-        return $this->days;
-    }
-
-    public function setDays(array $days): static
-    {
-        $this->days = $days;
-
-        return $this;
-    }
-
-    public function getHours(): array
-    {
-        return $this->hours;
-    }
-
-    public function setHours(array $hours): static
-    {
-        $this->hours = $hours;
+        if ($this->plannings->removeElement($planning)) {
+            // set the owning side to null (unless already changed)
+            if ($planning->getModule() === $this) {
+                $planning->setModule(null);
+            }
+        }
 
         return $this;
     }

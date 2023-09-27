@@ -4,10 +4,9 @@
 
 {% block body %}
     <div class="container">
-        {{ dump(planning) }}
         <div id="calendar"
-             data-start-at="{{ planning.startAt|date('Y-m-d H:i:s') }}"
-             data-end-at="{{ planning.endAt|date('Y-m-d H:i:s') }}"
+             data-start-at="{{ shedule.startAt|date('Y-m-d H:i:s') }}"
+             data-end-at="{{ shedule.endAt|date('Y-m-d H:i:s') }}"
              data-events="{{ events|json_encode }}"
         ></div>
     </div>

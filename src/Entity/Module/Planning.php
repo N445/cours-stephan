@@ -14,52 +14,81 @@ class Planning
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?string $name = null;
+    private array $mondayTimes = [];
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $startAt = null;
+    private array $wenesdayTimes = [];
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $endAt = null;
+    private array $fridayTimes = [];
+
+    #[ORM\ManyToOne(inversedBy: 'plannings')]
+    private ?Module $module = null;
+
+    #[ORM\ManyToOne(inversedBy: 'plannings')]
+    private ?Shedule $shedule = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getMondayTimes(): array
     {
-        return $this->name;
+        return $this->mondayTimes;
     }
 
-    public function setName(?string $name): Planning
+    public function setMondayTimes(array $mondayTimes): static
     {
-        $this->name = $name;
-        return $this;
-    }
-
-
-
-    public function getStartAt(): ?\DateTimeImmutable
-    {
-        return $this->startAt;
-    }
-
-    public function setStartAt(\DateTimeImmutable $startAt): static
-    {
-        $this->startAt = $startAt;
+        $this->mondayTimes = $mondayTimes;
 
         return $this;
     }
 
-    public function getEndAt(): ?\DateTimeImmutable
+    public function getWenesdayTimes(): array
     {
-        return $this->endAt;
+        return $this->wenesdayTimes;
     }
 
-    public function setEndAt(\DateTimeImmutable $endAt): static
+    public function setWenesdayTimes(array $wenesdayTimes): static
     {
-        $this->endAt = $endAt;
+        $this->wenesdayTimes = $wenesdayTimes;
+
+        return $this;
+    }
+
+    public function getFridayTimes(): array
+    {
+        return $this->fridayTimes;
+    }
+
+    public function setFridayTimes(array $fridayTimes): static
+    {
+        $this->fridayTimes = $fridayTimes;
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): static
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
+    public function getShedule(): ?Shedule
+    {
+        return $this->shedule;
+    }
+
+    public function setShedule(?Shedule $shedule): static
+    {
+        $this->shedule = $shedule;
 
         return $this;
     }

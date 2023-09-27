@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Planning{% endblock %}
+{% block title %}Programmes{% endblock %}
 
 {% block body %}
     <div class="container">
-        {% for planning in plannings %}
+        {% for shedule in shedules %}
             <p>
-                <a href="{{ path('APP_PLANNING',{planningId:planning.id}) }}">
-                    {{ planning.name }}
+                <a href="{{ path('APP_SHEDULE',{sheduleId:shedule.id}) }}">
+                    {{ shedule.name }}
                 </a>
             </p>
         {% endfor %}
