@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-100" lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -13,8 +13,11 @@
         {% block javascripts %}
         {% endblock %}
     </head>
-    <body>
+    <body class="d-flex flex-column h-100">
     {% include 'parts/_navigation.html.twig' %}
+    <main class="flex-shrink-0">
         {% block body %}{% endblock %}
+    </main>
+    {% include 'parts/_footer.html.twig' %}
     </body>
 </html>

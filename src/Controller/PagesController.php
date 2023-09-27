@@ -15,12 +15,12 @@ class PagesController extends AbstractController
         ]);
     }
     #[Route('/tarif-fonctionnement', name: 'APP_TARIF_FONCTIONNEMENT')]
-    public function app_tarif_fonctionnement(): Response
+    public function tarif_fonctionnement(): Response
     {
-        return $this->render('pages/app_tarif_fonctionnement.html.twig', [
+        return $this->render('pages/tarif_fonctionnement.html.twig', [
         ]);
     }
-    #[Route('/CONTACT', name: 'APP_CONTACT')]
+    #[Route('/contact', name: 'APP_CONTACT')]
     public function contact(): Response
     {
         return $this->render('pages/contact.html.twig', [
