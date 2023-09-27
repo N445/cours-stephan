@@ -28,8 +28,11 @@ class Module
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: SubModule::class,cascade: ['persist','remove'])]
     private Collection $subModules;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Schedule::class,cascade: ['persist','remove'])]
-    private Collection $schedules;
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $days = [];
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $hours = [];
 
     public function __construct()
     {
@@ -101,45 +104,26 @@ class Module
         return $this;
     }
 
-    /**
-     * @return string
-     * @throws \Exception
-     */
-    public function getTotalDuration(): string
+    public function getDays(): array
     {
-        $total = CarbonInterval::create(0,0,0,0,0,0,0);
-        dump($total);
-
-        /** @var Schedule $schedule */
-        foreach ($this->getSchedules() as $schedule) {
-            $total->add($schedule->getDuration());
-        }
-        return $total->forHumans(['short' => true]);
+        return $this->days;
     }
 
-    public function getSchedules(): Collection
+    public function setDays(array $days): static
     {
-        return $this->schedules;
-    }
-
-    public function addSchedule(Schedule $schedule): static
-    {
-        if (!$this->schedules->contains($schedule)) {
-            $this->schedules->add($schedule);
-            $schedule->setModule($this);
-        }
+        $this->days = $days;
 
         return $this;
     }
 
-    public function removeSchedule(Schedule $schedule): static
+    public function getHours(): array
     {
-        if ($this->schedules->removeElement($schedule)) {
-            // set the owning side to null (unless already changed)
-            if ($schedule->getModule() === $this) {
-                $schedule->setModule(null);
-            }
-        }
+        return $this->hours;
+    }
+
+    public function setHours(array $hours): static
+    {
+        $this->hours = $hours;
 
         return $this;
     }
