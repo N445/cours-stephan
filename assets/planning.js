@@ -14,17 +14,21 @@ import listPlugin from '@fullcalendar/list';
 import frLocale from '@fullcalendar/core/locales/fr';
 import interactionPlugin, {Draggable} from '@fullcalendar/interaction';
 
+let calendar;
+
 document.addEventListener('DOMContentLoaded', function () {
-    let calendar = new Calendar(document.getElementById('calendar'), {
+    calendar = new Calendar(document.getElementById('calendar'), {
         plugins: [timeGridPlugin, interactionPlugin],
         editable: true,
         droppable: true,
+        allDaySlot: false,
+        height: 'auto',
         eventDurationEditable: false,
         eventOverlap: false,
         locale: frLocale,
         firstDay: 1,
         initialView: 'timeGridWeek',
-        hiddenDays: [ 0 ],
+        hiddenDays: [0],
         events: $('[data-events]').data('events'),
         slotMinTime: '08:00:00',
         slotMaxTime: '20:00:00',
@@ -37,14 +41,30 @@ document.addEventListener('DOMContentLoaded', function () {
             center: 'title',
             right: ''
         },
-        eventReceive: function (info) {
-            $(info.draggedEl).remove();
+        // eventReceive: function (info) {
+        //     $(info.draggedEl).remove();
+        // },
+        eventClick: function (info) {
+            let extendedProps = info.event._def.extendedProps;
+            if ('sub-event' === extendedProps['type']) {
+                return;
+            }
+            let occurenceId = extendedProps['occurenceId'];
+
+            localStorage.setItem("occurenceId", occurenceId);
+
+            selectEventByOccurenceId(occurenceId);
         }
     });
 
     calendar.render();
 
-    new Draggable(document.getElementById('calendar-draggable'), {
-        itemSelector: '.draggable-element'
-    });
+    if (null !== localStorage.getItem("occurenceId")) {
+        selectEventByOccurenceId(localStorage.getItem("occurenceId"));
+    }
 });
+
+function selectEventByOccurenceId(occurenceId) {
+    $('.fc-event.event-clicked').removeClass('event-clicked');
+    $(`.${occurenceId}`).addClass('event-clicked');
+}

@@ -1,3 +1,20 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
 #calendar {
   max-width: 100%;
+}
+
+.fc-event{
+  transition: .2s all ease-in-out;
+  box-shadow: 0 0 0;
+  &.event-clicked {
+    background-color: #87c37c !important;
+    border-color: #4b7e41 !important;
+    box-shadow: $box-shadow;
+
+    &.sub-event {
+      background-color: #d3f2ce !important;
+    }
+  }
 }

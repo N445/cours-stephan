@@ -57,9 +57,10 @@ class ModuleRRuleProvider
     {
         return new RRule(
             [
-                'BYDAY'    => $day,
                 'FREQ'     => RRule::WEEKLY,
+                'BYDAY'    => $day,
                 'INTERVAL' => 1,
+//                'BYSETPOS' => -1,
                 'DTSTART'  => $this->shedule->getStartAt()->format('Y-m-d'),
                 'UNTIL'    => $this->shedule->getEndAt()->format('Y-m-d'),
             ],
@@ -68,30 +69,55 @@ class ModuleRRuleProvider
 
     private function addModulePlanningDayTimes(array &$dates, string $day, \DateTime $occurrence): void
     {
-        foreach ($this->getPlanningDaytimes($this->currentPlanning, $day) as $times) {
-            $startAt = (clone $occurrence)->add(new \DateInterval($times));
+        foreach ($this->getPlanningDaytimes($this->currentPlanning, $day) as $time) {
+            $eventId = md5($occurrence->format(DATE_ATOM) . $day . $time);
+
+            $startAt = (clone $occurrence)->add(new \DateInterval($time));
             $endAt   = (clone $startAt)->add(new \DateInterval('PT1H30M'));
 
             $dates[] = [
-                "title" => $this->module->getName(),
-                "start" => $startAt->format(DATE_ATOM),
-                "end"   => $endAt->format(DATE_ATOM),
+                "title"           => $this->module->getName(),
+                "start"           => $startAt->format(DATE_ATOM),
+                "end"             => $endAt->format(DATE_ATOM),
+                "backgroundColor" => "#7c99c3",
+                "classNames"      => $eventId . ' main-event',
+                "extendedProps"   => [
+                    'moduleId'    => $this->module->getId(),
+                    'occurenceId' => $eventId,
+                    'type'        => 'main-event',
+                ],
             ];
 
-            $this->addModuleSubEvents($dates, $startAt, $endAt);
+            $this->addModuleSubEvents($dates, $startAt, $endAt, $eventId);
         }
     }
 
-    private function addModuleSubEvents(array &$dates, \DateTime $startAt, \DateTime $endAt): void
+    private function addModuleSubEvents(array &$dates, \DateTime $startAt, \DateTime $endAt, string $eventId): void
     {
-        foreach (range(1, 3) as $subEvent) {
+        $nbSubEvents = 0;
+
+        while ($nbSubEvents !== 3) {
             $startAt->add(new \DateInterval('P1D'));
             $endAt->add(new \DateInterval('P1D'));
 
+            if ($startAt->format('w') === '0') {
+                continue;
+            }
+
+            $nbSubEvents++;
+
             $dates[] = [
-                "title" => sprintf('Sous module %s n°%d', $this->module->getName(), $subEvent),
-                "start" => $startAt->format(DATE_ATOM),
-                "end"   => $endAt->format(DATE_ATOM),
+                "title"           => sprintf('Sous module %s n°%d', $this->module->getName(), $nbSubEvents),
+                "start"           => $startAt->format(DATE_ATOM),
+                "end"             => $endAt->format(DATE_ATOM),
+                "backgroundColor" => "#F0F6FF",
+                "textColor"       => "black",
+                "classNames"      => $eventId . ' sub-event',
+                "extendedProps"   => [
+                    'moduleId'    => $this->module->getId(),
+                    'occurenceId' => $eventId,
+                    'type'        => 'sub-event',
+                ],
             ];
         }
     }
