@@ -17,12 +17,12 @@ class AnonymousTokenHelper
 
     public function getToken(): ?string
     {
-        return $this->requestStack->getMainRequest()->cookies->get(User::COOKIE_ANONYMOUS__TOKEN);
+        return  $this->requestStack->getSession()->get(User::COOKIE_ANONYMOUS__TOKEN);
     }
 
     public function hasToken(): bool
     {
-        return $this->getToken() !== null;
+        return  $this->requestStack->getSession()->has(User::COOKIE_ANONYMOUS__TOKEN);
     }
 
     public function createToken(?Request $request = null): string
@@ -30,16 +30,8 @@ class AnonymousTokenHelper
         if ($this->hasToken()) {
             return $this->getToken();
         }
-        $cookie = $this->getTokenCookie();
-        $this->requestStack->getMainRequest()->headers->setCookie($cookie);
-        return $cookie->getValue();
-    }
-
-    public function getTokenCookie(): Cookie
-    {
-        return new Cookie(
-            User::COOKIE_ANONYMOUS__TOKEN,
-            uniqid('anonymous_token_', true),
-            time() + 3600 * 24 * 365);
+        $token = uniqid('anonymous_token_', true);
+        $this->requestStack->getSession()->set(User::COOKIE_ANONYMOUS__TOKEN, $token);
+        return $token;
     }
 }

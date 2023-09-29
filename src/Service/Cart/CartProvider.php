@@ -5,8 +5,10 @@ namespace App\Service\Cart;
 use App\Entity\Cart\Cart;
 use App\Entity\User;
 use App\Repository\Cart\CartRepository;
+use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\User\InMemoryUser;
 
 class CartProvider
 {
@@ -50,7 +52,7 @@ class CartProvider
 
         $token = $this->anonymousTokenHelper->getToken();
 
-        if (!$cart = $this->cartRepository->findByAnonymousToken($token)) {
+        if ($cart = $this->cartRepository->findByAnonymousToken($token)) {
             return $cart;
         }
 
