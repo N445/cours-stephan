@@ -4,17 +4,9 @@
 
 {% block body %}
     <div class="container">
-        <div id="calendar"
-             data-start-at="{{ shedule.startAt|date('Y-m-d H:i:s') }}"
-             data-end-at="{{ shedule.endAt|date('Y-m-d H:i:s') }}"
-             data-events="{{ events|json_encode }}"
-        ></div>
+        {{ component('CheckoutCalendar',{
+            shedule:shedule,
+            events:events,
+        }) }}
     </div>
-{% endblock %}
-
-{% block stylesheets %}
-    {{ encore_entry_link_tags('planning') }}
-{% endblock %}
-{% block javascripts %}
-    {{ encore_entry_script_tags('planning') }}
 {% endblock %}

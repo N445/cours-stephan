@@ -2,6 +2,7 @@
 
 namespace App\Entity\Module;
 
+use App\Entity\Cart\CartItem;
 use App\Repository\Module\ModuleRepository;
 use Carbon\CarbonInterval;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -31,10 +32,20 @@ class Module
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: Planning::class)]
     private Collection $plannings;
 
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: CartItem::class)]
+    private Collection $cartItems;
+
+    #[ORM\Column]
+    private ?int $price = null;
+
+    #[ORM\Column]
+    private ?int $nbPlaceBySchedule = null;
+
     public function __construct()
     {
         $this->subModules = new ArrayCollection();
         $this->plannings  = new ArrayCollection();
+        $this->cartItems = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -133,6 +144,60 @@ class Module
                 $planning->setModule(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CartItem>
+     */
+    public function getCartItems(): Collection
+    {
+        return $this->cartItems;
+    }
+
+    public function addCartItem(CartItem $cartItem): static
+    {
+        if (!$this->cartItems->contains($cartItem)) {
+            $this->cartItems->add($cartItem);
+            $cartItem->setModule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartItem(CartItem $cartItem): static
+    {
+        if ($this->cartItems->removeElement($cartItem)) {
+            // set the owning side to null (unless already changed)
+            if ($cartItem->getModule() === $this) {
+                $cartItem->setModule(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): static
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getNbPlaceBySchedule(): ?int
+    {
+        return $this->nbPlaceBySchedule;
+    }
+
+    public function setNbPlaceBySchedule(int $nbPlaceBySchedule): static
+    {
+        $this->nbPlaceBySchedule = $nbPlaceBySchedule;
 
         return $this;
     }
