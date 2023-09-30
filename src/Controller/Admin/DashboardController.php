@@ -2,9 +2,11 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Cart\Cart;
 use App\Entity\Module\Module;
 use App\Entity\Module\Schedule;
 use App\Entity\Module\SubModule;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -31,9 +33,13 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::subMenu('Module');
-        yield MenuItem::linkToCrud('Planning', 'fa fa-home', Schedule::class);
-        yield MenuItem::linkToCrud('Module', 'fa fa-home', Module::class);
-        yield MenuItem::linkToCrud('Sous module', 'fa fa-home', SubModule::class);
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToCrud('Planning', 'fa-regular fa-calendar-days', Schedule::class);
+        yield MenuItem::linkToCrud('Module', 'fa-solid fa-graduation-cap', Module::class);
+        yield MenuItem::linkToCrud('Sous module', 'fa-brands fa-leanpub', SubModule::class);
+
+        yield MenuItem::subMenu('Utilisateurs');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class);
+        yield MenuItem::linkToCrud('Paniers', 'fa-solid fa-cart-shopping', Cart::class);
+
     }
 }

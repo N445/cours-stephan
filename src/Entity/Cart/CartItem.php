@@ -48,7 +48,16 @@ class CartItem
     private ?string $scheduleName = null;
 
     #[ORM\Column(type: Types::OBJECT)]
-    private ?object $mainModule = null;
+    private ?MainModule $mainModule = null;
+
+    public function __toString(): string
+    {
+        return sprintf('%s : Du %s au %s',
+            $this->getModuleName(),
+            $this->getMainModule()->getStart()->format('d/m/Y H:i'),
+            $this->getMainModule()->getEnd()->format('d/m/Y H:i')
+        );
+    }
 
     public function getId(): ?int
     {
@@ -184,12 +193,12 @@ class CartItem
         return $this;
     }
 
-    public function getMainModule(): ?object
+    public function getMainModule(): ?MainModule
     {
         return $this->mainModule;
     }
 
-    public function setMainModule(object $mainModule): static
+    public function setMainModule(MainModule $mainModule): static
     {
         $this->mainModule = $mainModule;
 

@@ -3,7 +3,8 @@
         <a class="navbar-brand" href="{{ path('APP_HOMEPAGE') }}">
             Cours Stéphan
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -39,6 +40,43 @@
                     </a>
                 </li>
             </ul>
+            <div class="col-md-3 text-end">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ app.user.userIdentifier }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a href="" class="dropdown-item">
+                                    Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" class="dropdown-item">
+                                    Panier {{ app.user.cart.id }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('APP_LOGOUT') }}" class="dropdown-item">
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                {% else %}
+                    <a href="{{ path('APP_LOGIN') }}" class="btn btn-outline-primary me-2">
+                        Se connecter
+                    </a>
+                    <a href="{{ path('APP_REGISTER') }}" class="btn btn-primary me-2">
+                        S'inscrire
+                    </a>
+                {% endif %}
+
+            </div>
         </div>
     </div>
 </nav>
