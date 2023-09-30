@@ -4,6 +4,7 @@ namespace App\Entity\Cart;
 
 use App\Entity\Module\Module;
 use App\Entity\Module\Schedule;
+use App\Model\Module\MainModule;
 use App\Repository\Cart\CartItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -45,6 +46,9 @@ class CartItem
 
     #[ORM\Column(length: 255)]
     private ?string $scheduleName = null;
+
+    #[ORM\Column(type: Types::OBJECT)]
+    private ?object $mainModule = null;
 
     public function getId(): ?int
     {
@@ -176,6 +180,18 @@ class CartItem
     public function setScheduleName(string $scheduleName): static
     {
         $this->scheduleName = $scheduleName;
+
+        return $this;
+    }
+
+    public function getMainModule(): ?object
+    {
+        return $this->mainModule;
+    }
+
+    public function setMainModule(object $mainModule): static
+    {
+        $this->mainModule = $mainModule;
 
         return $this;
     }

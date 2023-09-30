@@ -37,9 +37,9 @@ class CartHelper
     {
         $moduleCalendar = $this->moduleEventsProvider ->getModuleCalendar($schedule, $module);
 
-        $mainEvent = $moduleCalendar->getMainModuleByOccurenceId($occurenceId);
+        $mainModule = $moduleCalendar->getMainModuleByOccurenceId($occurenceId);
 
-        if(!$mainEvent){
+        if(!$mainModule){
             return;
         }
 
@@ -54,8 +54,8 @@ class CartHelper
                 ->setPrice($module->getPrice())
                 ->setOccurenceId($occurenceId)
                 ->setQuantity(1)
-                ->setModuleDateTime($moduleCalendar->getEvents()[0]->getStart())
-//                ->setMainEvent($mainEvent)
+                ->setModuleDateTime($mainModule->getStart())
+                ->setMainModule($mainModule)
         );
         $this->em->persist($cart);
         $this->em->flush();

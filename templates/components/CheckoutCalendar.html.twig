@@ -24,13 +24,11 @@
                                             <small class="text-nowrap">{{ item.price|price_humanize }}</small>
                                         </div>
 
-                                        {% set firstEvent = item.events|first %}
-                                        {% set lastEvent = item.events|last %}
                                         <p>
-                                            Du {{ firstEvent.start|date('d/m/Y') }}
-                                            au {{ lastEvent.start|date('d/m/Y') }}
+                                            Du {{ item.mainModule.start|date('d/m/Y') }}
+                                            au {{ item.mainModule.start|date('d/m/Y') }}
                                             <br>
-                                            Entre {{ firstEvent.start|date('H:i') }} et {{ firstEvent.end|date('H:i') }}
+                                            Entre {{ item.mainModule.start|date('H:i') }} et {{ item.mainModule.end|date('H:i') }}
                                         </p>
                                         <button class="text-danger btn btn-link" type="button" data-action="live#action"
                                                 data-action-name="removeCartItem(cartItemId={{ item.id }})">
