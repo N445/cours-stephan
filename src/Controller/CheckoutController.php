@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Module\Module;
 use App\Repository\Module\ModuleRepository;
 use App\Repository\Module\SheduleRepository;
+use App\Service\Cart\CartProvider;
 use App\Service\Module\ModuleRRuleProvider;
 use RRule\RRule;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,7 @@ class CheckoutController extends AbstractController
         private readonly ModuleRepository    $moduleRepository,
         private readonly SheduleRepository   $sheduleRepository,
         private readonly ModuleRRuleProvider $moduleRRuleProvider,
+        private readonly CartProvider        $cartProvider,
     )
     {
     }
@@ -38,20 +40,11 @@ class CheckoutController extends AbstractController
 
         $modules = $this->moduleRepository->findAll();
 
+        dump($this->cartProvider->getUserCart());
+
         return $this->render('checkout/planning.html.twig', [
             'shedule' => $shedule,
             'events'  => $this->moduleRRuleProvider->getModulesRRulesDates($shedule, $modules),
-        ]);
-    }
-
-    #[Route('/checkout/{moduleId}', name: 'APP_CHECKOUT')]
-    public function checkout(int $moduleId): Response
-    {
-        if (!$module = $this->moduleRepository->find($moduleId)) {
-            return $this->redirectToRoute('APP_MODULES');
-        }
-        return $this->render('checkout/index.html.twig', [
-            'module' => $module,
         ]);
     }
 }

@@ -1,0 +1,25 @@
+framework:
+    workflows:
+        order:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'place'
+            supports:
+                - App\Entity\Cart\Cart
+            initial_marking: cart
+            places:
+                - cart
+                - cancelled
+                - complete
+            transitions:
+                to_cancelled:
+                    from: [ cart ]
+                    to: cancelled
+                to_complete:
+                    from: [ cart ]
+                    to: complete
+                reopen:
+                    from: [ cancelled ]
+                    to: cart
+
