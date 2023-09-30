@@ -1,20 +1,35 @@
-@import "bootstrap/scss/functions";
-@import "bootstrap/scss/variables";
+@import "parts/override-bootstrap";
 
 #calendar {
   max-width: 100%;
 }
 
-.fc-event{
+
+.fc-event {
   transition: .2s all ease-in-out;
-  box-shadow: 0 0 0;
+
+  background-color: $primary-bg-subtle !important;
+  border-color: $primary-border-subtle !important;
+
+  .fc-event-main {
+    color: $primary-text-emphasis !important;
+  }
+
+  &.sub-event {
+    background-color: tint-color($primary, 90%) !important;
+  }
+
   &.event-clicked {
-    background-color: #87c37c !important;
-    border-color: #4b7e41 !important;
-    box-shadow: $box-shadow;
+    background-color: $success-bg-subtle !important;
+    border-color: $success-border-subtle-dark !important;
+
+    .fc-event-main {
+      color: $success-text-emphasis !important;
+    }
 
     &.sub-event {
-      background-color: #d3f2ce !important;
+      background-color: tint-color($success-bg-subtle, 90%) !important;
     }
   }
+
 }

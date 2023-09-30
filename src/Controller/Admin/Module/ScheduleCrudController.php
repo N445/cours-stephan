@@ -2,16 +2,16 @@
 
 namespace App\Controller\Admin\Module;
 
-use App\Entity\Module\Shedule;
+use App\Entity\Module\Schedule;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class SheduleCrudController extends AbstractCrudController
+class ScheduleCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Shedule::class;
+        return Schedule::class;
     }
 
     public function configureFields(string $pageName): iterable

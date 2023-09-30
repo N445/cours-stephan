@@ -2,13 +2,14 @@
 
 namespace App\Entity\Module;
 
-use App\Repository\Module\SheduleRepository;
+use App\Entity\Cart\CartItem;
+use App\Repository\Module\ScheduleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: SheduleRepository::class)]
-class Shedule
+#[ORM\Entity(repositoryClass: ScheduleRepository::class)]
+class Schedule
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,12 +25,16 @@ class Shedule
     #[ORM\Column]
     private ?\DateTimeImmutable $endAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'shedule', targetEntity: Planning::class)]
+    #[ORM\OneToMany(mappedBy: 'schedule', targetEntity: Planning::class)]
     private Collection $plannings;
+
+    #[ORM\OneToMany(mappedBy: 'schedule', targetEntity: CartItem::class)]
+    private Collection $cartItems;
 
     public function __construct()
     {
         $this->plannings = new ArrayCollection();
+        $this->cartItems = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -47,7 +52,7 @@ class Shedule
         return $this->name;
     }
 
-    public function setName(?string $name): Shedule
+    public function setName(?string $name): Schedule
     {
         $this->name = $name;
         return $this;
@@ -103,6 +108,36 @@ class Shedule
             // set the owning side to null (unless already changed)
             if ($planning->getSchedule() === $this) {
                 $planning->setSchedule(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CartItem>
+     */
+    public function getCartItems(): Collection
+    {
+        return $this->cartItems;
+    }
+
+    public function addCartItem(CartItem $cartItem): static
+    {
+        if (!$this->cartItems->contains($cartItem)) {
+            $this->cartItems->add($cartItem);
+            $cartItem->setSchedule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartItem(CartItem $cartItem): static
+    {
+        if ($this->cartItems->removeElement($cartItem)) {
+            // set the owning side to null (unless already changed)
+            if ($cartItem->getSchedule() === $this) {
+                $cartItem->setSchedule(null);
             }
         }
 

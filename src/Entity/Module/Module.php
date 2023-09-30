@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
 #[UniqueEntity('name')]
@@ -18,12 +19,15 @@ class Module
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['component'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['component'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['component'])]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: SubModule::class, inversedBy: 'modules')]
@@ -36,9 +40,11 @@ class Module
     private Collection $cartItems;
 
     #[ORM\Column]
+    #[Groups(['component'])]
     private ?int $price = null;
 
     #[ORM\Column]
+    #[Groups(['component'])]
     private ?int $nbPlaceBySchedule = null;
 
     public function __construct()
@@ -107,14 +113,14 @@ class Module
     }
 
     /**
-     * @param Shedule $shedule
+     * @param Schedule $schedule
      *
      * @return Planning|null
      */
-    public function getPlanningByShedule(Shedule $shedule): ?Planning
+    public function getPlanningBySchedule(Schedule $schedule): ?Planning
     {
-        return array_filter($this->plannings->toArray(), static function (Planning $planning) use ($shedule) {
-            return $planning->getShedule() === $shedule;
+        return array_filter($this->plannings->toArray(), static function (Planning $planning) use ($schedule) {
+            return $planning->getSchedule() === $schedule;
         })[0] ?? null;
     }
 

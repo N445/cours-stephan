@@ -1,7 +1,41 @@
+@import "parts/override-bootstrap";
+
 @import "bootstrap";
 
-$color1: #7c99c3;
-$color2: #999FA8;
-$color3: #F0F6FF;
-$color4: #FFF2F0;
-$color5: #A89D99;
+
+.schedules {
+  .schedule {
+    margin-bottom: map-get($spacers, 5);
+    padding: 30px 60px;
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    box-shadow: $box-shadow-sm;
+    position: relative;
+    transition: .2s all ease-in-out;
+
+    .link {
+      position: absolute;
+      inset: 0;
+      z-index: 15;
+    }
+
+    .content {
+      color: $primary;
+      display: flex;
+      text-transform: uppercase;
+      font-size: 25px;
+
+      & > div {
+        margin-left: map-get($spacers, 5);
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+
+    &:hover {
+      padding-left: 80px;
+    }
+  }
+}

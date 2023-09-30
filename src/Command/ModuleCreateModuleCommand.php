@@ -55,7 +55,10 @@ class ModuleCreateModuleCommand extends Command
             }
 
             $module = (new Module())
-                ->setName($moduleName);
+                ->setName($moduleName)
+                ->setPrice(20000)
+                ->setNbPlaceBySchedule(15)
+            ;
             $modulesNames[$module->getName()] = $module;
             $nbCreatedModule++;
 

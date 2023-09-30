@@ -13,6 +13,7 @@ export default class CheckoutCalendar {
         this.liveComponent = liveComponent;
         this.calendar = new Calendar(document.getElementById('calendar'), {
             plugins: [timeGridPlugin, interactionPlugin],
+            themeSystem: 'bootstrap5',
             editable: true,
             droppable: true,
             allDaySlot: false,
@@ -47,16 +48,22 @@ export default class CheckoutCalendar {
 
                 localStorage.setItem("occurenceId", occurenceId);
 
-                this.selectEventByOccurenceId(occurenceId);
-
-                this.liveComponent.component.action('selectModule', {
+                // this.selectEventByOccurenceId(occurenceId);
+                this.liveComponent.component.action('addModule', {
                     moduleId: this.selectedModule.id,
-                    dateTime: this.selectedModule.dateTime,
+                    occurenceId: occurenceId,
                 })
             }
         });
 
         this.calendar.render();
+
+        window.addEventListener('fullcalendar:render', () => console.log('fullcalendar:render'));
+        window.addEventListener('fullcalendar:render', () => {
+            console.log('fullcalendar:render')
+            this.calendar.setOption('events', this.liveComponent.component.valueStore.props.events)
+            this.calendar.render()
+        });
     }
 
 

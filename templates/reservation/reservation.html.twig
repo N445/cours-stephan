@@ -5,8 +5,10 @@
 {% block body %}
     <div class="container">
         {{ component('CheckoutCalendar',{
-            shedule:shedule,
+            schedule:schedule,
+            modules:modules,
             events:events,
+            cart:cart,
         }) }}
     </div>
 {% endblock %}

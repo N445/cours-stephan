@@ -3,7 +3,9 @@
 namespace App\Entity\Cart;
 
 use App\Entity\Module\Module;
+use App\Entity\Module\Schedule;
 use App\Repository\Cart\CartItemRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CartItemRepository::class)]
@@ -16,9 +18,12 @@ class CartItem
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
     private ?Module $module = null;
-
+    #[ORM\Column(length: 255)]
+    private ?int $moduleId = null;
     #[ORM\Column(length: 255)]
     private ?string $moduleName = null;
+    #[ORM\Column(length: 255)]
+    private ?string $occurenceId = null;
 
     #[ORM\Column(length: 255)]
     private ?\DateTime $moduleDateTime = null;
@@ -31,6 +36,15 @@ class CartItem
 
     #[ORM\Column]
     private ?int $quantity = null;
+
+    #[ORM\ManyToOne(inversedBy: 'cartItems')]
+    private ?Schedule $schedule = null;
+
+    #[ORM\Column]
+    private ?int $scheduleId = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $scheduleName = null;
 
     public function getId(): ?int
     {
@@ -49,6 +63,17 @@ class CartItem
         return $this;
     }
 
+    public function getModuleId(): ?int
+    {
+        return $this->moduleId;
+    }
+
+    public function setModuleId(?int $moduleId): CartItem
+    {
+        $this->moduleId = $moduleId;
+        return $this;
+    }
+
     public function getModuleName(): ?string
     {
         return $this->moduleName;
@@ -58,6 +83,17 @@ class CartItem
     {
         $this->moduleName = $moduleName;
 
+        return $this;
+    }
+
+    public function getOccurenceId(): ?string
+    {
+        return $this->occurenceId;
+    }
+
+    public function setOccurenceId(?string $occurenceId): CartItem
+    {
+        $this->occurenceId = $occurenceId;
         return $this;
     }
 
@@ -104,6 +140,42 @@ class CartItem
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getSchedule(): ?Schedule
+    {
+        return $this->schedule;
+    }
+
+    public function setSchedule(?Schedule $schedule): static
+    {
+        $this->schedule = $schedule;
+
+        return $this;
+    }
+
+    public function getScheduleId(): ?int
+    {
+        return $this->scheduleId;
+    }
+
+    public function setScheduleId(int $scheduleId): static
+    {
+        $this->scheduleId = $scheduleId;
+
+        return $this;
+    }
+
+    public function getScheduleName(): ?string
+    {
+        return $this->scheduleName;
+    }
+
+    public function setScheduleName(string $scheduleName): static
+    {
+        $this->scheduleName = $scheduleName;
 
         return $this;
     }

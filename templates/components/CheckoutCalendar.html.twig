@@ -2,8 +2,8 @@
     <div class="row">
         <div class="col-md-8">
             <div id="calendar"
-                 data-start-at="{{ shedule.startAt|date('Y-m-d H:i:s') }}"
-                 data-end-at="{{ shedule.endAt|date('Y-m-d H:i:s') }}"
+                 data-start-at="{{ schedule.startAt|date('Y-m-d H:i:s') }}"
+                 data-end-at="{{ schedule.endAt|date('Y-m-d H:i:s') }}"
                  data-events="{{ this.events|json_encode }}"
             >
             </div>
@@ -12,22 +12,43 @@
             {% if cart %}
                 <div class="card">
                     <div class="card-header">
-                        <h6>Mon panier</h6>
+                        <h6>Mes modules</h6>
                     </div>
                     <div class="card-body">
-                        <div class="list-group">
-                            {% for item in cart.cartItems %}
-                                <a href="#" class="list-group-item list-group-item-action" aria-current="true">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="mb-1">{{ item.module.name }}</h5>
-                                        <small>{{ item.price|price_humanize }}</small>
-                                    </div>
-                                    <p class="mb-1">
-                                        Début : {{ item.moduleDateTime|date('d/m/Y H:i') }}
-                                    </p>
-                                </a>
-                            {% endfor %}
-                        </div>
+                        {% if cart.cartItems|length > 0 %}
+                            <ul class="list-group">
+                                {% for item in cart.cartItems %}
+                                    <li class="list-group-item" aria-current="true">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{ item.module.name }}</h5>
+                                            <small class="text-nowrap">{{ item.price|price_humanize }}</small>
+                                        </div>
+
+                                        {% set firstEvent = item.events|first %}
+                                        {% set lastEvent = item.events|last %}
+                                        <p>
+                                            Du {{ firstEvent.start|date('d/m/Y') }}
+                                            au {{ lastEvent.start|date('d/m/Y') }}
+                                            <br>
+                                            Entre {{ firstEvent.start|date('H:i') }} et {{ firstEvent.end|date('H:i') }}
+                                        </p>
+                                        <button class="text-danger btn btn-link" type="button" data-action="live#action"
+                                                data-action-name="removeCartItem(cartItemId={{ item.id }})">
+                                            Supprimer
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <div class="alert alert-info" role="alert">
+                                Pas encore de module choisis
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer d-flex justify-content-end">
+                        <a href="" class="btn btn-primary">
+                            Procéder au paiement
+                        </a>
                     </div>
                 </div>
             {% endif %}

@@ -26,7 +26,7 @@ class Planning
     private ?Module $module = null;
 
     #[ORM\ManyToOne(inversedBy: 'plannings')]
-    private ?Shedule $shedule = null;
+    private ?Schedule $schedule = null;
 
     public function getId(): ?int
     {
@@ -81,14 +81,14 @@ class Planning
         return $this;
     }
 
-    public function getShedule(): ?Shedule
+    public function getSchedule(): ?Schedule
     {
-        return $this->shedule;
+        return $this->schedule;
     }
 
-    public function setShedule(?Shedule $shedule): static
+    public function setSchedule(?Schedule $schedule): static
     {
-        $this->shedule = $shedule;
+        $this->schedule = $schedule;
 
         return $this;
     }

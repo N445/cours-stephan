@@ -4,53 +4,97 @@ namespace App\Twig\Components;
 
 use App\Entity\Cart\Cart;
 use App\Entity\Cart\CartItem;
-use App\Entity\Module\Shedule;
+use App\Entity\Module\Module;
+use App\Entity\Module\Schedule;
+use App\Repository\Cart\CartItemRepository;
 use App\Repository\Module\ModuleRepository;
+use App\Service\Cart\CartHelper;
 use App\Service\Cart\CartProvider;
+use App\Service\Module\ModuleFullCalendarEventsProvider;
 use App\Service\Module\ModuleRRuleProvider;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent()]
 final class CheckoutCalendar
 {
     use DefaultActionTrait;
+    use ComponentToolsTrait;
 
     #[LiveProp]
-    public ?Shedule $shedule = null;
+    public ?Schedule $schedule = null;
+
+    public array $modules;
+
+    #[LiveProp(writable: true)]
+    public array $events;
+
     #[LiveProp]
-    public array    $events  = [];
-    #[LiveProp]
-    public ?Cart    $cart    = null;
+    public ?Cart $cart = null;
 
     public function __construct(
-        private readonly ModuleRepository    $moduleRepository,
-        private readonly ModuleRRuleProvider $moduleRRuleProvider,
-        private readonly CartProvider        $cartProvider,
+        private readonly ModuleRepository                 $moduleRepository,
+        private readonly ModuleRRuleProvider              $moduleRRuleProvider,
+        private readonly CartProvider                     $cartProvider,
+        private readonly EntityManagerInterface           $em,
+        private readonly ModuleFullCalendarEventsProvider $moduleFullCalendarEventsProvider,
+        private readonly CartItemRepository               $cartItemRepository,
+        private readonly CartHelper                       $cartHelper
     )
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     #[LiveAction]
-    public function selectModule(#[LiveArg] int $moduleId, #[LiveArg] \DateTime $dateTime): void
+    public function addModule(#[LiveArg] int $moduleId, #[LiveArg] string $occurenceId): void
     {
         if (!$module = $this->moduleRepository->find($moduleId)) {
             return;
         }
 
         $this->cart = $this->cartProvider->getUserCart();
-        $this->cart->addCartItem(
-            (new CartItem())
-                ->setModule($module)
-                ->setModuleName($module->getName())
-                ->setPrice($module->getPrice())
-                ->setQuantity(1)
-                ->setModuleDateTime($dateTime)
-        );
 
-        dump($this->cart->getCartItems()->toArray());
+        $this->cartHelper->addModuleToCartOrRemoveIfExist($this->cart, $this->schedule, $module, $occurenceId);
+        $this->cart->sortCartItems();
+        $this->refreshEvents();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    #[LiveAction]
+    public function removeCartItem(#[LiveArg] CartItem $cartItemId): void
+    {
+        if (!$cartItem = $this->cartItemRepository->find($cartItemId)) {
+            return;
+        }
+        $this->cart = $this->cartProvider->getUserCart();
+
+        $this->cartHelper->removeCartItemFromCart($this->cart, $cartItem);
+        $this->cart->sortCartItems();
+        $this->refreshEvents();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function refreshEvents(): void
+    {
+        $this->modules = $this->moduleRepository->findAll();
+        $this->events = $this->moduleFullCalendarEventsProvider->getFullcalendarEventsDates($this->schedule, $this->modules, array_map(static function (CartItem $cartItem) {
+            return $cartItem->getOccurenceId();
+        }, $this->cart->getCartItems()->toArray()));
+        $this->dispatchBrowserEvent('fullcalendar:render');
     }
 }

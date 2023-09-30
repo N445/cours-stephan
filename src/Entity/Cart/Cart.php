@@ -41,7 +41,8 @@ class Cart
     #[Gedmo\Blameable(on: 'update')]
     private $updatedBy;
 
-    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CartItem::class)]
+    #[ORM\OneToMany(mappedBy: 'cart', targetEntity: CartItem::class, cascade: ['persist', 'remove'])]
+    #[ORM\OrderBy(["moduleDateTime" => "ASC"])]
     private Collection $cartItems;
 
     public function __construct()
@@ -99,6 +100,17 @@ class Cart
     public function getUpdatedBy(): ?User
     {
         return $this->updatedBy;
+    }
+
+
+    public function sortCartItems(): static
+    {
+        $cartItems = $this->cartItems->toArray();
+
+        usort($cartItems, static fn(CartItem $a, CartItem $b) => $a->getModuleDateTime() > $b->getModuleDateTime());
+        $this->cartItems = new ArrayCollection($cartItems);
+
+        return $this;
     }
 
     /**

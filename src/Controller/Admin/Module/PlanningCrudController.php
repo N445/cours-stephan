@@ -26,7 +26,7 @@ class PlanningCrudController extends AbstractCrudController
 
 
         return [
-            AssociationField::new('shedule'),
+            AssociationField::new('schedule'),
             ChoiceField::new('mondayTimes')->allowMultipleChoices()->setChoices($timesChoices),
             ChoiceField::new('wenesdayTimes')->allowMultipleChoices()->setChoices($timesChoices),
             ChoiceField::new('fridayTimes')->allowMultipleChoices()->setChoices($timesChoices),
