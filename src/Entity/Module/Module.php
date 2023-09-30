@@ -28,7 +28,7 @@ class Module
     #[ORM\ManyToMany(targetEntity: SubModule::class, inversedBy: 'modules')]
     private Collection $subModules;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Planning::class)]
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Planning::class,cascade: ['persist','remove'])]
     private Collection $plannings;
 
     public function __construct()

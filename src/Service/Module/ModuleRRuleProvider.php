@@ -29,7 +29,9 @@ class ModuleRRuleProvider
     public function getModuleRRulesDates(Shedule $shedule, Module $module): array
     {
         $this->shedule         = $shedule;
-        $this->currentPlanning = $module->getPlanningByShedule($shedule);
+        if(!$this->currentPlanning = $module->getPlanningByShedule($shedule)){
+            return [];
+        }
         $this->module          = $module;
 
         $days = ['MO', 'WE', 'FR'];
