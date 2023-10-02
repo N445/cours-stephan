@@ -41,7 +41,10 @@
                 </li>
             </ul>
             <div class="col-md-3 text-end">
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+
+
+                {% if app.user %}
 
 
                     <div class="btn-group">

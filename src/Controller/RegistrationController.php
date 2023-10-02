@@ -46,11 +46,10 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $cart = $this->cartProvider->getUserCart();
+            if($cart = $this->cartProvider->getAnonymousCart()){
+                $cart->setAnonymousToken(null)->setUser($user);
+            }
 
-            $cart->setUser($user)->setAnonymousToken(null);
-
-            $entityManager->persist($cart);
             $entityManager->persist($user);
             $entityManager->flush();
 

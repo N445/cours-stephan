@@ -63,7 +63,7 @@ final class CheckoutCalendar
             return;
         }
 
-        $this->cart = $this->cartProvider->getUserCart();
+        $this->cart = $this->cartProvider->getUserCartOrCreate();
 
         $this->cartHelper->addModuleToCartOrRemoveIfExist($this->cart, $this->schedule, $module, $occurenceId);
         $this->cart->sortCartItems();
@@ -79,7 +79,7 @@ final class CheckoutCalendar
         if (!$cartItem = $this->cartItemRepository->find($cartItemId)) {
             return;
         }
-        $this->cart = $this->cartProvider->getUserCart();
+        $this->cart = $this->cartProvider->getUserCartOrCreate();
 
         $this->cartHelper->removeCartItemFromCart($this->cart, $cartItem);
         $this->cart->sortCartItems();

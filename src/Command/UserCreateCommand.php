@@ -49,6 +49,7 @@ class UserCreateCommand extends Command
             ->setEmail($login)
             ->setPassword($password)
             ->setRoles($isAdmin ? [User::ROLE_ADMIN] : [])
+            ->setIsVerified(true)
         ;
 
         $table = new Table($output);

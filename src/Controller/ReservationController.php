@@ -10,7 +10,9 @@ use App\Service\Module\ModuleFullCalendarEventsProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted("ROLE_USER")]
 class ReservationController extends AbstractController
 {
     public function __construct(
@@ -34,12 +36,12 @@ class ReservationController extends AbstractController
     public function reservation(int $scheduleId): Response
     {
         if (!$schedule = $this->scheduleRepository->find($scheduleId)) {
-            return $this->redirectToRoute('APP_SCHEDULES');
+            return $this->redirectToRoute('APP_RESERVATION_SCHEDULES');
         }
 
         $modules = $this->moduleRepository->findAll();
 
-        $cart = $this->cartProvider->getUserCart();
+        $cart = $this->cartProvider->getUserCartOrCreate();
 
         return $this->render('reservation/reservation.html.twig', [
             'schedule' => $schedule,

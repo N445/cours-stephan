@@ -12,6 +12,9 @@ use Symfony\Component\Security\Core\User\InMemoryUser;
 
 class CartProvider
 {
+    private ?User   $user           = null;
+    private ?string $anonymousToken = null;
+
     public function __construct(
         private readonly CartRepository         $cartRepository,
         private readonly Security               $security,
@@ -21,47 +24,56 @@ class CartProvider
     {
     }
 
+    private function init(): void
+    {
+        $this->user = $this->security->getUser();
+        if (!$this->user) {
+            if (!$this->anonymousToken = $this->anonymousTokenHelper->getToken()) {
+                $this->anonymousToken = $this->anonymousTokenHelper->createToken();
+            }
+        }
+
+    }
+
+    public function getAnonymousCart(): ?Cart
+    {
+        $this->init();
+        if (!$this->anonymousToken) {
+            return null;
+        }
+        return $this->cartRepository->findByAnonymousToken($this->anonymousToken);
+    }
+
     public function getUserCart(): ?Cart
     {
-        /** @var User $user */
-        if (!$user = $this->security->getUser()) {
-            return $this->getAnonymousCart();
+        $this->init();
+        if (!$this->user) {
+            return $this->cartRepository->findByAnonymousToken($this->anonymousToken);
         }
 
-        if (!$cart = $this->cartRepository->findByUSer($user)) {
-            return $this->createUserCart($user);
+
+        return $this->cartRepository->findByUser($this->user);
+    }
+
+    public function getUserCartOrCreate(): Cart
+    {
+        $this->init();
+        if (!$cart = $this->getUserCart()) {
+            return $this->createCart();
         }
 
         return $cart;
     }
 
-    private function createUserCart(User $user): Cart
-    {
-        $cart = (new Cart())->setUser($user);
-        $this->em->persist($cart);
-        $this->em->flush();
-        return $cart;
-    }
 
-    private function getAnonymousCart(): ?Cart
+    private function createCart(): Cart
     {
-        if (!$this->anonymousTokenHelper->hasToken()) {
-            $token = $this->anonymousTokenHelper->createToken();
-            return $this->createAnonymousCart($token);
+        if ($this->user) {
+            $cart = (new Cart())->setUser($this->user);
+        } else {
+            $cart = (new Cart())->setAnonymousToken($this->anonymousToken);
         }
 
-        $token = $this->anonymousTokenHelper->getToken();
-
-        if ($cart = $this->cartRepository->findByAnonymousToken($token)) {
-            return $cart;
-        }
-
-        return $this->createAnonymousCart($token);
-    }
-
-    private function createAnonymousCart(string $token): ?Cart
-    {
-        $cart = (new Cart())->setAnonymousToken($token);
         $this->em->persist($cart);
         $this->em->flush();
         return $cart;

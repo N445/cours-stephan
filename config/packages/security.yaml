@@ -58,7 +58,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/admin4983ad/login, roles: PUBLIC_ACCESS}
+         - { path: ^/admin4983ad/connexion, roles: PUBLIC_ACCESS}
          - { path: ^/admin4983ad, roles: ROLE_ADMIN }
          - { path: ^/profile, roles: ROLE_USER }
 
