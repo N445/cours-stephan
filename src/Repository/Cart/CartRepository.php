@@ -3,6 +3,7 @@
 namespace App\Repository\Cart;
 
 use App\Entity\Cart\Cart;
+use App\Entity\Module\Schedule;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,6 +40,34 @@ class CartRepository extends ServiceEntityRepository
                     ->setParameter('user', $user)
                     ->getQuery()
                     ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * @param Schedule $schedule
+     *
+     * @return Cart[]
+     */
+    public function findBySchedule(Schedule $schedule, ?string $occurenceId): array
+    {
+        $qb = $this->createQueryBuilder('c')
+                   ->addSelect('ci')
+                   ->leftJoin('c.cartItems', 'ci')
+                   ->where('ci.scheduleId = :scheduleId')
+                   ->setParameter('scheduleId', $schedule->getId())
+        ;
+
+        if ($occurenceId) {
+            $qb->andWhere('ci.occurenceId = :occurenceId')
+               ->setParameter('occurenceId', $occurenceId)
+            ;
+        }
+//                    ->andWhere('c.place = :place')
+//                    ->setParameter('place', Cart::PLACE_COMPLETE)
+//        ;
+
+        return $qb->getQuery()
+                  ->getResult()
         ;
     }
 

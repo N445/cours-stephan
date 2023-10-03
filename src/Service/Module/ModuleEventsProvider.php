@@ -11,25 +11,51 @@ use App\Model\Module\ModuleCalendar;
 
 class ModuleEventsProvider
 {
-    private Schedule $schedule;
-    private ?Planning $currentPlanning = null;
-    private Module $module;
+    private Schedule       $schedule;
+    private ?Planning      $currentPlanning = null;
+    private Module         $module;
     private ModuleCalendar $moduleCalendar;
-    private ?string $occurenceId;
+    private ?string        $occurenceId;
+
+    private array $alreadyResevedOccurence = [];
+
+    public function __construct(
+        private readonly ModuleOccurenceCounter $moduleOccurenceCounter,
+    )
+    {
+    }
+
+    public function init(Schedule $schedule, ?string $occurenceId = null): self
+    {
+        $this->schedule    = $schedule;
+        $this->occurenceId = $occurenceId;
+        $this->initAlreadyReservedOccurence();
+        return $this;
+    }
 
     /**
+     * @return ModuleCalendar[]
      * @throws \Exception
      */
-    public function getModuleCalendar(Schedule $schedule, Module $module, ?string $occurenceId = null): ModuleCalendar
+    public function getModulesCalendar(array $modules): array
+    {
+        $moduleCalendars = [];
+        foreach ($modules as $module) {
+            $moduleCalendars[] = $this->getModuleCalendar($module);
+        }
+
+
+        return $moduleCalendars;
+    }
+
+    public function getModuleCalendar(Module $module): ModuleCalendar
     {
         $this->moduleCalendar = (new ModuleCalendar())
-            ->setSchedule($schedule)
-            ->setModule($module);
+            ->setSchedule($this->schedule)
+            ->setModule($module)
+        ;
 
-        $this->schedule = $schedule;
-        $this->occurenceId = $occurenceId;
-
-        if (!$this->currentPlanning = $module->getPlanningBySchedule($schedule)) {
+        if (!$this->currentPlanning = $module->getPlanningBySchedule($this->schedule)) {
             return $this->moduleCalendar;
         }
 
@@ -43,13 +69,17 @@ class ModuleEventsProvider
         }
 
         foreach ($this->moduleCalendar->getMainModules() as $mainModule) {
-            dump($mainModule->getEnd() > $this->schedule->getEndAt());
-            if($mainModule->getEnd() > $this->schedule->getEndAt()){
+            if ($mainModule->getEnd() > $this->schedule->getEndAt()) {
                 $this->moduleCalendar->removeMainModules($mainModule);
             }
         }
 
         return $this->moduleCalendar;
+    }
+
+    private function initAlreadyReservedOccurence(): void
+    {
+        $this->alreadyResevedOccurence = $this->moduleOccurenceCounter->getNbOccurenceBySchedule($this->schedule);
     }
 
     private function addRRuleOccurencesEvents(string $day): void
@@ -69,16 +99,22 @@ class ModuleEventsProvider
                     $this->module->getId(),
                     $occurrence->format(DATE_ATOM),
                     $day,
-                    $time
-                ])
+                    $time,
+                ]),
             );
 
             if ($this->occurenceId && $this->occurenceId !== $occurenceId) {
                 continue;
             }
 
+            if ($nbReservedPlaceWithThisOccurence = $this->alreadyResevedOccurence[$occurenceId] ?? null) {
+                if ($nbReservedPlaceWithThisOccurence >= $this->module->getNbPlaceBySchedule()) {
+                    continue;
+                }
+            }
+
             $startAt = (clone $occurrence)->add(new \DateInterval($time));
-            $endAt = (clone $startAt)->add(new \DateInterval('PT1H30M'));
+            $endAt   = (clone $startAt)->add(new \DateInterval('PT1H30M'));
 
             $firstEvent = (new MainModuleEvent())
                 ->setTitle($this->module->getName())
@@ -86,7 +122,8 @@ class ModuleEventsProvider
                 ->setEnd($endAt)
                 ->setIsMainEvent(true)
                 ->setOccurenceId($occurenceId)
-                ->setModuleId($this->module->getId());
+                ->setModuleId($this->module->getId())
+            ;
 
             $mainModule = (new MainModule())
                 ->setTitle($this->module->getName())
@@ -94,7 +131,8 @@ class ModuleEventsProvider
                 ->setOccurenceId($occurenceId)
                 ->setAvailable(true)
                 ->setNbPlaces($this->module->getNbPlaceBySchedule())
-                ->addMainModuleEvent($firstEvent);
+                ->addMainModuleEvent($firstEvent)
+            ;
 
             $this->addModuleSubEvents($mainModule, $startAt, $endAt);
 
@@ -112,7 +150,7 @@ class ModuleEventsProvider
 
         while ($nbSubEvents !== 3) {
             $startAt = (clone $startAt)->add(new \DateInterval('P1D'));
-            $endAt = (clone $endAt)->add(new \DateInterval('P1D'));
+            $endAt   = (clone $endAt)->add(new \DateInterval('P1D'));
 
             if ($startAt->format('w') === '0') {
                 continue;
@@ -128,7 +166,7 @@ class ModuleEventsProvider
                     ->setEnd($endAt)
                     ->setIsMainEvent(false)
                     ->setOccurenceId($mainModule->getOccurenceId())
-                    ->setModuleId($mainModule->getModuleId())
+                    ->setModuleId($mainModule->getModuleId()),
             );
         }
     }
@@ -137,9 +175,9 @@ class ModuleEventsProvider
     private function getPlanningDaytimes(Planning $planning, string $day): array
     {
         return match ($day) {
-            'MO' => $planning->getMondayTimes(),
-            'WE' => $planning->getWenesdayTimes(),
-            'FR' => $planning->getFridayTimes(),
+            'MO'    => $planning->getMondayTimes(),
+            'WE'    => $planning->getWenesdayTimes(),
+            'FR'    => $planning->getFridayTimes(),
             default => [],
         };
     }

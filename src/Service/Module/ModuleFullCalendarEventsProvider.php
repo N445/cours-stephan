@@ -8,12 +8,10 @@ use App\Model\Module\MainModuleEvent;
 
 class ModuleFullCalendarEventsProvider
 {
-    private Schedule $schedule;
-
     private ?array $occurencesIDs = [];
 
     public function __construct(
-        private readonly ModuleEventsProvider $moduleEventsProvider
+        private readonly ModuleEventsProvider $moduleEventsProvider,
     )
     {
     }
@@ -23,19 +21,22 @@ class ModuleFullCalendarEventsProvider
      */
     public function getFullcalendarEventsDates(Schedule $schedule, array $modules, ?array $occurencesIDs = []): array
     {
-        $this->schedule = $schedule;
-
         $this->occurencesIDs = $occurencesIDs;
 
 
+        $modulesCalendars = $this->moduleEventsProvider
+            ->init($schedule)
+            ->getModulesCalendar($modules)
+        ;
+
         $dates = [];
-        foreach ($modules as $module) {
+        foreach ($modulesCalendars as $moduleCalendar) {
             $dates = array_merge(
                 $dates,
                 array_map(
                     fn(MainModuleEvent $mainModuleEvent) => $this->moduleEventToFullCalendarEvent($mainModuleEvent),
-                    $this->moduleEventsProvider->getModuleCalendar($schedule, $module)->getEvents()
-                )
+                    $moduleCalendar->getEvents(),
+                ),
             );
         }
 
@@ -48,19 +49,19 @@ class ModuleFullCalendarEventsProvider
         $classes = [
             $mainModuleEvent->isMainEvent() ? 'main-event' : 'sub-event',
             $mainModuleEvent->getOccurenceId(),
-            in_array($mainModuleEvent->getOccurenceId(), $this->occurencesIDs) ? 'event-clicked' : ''
+            in_array($mainModuleEvent->getOccurenceId(), $this->occurencesIDs) ? 'event-clicked' : '',
         ];
 
         return [
-            "title" => $mainModuleEvent->getTitle(),
-            "start" => $mainModuleEvent->getStart()->format(DATE_ATOM),
-            "end" => $mainModuleEvent->getEnd()->format(DATE_ATOM),
+            "title"         => $mainModuleEvent->getTitle(),
+            "start"         => $mainModuleEvent->getStart()->format(DATE_ATOM),
+            "end"           => $mainModuleEvent->getEnd()->format(DATE_ATOM),
 //            "backgroundColor" => $moduleEvent->isMainEvent() ? "#7C99C3" : '#F0F6FF',
-            "classNames" => implode(' ', $classes),
+            "classNames"    => implode(' ', $classes),
             "extendedProps" => [
-                'moduleId' => $mainModuleEvent->getModuleId(),
+                'moduleId'    => $mainModuleEvent->getModuleId(),
                 'occurenceId' => $mainModuleEvent->getOccurenceId(),
-                'type' => $mainModuleEvent->isMainEvent() ? 'main-event' : 'sub-event',
+                'type'        => $mainModuleEvent->isMainEvent() ? 'main-event' : 'sub-event',
             ],
         ];
     }

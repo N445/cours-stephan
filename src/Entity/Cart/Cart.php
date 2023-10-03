@@ -15,6 +15,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 #[Gedmo\Loggable]
 class Cart
 {
+    public const PLACE_CART = 'cart';
+    public const PLACE_CANCELLED = 'cancelled';
+    public const PLACE_COMPLETE = 'complete';
+
     use TimestampableEntity;
 
     #[ORM\Id]

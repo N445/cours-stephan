@@ -1,0 +1,28 @@
+<div{{ attributes }}>
+    <div class="card">
+        <div class="card-body">
+            {{ dump(this.cart) }}
+
+            {{ form_start(form, {
+                attr: {
+                    'data-action': 'live#action',
+                    'data-action-name': 'prevent|save'
+                }
+            }) }}
+            {% for cartItem in form.cartItems %}
+                {% set value = cartItem.vars.value %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="mb-0">{{ value.moduleName }}</h5>
+                    </div>
+                    <div class="card-body">
+                        {{ form_row(cartItem) }}
+                    </div>
+                </div>
+            {% endfor %}
+            <button class="btn btn-primary">Valider</button>
+            {{ form_end(form) }}
+
+        </div>
+    </div>
+</div>

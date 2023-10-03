@@ -33,9 +33,12 @@ class CartHelper
         $this->addModuleToCart($cart, $schedule, $module, $occurenceId);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function addModuleToCart(Cart $cart, Schedule $schedule, Module $module, string $occurenceId): void
     {
-        $moduleCalendar = $this->moduleEventsProvider ->getModuleCalendar($schedule, $module);
+        $moduleCalendar = $this->moduleEventsProvider->init($schedule)->getModuleCalendar($module);
 
         $mainModule = $moduleCalendar->getMainModuleByOccurenceId($occurenceId);
 
