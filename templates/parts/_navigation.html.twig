@@ -57,11 +57,13 @@
                                     Profile
                                 </a>
                             </li>
-                            <li>
-                                <a href="" class="dropdown-item">
-                                    Panier {{ app.user.cart.id }}
-                                </a>
-                            </li>
+                            {% if app.user.cart %}
+                                <li>
+                                    <a href="" class="dropdown-item">
+                                        Panier {{ app.user.cart.id }}
+                                    </a>
+                                </li>
+                            {% endif %}
                             <li>
                                 <a href="{{ path('APP_LOGOUT') }}" class="dropdown-item">
                                     Déconnexion

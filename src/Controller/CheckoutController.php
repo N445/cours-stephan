@@ -59,6 +59,8 @@ class CheckoutController extends AbstractController
     #[Route('/mode-de-paiement', name: 'APP_CHECKOUT_PAYMENT_METHOD')]
     public function paymentMethod(Request $request): Response
     {
+        return $this->redirectToRoute('PAYMENT_PAYPAL_PREPARE');
+
         return $this->render('checkout/payment-method.html.twig', [
             'cart' => $this->cartProvider->getUserCart(),
         ]);
