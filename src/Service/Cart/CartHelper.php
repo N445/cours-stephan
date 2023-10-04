@@ -13,9 +13,18 @@ class CartHelper
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly ModuleEventsProvider   $moduleEventsProvider
+        private readonly ModuleEventsProvider   $moduleEventsProvider,
     )
     {
+    }
+
+    public function getTotalCart(Cart $cart): int
+    {
+        $total = 0;
+        foreach ($cart->getCartItems() as $cartItem) {
+            $total += $cartItem->getQuantity() * $cartItem->getPrice();
+        }
+        return $total;
     }
 
     public function hasModuleInCartByOccurenceId(Cart $cart, string $occurenceId): bool
@@ -42,7 +51,7 @@ class CartHelper
 
         $mainModule = $moduleCalendar->getMainModuleByOccurenceId($occurenceId);
 
-        if(!$mainModule){
+        if (!$mainModule) {
             return;
         }
 
@@ -58,7 +67,7 @@ class CartHelper
                 ->setOccurenceId($occurenceId)
                 ->setQuantity(1)
                 ->setModuleDateTime($mainModule->getStart())
-                ->setMainModule($mainModule)
+                ->setMainModule($mainModule),
         );
         $this->em->persist($cart);
         $this->em->flush();
@@ -70,8 +79,8 @@ class CartHelper
             array_filter($cart->getCartItems()->toArray(),
                 function (CartItem $cartItem) use ($occurenceId) {
                     return $cartItem->getOccurenceId() === $occurenceId;
-                }
-            )
+                },
+            ),
         )[0] ?? null;
     }
 

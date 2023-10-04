@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\Cart\CartMethodPaymentType;
 use App\Form\User\AddressType;
 use App\Service\Cart\CartProvider;
 use Doctrine\ORM\EntityManagerInterface;
@@ -59,10 +60,20 @@ class CheckoutController extends AbstractController
     #[Route('/mode-de-paiement', name: 'APP_CHECKOUT_PAYMENT_METHOD')]
     public function paymentMethod(Request $request): Response
     {
-        return $this->redirectToRoute('PAYMENT_PAYPAL_PREPARE');
+        $cart = $this->cartProvider->getUserCart();
+        $form = $this->createForm(CartMethodPaymentType::class, $cart);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($cart);
+            $this->em->flush();
+            return $this->redirectToRoute('PAYMENT_PREPARE');
+        }
+
 
         return $this->render('checkout/payment-method.html.twig', [
-            'cart' => $this->cartProvider->getUserCart(),
+            'cart' => $cart,
+            'form' => $form->createView(),
         ]);
     }
 }

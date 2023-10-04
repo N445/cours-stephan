@@ -1,4 +1,5 @@
 import './bootstrap.js';
+import convertFlashMessagesToNoty from './class/MessagesConverter';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -9,3 +10,7 @@ import './bootstrap.js';
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
 import 'bootstrap';
+
+$(function () {
+    convertFlashMessagesToNoty();
+})

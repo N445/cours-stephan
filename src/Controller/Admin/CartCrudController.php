@@ -20,9 +20,9 @@ class CartCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-            ->remove(Crud::PAGE_INDEX,Action::EDIT)
-            ->add(Crud::PAGE_INDEX,Action::DETAIL)
-            ;
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+        ;
     }
 
     public function configureFields(string $pageName): iterable
@@ -30,11 +30,12 @@ class CartCrudController extends AbstractCrudController
         return [
             AssociationField::new('user'),
             ChoiceField::new('place')->setChoices([
-                'Panier' => 'cart',
-                'Annulé' => 'cancelled',
-                'Validé' => 'complete',
-            ]),
-            AssociationField::new('cartItems','Modules'),
+                                                      'Panier'   => 'cart',
+                                                      'Annulé'   => 'cancelled',
+                                                      'En cours' => 'pending',
+                                                      'Validé'   => 'complete',
+                                                  ]),
+            AssociationField::new('cartItems', 'Modules'),
         ];
     }
 }

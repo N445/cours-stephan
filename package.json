@@ -30,6 +30,7 @@
         "@fullcalendar/timegrid": "^6.1.9",
         "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.3.2",
-        "jquery": "^3.7.1"
+        "jquery": "^3.7.1",
+        "noty": "^3.2.0-beta-deprecated"
     }
 }

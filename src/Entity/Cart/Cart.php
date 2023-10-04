@@ -49,6 +49,9 @@ class Cart
     #[ORM\OrderBy(["moduleDateTime" => "ASC"])]
     private Collection $cartItems;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $methodPayment = null;
+
     public function __construct()
     {
         $this->cartItems = new ArrayCollection();
@@ -143,6 +146,18 @@ class Cart
                 $cartItem->setCart(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMethodPayment(): ?string
+    {
+        return $this->methodPayment;
+    }
+
+    public function setMethodPayment(?string $methodPayment): static
+    {
+        $this->methodPayment = $methodPayment;
 
         return $this;
     }
