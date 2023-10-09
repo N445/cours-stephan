@@ -40,7 +40,6 @@ final class RecapCart extends AbstractController
             $this->nbOccurenceByCartItem[$cartItem->getId()] = $this->moduleOccurenceCounter->getNbOccurenceBySchedule($cartItem->getSchedule(),$cartItem->getOccurenceId());
         }
 
-        dump($this->nbOccurenceByCartItem);
         // we can extend AbstractController to get the normal shortcuts
         return $this->createForm(RecapCartType::class, $this->initialFormData);
     }

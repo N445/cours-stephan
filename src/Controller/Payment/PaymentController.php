@@ -107,17 +107,6 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('APP_HOMEPAGE');
         }
 
-
-        dump($payment);
-        dump($status);
-        dump($status->isCaptured()); // ok
-        dump($status->isCanceled()); // pas ok
-
-
-        dump($status->isFailed());
-        dump($status->isPending());
-        dump($status->isAuthorized());
-
         $this->addFlash('info', 'Rien');
         return $this->redirectToRoute('APP_HOMEPAGE');
     }
