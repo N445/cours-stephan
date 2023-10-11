@@ -2,34 +2,154 @@
 
 {% block body %}
     <div class="container">
-        <h1>Cours Stephan</h1>
-        <h2>
-            Français (écrit, oral), philosophie, art du raisonnement
-            <br>
-            Préparation bac et autres examens
-        </h2>
-        <p>
-            Pour un apprentissage efficace des techniques fondamentales de la dissertation et du commentaire !
-            <br>
-            Une bonne technique facilitera considérablement les études supérieures !
-        </p>
-        <p>
-            Des méthodes très précises et pragmatiques applicables à toutes les matières rédactionnelles.
-            <br>
-            Des outils mis au point par une longue pratique diversifiée.
-        </p>
-        <p>
-            Un seul professeur, pas de délégation de cours à des personnes dont ça n’est pas le métier ni la compétence
-            !
-        </p>
-        <p>
-            Répondre sérieusement aux besoins.
-            <br>
-            Compenser et dépasser les failles du système éducatif actuel : évitement des méthodes, imprécision,
-            confusion…
-        </p>
-        <p>
-            Redonner du sens aux méthodologies, les rendre ainsi passionnantes et pérennes.
-        </p>
+        <section>
+            <div class="row align-items-center">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="0">
+                    <div class="text-center">
+                        <img src="{{ asset('images/educationillustration-13-graphics-art.jpg') }}" alt=""
+                             class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="150">
+                    <h1>Cours Stephan</h1>
+                    <p>
+                        Pour un apprentissage efficace des techniques fondamentales de la dissertation et du
+                        commentaire !
+                        <br>
+                        Une bonne technique facilitera considérablement les études supérieures !
+                    </p>
+                    <h2>
+                    <span {{ stimulus_controller('symfony/ux-typed', {
+                        strings: [
+                            'Français écrit',
+                            'Français oral',
+                            'Philosophie',
+                            'Art du raisonnement',
+                            'Préparation bac',
+                            'Autres examens',
+                        ],
+                        loop: true,
+                        showCursor: true,
+                        cursorChar: '|',
+                    }) }}
+        ></span>
+                    </h2>
+                </div>
+            </div>
+        </section>
+        <section data-aos="fade-up" data-aos-delay="0">
+            <div class="row justify-content-center my-5">
+                <div class="col-md-6">
+                    <div class="text-bg-primary text-center p-5 rounded-3 shadow">
+                        <h2 class="mb-0">
+                            Un seul professeur, pas de délégation de cours à des personnes dont ça n’est pas le métier
+                            ni la compétence !
+                        </h2>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="row justify-content-center my-5 g-5">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="info-card">
+                        <i class="fa-solid fa-bullseye icon"></i>
+                        <p class="mb-0">
+                            Des méthodes très précises et pragmatiques applicables à toutes les matières
+                            rédactionnelles.
+                            <br>
+                            Des outils mis au point par une longue pratique diversifiée.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
+                    <div class="info-card">
+                        <i class="fa-solid fa-arrows-up-to-line icon"></i>
+                        <p class="mb-0">
+                            Répondre sérieusement aux besoins.
+                            <br>
+                            Compenser et dépasser les failles du système éducatif actuel : évitement des méthodes,
+                            imprécision,
+                            confusion…
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="info-card">
+                        <i class="fa-solid fa-arrow-up-wide-short icon"></i>
+                        <p class="mb-0">
+                            Redonner du sens aux méthodologies, les rendre ainsi passionnantes et pérennes.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="info-card">
+                        <i class="fa-solid fa-calendar-days icon"></i>
+                        <p class="mb-0">
+                            8 modules proposées (un module = 6h répartis en 4X1h30)
+                            <br>
+                            Groupe de 5 élèves maximum
+                            <br>
+                            Gratuité en tant qu’hôte de groupe ! (voir la rubrique tarifs)
+                            <br>
+                            En Visio ou en Présentiel (à Ménilmontant, Paris 20, ou chez un hôte de cours)
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
+                    <div class="info-card">
+                        <i class="fa-solid fa-pen icon"></i>
+                        <p class="mb-0">
+                            Préparation intensive du BAC français écrit et oral : en 6h, un condensé précis et clair de
+                            contenus
+                            dispersés de façon souvent incomplète sur plusieurs semaines de cours au lycée.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="info-card">
+                        <i class="fa-solid fa-screwdriver-wrench icon"></i>
+                        <p class="mb-0">
+                            Préparation du brevet et du bac philo, proposition également d’un module pour les adultes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="modules">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    {% for module in modules %}
+                        <div class="swiper-slide">
+                            <div class="card text-bg-primary module">
+                                <div class="card-body">
+                                    {{ module.name }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+
+                <!-- If we need scrollbar -->
+                <div class="swiper-scrollbar"></div>
+            </div>
+        </section>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('homepage') }}
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('homepage') }}
 {% endblock %}

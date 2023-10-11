@@ -1,0 +1,32 @@
+section {
+  &#reservation {
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url("./../../images/parts/reservation-bottom.jpg");
+    background-size: cover;
+
+    &:before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      background-color: rgba(white, .6);
+      backdrop-filter: blur(10px);
+    }
+
+    .content{
+      position: relative;
+      z-index: 20;
+      .reservation-main-link {
+        padding: 20px 40px;
+        &:not(:hover){
+          background-color: rgba(white, .8);
+        }
+      }
+    }
+  }
+}

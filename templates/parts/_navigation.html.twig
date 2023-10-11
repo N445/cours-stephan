@@ -10,23 +10,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="{{ path('APP_HOMEPAGE') }}">
-                        Acceuil
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link " aria-current="page" href="{{ path('APP_MODULES') }}">
-                        Modules de cours
+                        Nos modules de cours
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " aria-current="page" href="{{ path('APP_PROFESSOR') }}">
-                        Le professeur
+                        L’équipe
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link " aria-current="page" href="{{ path('APP_TARIF_FONCTIONNEMENT') }}">
-                        Tarifs et fonctionnement
+                        Les tarifs
                     </a>
                 </li>
                 <li class="nav-item">
@@ -34,21 +29,11 @@
                         Contact
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link " aria-current="page" href="{{ path('APP_RESERVATION_SCHEDULES') }}">
-                        Reservation
-                    </a>
-                </li>
             </ul>
             <div class="col-md-3 text-end">
-
-
-
                 {% if app.user %}
-
-
                     <div class="btn-group">
-                        <button type="button" class="btn btn-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ app.user.userIdentifier }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
@@ -59,8 +44,8 @@
                             </li>
                             {% if app.user.cart %}
                                 <li>
-                                    <a href="" class="dropdown-item">
-                                        Panier {{ app.user.cart.id }}
+                                    <a href="{{ path('APP_CHECKOUT_RECAP') }}" class="dropdown-item">
+                                        Panier
                                     </a>
                                 </li>
                             {% endif %}

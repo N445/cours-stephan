@@ -30,6 +30,7 @@
         "symfony/twig-bundle": "6.3.*",
         "symfony/ux-live-component": "^2.12",
         "symfony/ux-twig-component": "^2.12",
+        "symfony/ux-typed": "^2.12",
         "symfony/var-dumper": "6.3.*",
         "symfony/webpack-encore-bundle": "^2.0",
         "symfony/workflow": "6.3.*",

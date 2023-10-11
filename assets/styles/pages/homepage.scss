@@ -1,0 +1,57 @@
+@import "bootstrap";
+
+.info-card {
+  @extend .text-bg-secondary;
+  @extend .text-center;
+  @extend .rounded-3;
+  @extend .shadow;
+  @extend .h-100;
+  @extend .d-flex;
+  @extend .flex-column;
+  @extend .justify-content-center;
+  position: relative;
+
+  .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: .2;
+    font-size: 200px;
+  }
+
+  p {
+    backdrop-filter: blur(5px);
+    height: 100%;
+    width: 100%;
+    @extend .p-5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(black, .6);
+    @extend .rounded-3;
+  }
+}
+
+:root{
+  --swiper-pagination-color: #ff6200;
+  --swiper-navigation-color: #ff6200;
+}
+
+#modules {
+  //overflow: hidden;
+
+  .swiper {
+    .module {
+      height: 200px;
+
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+}
