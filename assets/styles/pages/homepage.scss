@@ -34,7 +34,7 @@
   }
 }
 
-:root{
+:root {
   --swiper-pagination-color: #ff6200;
   --swiper-navigation-color: #ff6200;
 }
@@ -43,6 +43,10 @@
   //overflow: hidden;
 
   .swiper {
+    .swiper-slide {
+      outline: 1px solid transparent;
+    }
+
     .module {
       height: 200px;
 
