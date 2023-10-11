@@ -43,6 +43,28 @@
   //overflow: hidden;
 
   .swiper {
+    position: relative;
+
+    &:before, &:after {
+      content: "";
+      position: absolute;
+      width: 100px;
+      z-index: 50;
+      height: 100%;
+    }
+
+    &:before {
+      top: 0;
+      left: 0;
+      background-image: linear-gradient(to right, rgba(white, 1), rgba(white, 0));
+    }
+
+    &:after {
+      top: 0;
+      right: 0;
+      background-image: linear-gradient(to left, rgba(white, 1), rgba(white, 0));
+    }
+
     .swiper-slide {
       outline: 1px solid transparent;
     }
