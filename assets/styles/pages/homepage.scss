@@ -1,4 +1,103 @@
-@import "bootstrap";
+@import "../parts/override-bootstrap";
+
+:root {
+  --swiper-pagination-color: #ff6200;
+  --swiper-navigation-color: #ff6200;
+}
+
+
+section {
+  margin-top: 200px;
+  margin-bottom: 200px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &#top {
+    background-image: linear-gradient(to right, #f956b0, #eb7b15);
+    height: 800px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white !important;
+
+    .container {
+      margin-bottom: 50px;
+    }
+
+    // https://www.shapedivider.app/
+    .custom-shape-divider-bottom-1697111506 {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      transform: rotate(180deg);
+    }
+
+    .custom-shape-divider-bottom-1697111506 svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 51px;
+    }
+
+    .custom-shape-divider-bottom-1697111506 .shape-fill {
+      fill: #FFFFFF;
+    }
+  }
+
+  &#modules {
+    //overflow: hidden;
+
+    .swiper {
+      position: relative;
+
+      &:before, &:after {
+        content: "";
+        position: absolute;
+        width: 100px;
+        z-index: 5;
+        height: 100%;
+      }
+
+      &:before {
+        top: 0;
+        left: 0;
+        background-image: linear-gradient(to right, rgba(white, 1), rgba(white, 0));
+      }
+
+      &:after {
+        top: 0;
+        right: 0;
+        background-image: linear-gradient(to left, rgba(white, 1), rgba(white, 0));
+      }
+
+      .swiper-slide {
+        outline: 1px solid transparent;
+      }
+
+      .module {
+        height: 200px;
+
+        .card-body {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+  }
+}
 
 .info-card {
   @extend .text-bg-secondary;
@@ -34,50 +133,5 @@
   }
 }
 
-:root {
-  --swiper-pagination-color: #ff6200;
-  --swiper-navigation-color: #ff6200;
-}
 
-#modules {
-  //overflow: hidden;
 
-  .swiper {
-    position: relative;
-
-    &:before, &:after {
-      content: "";
-      position: absolute;
-      width: 100px;
-      z-index: 50;
-      height: 100%;
-    }
-
-    &:before {
-      top: 0;
-      left: 0;
-      background-image: linear-gradient(to right, rgba(white, 1), rgba(white, 0));
-    }
-
-    &:after {
-      top: 0;
-      right: 0;
-      background-image: linear-gradient(to left, rgba(white, 1), rgba(white, 0));
-    }
-
-    .swiper-slide {
-      outline: 1px solid transparent;
-    }
-
-    .module {
-      height: 200px;
-
-      .card-body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-  }
-}

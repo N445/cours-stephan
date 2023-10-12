@@ -14,7 +14,6 @@ AOS.init();
 
 const swiper = new Swiper('.swiper', {
     modules: [Navigation, Pagination, EffectCoverflow],
-    slidesPerView: 3,
     centeredSlides: true,
     pagination: {
         el: '.swiper-pagination',
@@ -39,5 +38,38 @@ const swiper = new Swiper('.swiper', {
     scrollbar: {
         el: '.swiper-scrollbar',
     },
+
+    slidesPerView: 3,
     spaceBetween: 100,
+    breakpoints: {
+        // when window width is >= 320px
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 20
+        },
+        576: {
+            slidesPerView: 1,
+            spaceBetween: 20
+        },
+        // when window width is >= 480px
+        768: {
+            slidesPerView: 1,
+            spaceBetween: 30
+        },
+        // when window width is >= 640px
+        992: {
+            slidesPerView: 3,
+            spaceBetween: 40
+        },
+        // when window width is >= 640px
+        1200: {
+            slidesPerView: 3,
+            spaceBetween: 100
+        },
+        // when window width is >= 640px
+        1400: {
+            slidesPerView: 3,
+            spaceBetween: 100
+        }
+    }
 });

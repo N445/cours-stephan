@@ -1,7 +1,18 @@
 @import "parts/override-bootstrap";
-@import "parts/reservation";
 
-@import "bootstrap";
+// 8. Add additional custom code here
+//@import "bootstrap";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/dropdown";
+
+
+@import "parts/reservation";
 @import "@fortawesome/fontawesome-free/css/all.css";
 
 

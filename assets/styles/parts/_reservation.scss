@@ -1,5 +1,6 @@
 section {
   &#reservation {
+    margin-bottom: 0;
     position: relative;
     min-height: 300px;
     display: flex;
@@ -18,15 +19,18 @@ section {
       backdrop-filter: blur(10px);
     }
 
-    .content{
+    .content {
       position: relative;
       z-index: 20;
+
       .reservation-main-link {
         padding: 20px 40px;
-        &:not(:hover){
+
+        &:not(:hover) {
           background-color: rgba(white, .8);
         }
       }
     }
   }
 }
+
