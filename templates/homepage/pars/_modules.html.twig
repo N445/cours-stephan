@@ -1,0 +1,28 @@
+{% import 'macro/_module-macro.html.twig' as moduleMacro %}
+
+<section class="modules">
+    <div class="container">
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                {% for module in modules %}
+                    <div class="swiper-slide">
+                        <div class="module card text-bg-primary">
+                            <div class="card-body">
+                                {{ module.name }}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+
+            <!-- If we need scrollbar -->
+            <div class="swiper-scrollbar"></div>
+        </div>
+    </div>
+</section>

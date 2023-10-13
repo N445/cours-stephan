@@ -5,10 +5,12 @@
 {% endblock %}
 
 {% block body %}
+    {{ component('TopBannerComponent',{
+        'title':'Contact',
+        'page':'contact'
+    }) }}
     <div class="container">
-        <h1 class="text-center">Contact</h1>
-        <hr>
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-6">
                 <ul>
                     <li>Premier contact par téléphone ou par mail</li>
@@ -17,6 +19,23 @@
                     <li>Autres créneaux possibles à déterminer au téléphone</li>
                     <li>Possibilité pour un parent d’assister à la première heure de cours en Visio.</li>
                 </ul>
+            </div>
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form_row(form.lastname) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ form_row(form.firstname) }}
+                    </div>
+                </div>
+                {{ form_row(form.email) }}
+                {{ form_row(form.message) }}
+                <button type="submit" class="btn btn-lg btn-primary w-100">
+                    Envoyer
+                </button>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

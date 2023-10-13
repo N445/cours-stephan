@@ -5,9 +5,11 @@
 {% endblock %}
 
 {% block body %}
+    {{ component('TopBannerComponent',{
+        'title':'Le professeur',
+        'page':'professeur'
+    }) }}
     <div class="container">
-        <h1 class="text-center">Le professeur</h1>
-        <hr>
         <p>
             Je m’appelle Stéphan Levacher et j’ai une grande expérience de l’enseignement, en tant notamment que
             professeur de français et de philosophie au lycée durant plus de 25 ans. J’ai également été éducateur puis

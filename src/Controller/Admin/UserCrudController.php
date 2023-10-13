@@ -19,13 +19,13 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            EmailField::new('email'),
-            BooleanField::new('isVerified', 'email vérifiée'),
+            EmailField::new('email', 'Email'),
+            BooleanField::new('isVerified', 'Email vérifiée'),
             AssociationField::new('cart', 'Panier')->hideOnForm(),
             ChoiceField::new('roles', 'Rôles')->setChoices([
-                User::ROLE_USER => User::ROLE_USER,
-                User::ROLE_ADMIN => User::ROLE_ADMIN,
-            ])->allowMultipleChoices(),
+                                                               User::ROLE_USER  => User::ROLE_USER,
+                                                               User::ROLE_ADMIN => User::ROLE_ADMIN,
+                                                           ])->allowMultipleChoices(),
         ];
     }
 }

@@ -28,13 +28,13 @@ class CartCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            AssociationField::new('user'),
-            ChoiceField::new('place')->setChoices([
-                                                      'Panier'   => 'cart',
-                                                      'Annulé'   => 'cancelled',
-                                                      'En cours' => 'pending',
-                                                      'Validé'   => 'complete',
-                                                  ]),
+            AssociationField::new('user', 'Utilisateur'),
+            ChoiceField::new('place', 'État')->setChoices([
+                                                              'Panier'   => 'cart',
+                                                              'Annulé'   => 'cancelled',
+                                                              'En cours' => 'pending',
+                                                              'Validé'   => 'complete',
+                                                          ]),
             AssociationField::new('cartItems', 'Modules'),
         ];
     }

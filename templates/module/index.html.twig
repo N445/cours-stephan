@@ -1,27 +1,33 @@
+{% import 'macro/_module-macro.html.twig' as moduleMacro %}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Les modules - {{ parent() }}{% endblock %}
 
 {% block body %}
+    {{ component('TopBannerComponent',{
+        'title':'Les modules',
+        'page':'modules'
+    }) }}
     <div class="container">
-        <h1>Les modules</h1>
-        <div class="row row-cols-4 g-4">
+        <div class="modules row row-cols-4 g-4">
             {% for module in modules %}
                 <div class="col">
-                    <div class="card h-100 shadow">
-                        <div class="card-header">
-                            <h2 class="h6 mb-0">{{ module.name }}</h2>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group">
-                                {% for subModule in module.subModules %}
-                                    <li class="list-group-item">
-                                        {{ subModule.name }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
+                    {{ moduleMacro.moduleCard(module) }}
+                    {#                    <div class="card h-100 shadow"> #}
+                    {#                        <div class="card-header"> #}
+                    {#                            <h2 class="h6 mb-0">{{ module.name }}</h2> #}
+                    {#                        </div> #}
+                    {#                        <div class="card-body"> #}
+                    {#                            <ul class="list-group"> #}
+                    {#                                {% for subModule in module.subModules %} #}
+                    {#                                    <li class="list-group-item"> #}
+                    {#                                        {{ subModule.name }} #}
+                    {#                                    </li> #}
+                    {#                                {% endfor %} #}
+                    {#                            </ul> #}
+                    {#                        </div> #}
+                    {#                    </div> #}
                 </div>
             {% endfor %}
         </div>

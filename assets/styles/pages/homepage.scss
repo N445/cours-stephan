@@ -55,7 +55,7 @@ section {
     }
   }
 
-  &#modules {
+  &.modules {
     //overflow: hidden;
 
     .swiper {
@@ -83,17 +83,6 @@ section {
 
       .swiper-slide {
         outline: 1px solid transparent;
-      }
-
-      .module {
-        height: 200px;
-
-        .card-body {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
       }
     }
   }

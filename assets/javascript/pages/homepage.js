@@ -22,9 +22,9 @@ const swiper = new Swiper('.swiper', {
     effect: 'coverflow',
     coverflowEffect: {
         rotate: 15,
-        stretch: 20,
+        stretch: 1,
         depth: 100,
-        modifier: 1.5,
+        modifier: 2,
         slideShadows: false,
     },
 

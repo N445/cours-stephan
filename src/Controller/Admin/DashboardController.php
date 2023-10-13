@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Cart\Cart;
+use App\Entity\Contact;
 use App\Entity\Module\Module;
 use App\Entity\Module\Schedule;
 use App\Entity\Module\SubModule;
@@ -40,6 +41,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::subMenu('Utilisateurs');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class);
         yield MenuItem::linkToCrud('Paniers', 'fa-solid fa-cart-shopping', Cart::class);
+        yield MenuItem::linkToCrud('Contact', 'fa-solid fa-message', Contact::class);
 
     }
 }

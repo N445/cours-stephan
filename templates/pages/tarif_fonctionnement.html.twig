@@ -5,9 +5,11 @@
 {% endblock %}
 
 {% block body %}
+    {{ component('TopBannerComponent',{
+        'title':'Tarifs et fonctionnement',
+        'page':'tarifs-fonctionnement'
+    }) }}
     <div class="container">
-        <h1 class="text-center">Tarifs et fonctionnement</h1>
-        <hr>
         <h2>COMBIEN</h2>
         <ul>
             <li>200€ par module de 6 heures réparties en 4 fois 1h30</li>

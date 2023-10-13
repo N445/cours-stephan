@@ -1,0 +1,11 @@
+#top-banner{
+  background-image: linear-gradient(to right, #f956b0, #eb7b15);
+  height: 200px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white !important;
+  @extend .mb-5;
+}
