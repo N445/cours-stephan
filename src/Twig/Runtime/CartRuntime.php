@@ -14,7 +14,7 @@ class CartRuntime implements RuntimeExtensionInterface
                 $price / 100,
                 2,
                 ',',
-                '.',
+                ' ',
             ),
         );
     }

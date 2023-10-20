@@ -1,22 +1,22 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-checkout.html.twig' %}
 
-{% block title %}Paiement{% endblock %}
+{% set title = 'Mode de réglement'%}
 
-{% block body %}
-    <div class="container">
-     <div class="row">
-         <div class="col-md-6">
-             <div class="card">
-                 <div class="card-body">
-                     {{ form_start(form) }}
-                     {{ form_widget(form) }}
-                     <button type="submit" class="btn btn-primary">
-                         Payer
-                     </button>
-                     {{ form_end(form) }}
-                 </div>
-             </div>
-         </div>
-     </div>
+{% block checkoutBody %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+
+            <div class="d-flex">
+                <a href="{{ path('APP_CHECKOUT_ADDRESS') }}" class="btn btn-secondary">
+                    Retour
+                </a>
+                <button type="submit" class="btn btn-primary ms-3">
+                    Payer
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}

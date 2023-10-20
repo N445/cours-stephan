@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Entity\Cart\Cart;
-use App\Entity\User\Address;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -36,14 +37,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Cart $cart = null;
-
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Address $address = null;
+    private ?Information $information = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Cart::class)]
+    private Collection $carts;
+
+    private ?Cart $mainCart = null;
+
+    public function __construct()
+    {
+        $this->carts = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -119,28 +127,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any tempor
     }
 
-    public function getCart(): ?Cart
-    {
-        return $this->cart;
-    }
-
-    public function setCart(?Cart $cart): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($cart === null && $this->cart !== null) {
-            $this->cart->setUser(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($cart !== null && $cart->getUser() !== $this) {
-            $cart->setUser($this);
-        }
-
-        $this->cart = $cart;
-
-        return $this;
-    }
-
     public function isVerified(): bool
     {
         return $this->isVerified;
@@ -153,15 +139,56 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAddress(): ?Address
+    public function getInformation(): ?Information
     {
-        return $this->address;
+        return $this->information;
     }
 
-    public function setAddress(?Address $address): static
+    public function setInformation(?Information $information): static
     {
-        $this->address = $address;
+        $this->information = $information;
 
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): static
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts->add($cart);
+            $cart->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): static
+    {
+        if ($this->carts->removeElement($cart)) {
+            // set the owning side to null (unless already changed)
+            if ($cart->getUser() === $this) {
+                $cart->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMainCart(): ?Cart
+    {
+        return $this->mainCart;
+    }
+
+    public function setMainCart(?Cart $mainCart): User
+    {
+        $this->mainCart = $mainCart;
         return $this;
     }
 }

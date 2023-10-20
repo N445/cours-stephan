@@ -1,8 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Planning{% endblock %}
+{% block title %}Reservation{% endblock %}
 
 {% block body %}
+    {{ component('TopBannerComponent',{
+        'title':'Reservation'
+    }) }}
     <div class="container">
         {{ component('CheckoutCalendar',{
             schedule:schedule,

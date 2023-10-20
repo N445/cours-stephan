@@ -6,6 +6,7 @@ use App\Entity\Cart\Cart;
 use App\Entity\Module\Schedule;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,11 +24,16 @@ class CartRepository extends ServiceEntityRepository
         parent::__construct($registry, Cart::class);
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findByAnonymousToken(string $anonymousToken): ?Cart
     {
         return $this->createQueryBuilder('c')
                     ->where('c.anonymousToken = :anonymousToken')
                     ->setParameter('anonymousToken', $anonymousToken)
+                    ->andWhere('c.place IN (:places)')
+                    ->setParameter('places', [Cart::PLACE_CART, Cart::PLACE_PENDING])
                     ->getQuery()
                     ->getOneOrNullResult()
         ;
@@ -38,13 +44,16 @@ class CartRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
                     ->where('c.user = :user')
                     ->setParameter('user', $user)
+                    ->andWhere('c.place IN (:places)')
+                    ->setParameter('places', [Cart::PLACE_CART, Cart::PLACE_PENDING])
                     ->getQuery()
                     ->getOneOrNullResult()
         ;
     }
 
     /**
-     * @param Schedule $schedule
+     * @param Schedule    $schedule
+     * @param string|null $occurenceId
      *
      * @return Cart[]
      */

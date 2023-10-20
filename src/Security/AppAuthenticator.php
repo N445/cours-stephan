@@ -22,7 +22,9 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'APP_LOGIN';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator
+    )
     {
     }
 

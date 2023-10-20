@@ -6,6 +6,7 @@ use App\Entity\Module\Module;
 use App\Entity\Module\Schedule;
 use App\Model\Module\MainModule;
 use App\Repository\Cart\CartItemRepository;
+use App\Service\Cart\CartItemLocationHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,11 +19,11 @@ class CartItem
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
-    private ?Module $module = null;
+    private ?Module $module      = null;
     #[ORM\Column(length: 255)]
-    private ?int $moduleId = null;
+    private ?int    $moduleId    = null;
     #[ORM\Column(length: 255)]
-    private ?string $moduleName = null;
+    private ?string $moduleName  = null;
     #[ORM\Column(length: 255)]
     private ?string $occurenceId = null;
 
@@ -36,7 +37,9 @@ class CartItem
     private ?int $price = null;
 
     #[ORM\Column]
-    private ?int $quantity = null;
+    private ?int    $quantity = null;
+    #[ORM\Column(nullable: true)]
+    private ?string $location = null;
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
     private ?Schedule $schedule = null;
@@ -50,12 +53,15 @@ class CartItem
     #[ORM\Column(type: Types::OBJECT)]
     private ?MainModule $mainModule = null;
 
+    #[ORM\Column]
+    private array $subModules = [];
+
     public function __toString(): string
     {
         return sprintf('%s : Du %s au %s',
-            $this->getModuleName(),
-            $this->getMainModule()->getStart()->format('d/m/Y H:i'),
-            $this->getMainModule()->getEnd()->format('d/m/Y H:i')
+                       $this->getModuleName(),
+                       $this->getMainModule()->getStart()->format('d/m/Y H:i'),
+                       $this->getMainModule()->getEnd()->format('d/m/Y H:i'),
         );
     }
 
@@ -157,6 +163,32 @@ class CartItem
         return $this;
     }
 
+    public function getLocation(): ?string
+    {
+        return $this->location;
+    }
+
+    public function setLocation(?string $location): CartItem
+    {
+        $this->location = $location;
+        return $this;
+    }
+
+    public function isLocationProfessor(): bool
+    {
+        return $this->location === CartItemLocationHelper::PROFESSOR;
+    }
+
+    public function isLocationHote(): bool
+    {
+        return $this->location === CartItemLocationHelper::HOTE;
+    }
+
+    public function isLocationVisio(): bool
+    {
+        return $this->location === CartItemLocationHelper::VISIO;
+    }
+
     public function getSchedule(): ?Schedule
     {
         return $this->schedule;
@@ -201,6 +233,18 @@ class CartItem
     public function setMainModule(MainModule $mainModule): static
     {
         $this->mainModule = $mainModule;
+
+        return $this;
+    }
+
+    public function getSubModules(): array
+    {
+        return $this->subModules;
+    }
+
+    public function setSubModules(array $subModules): static
+    {
+        $this->subModules = $subModules;
 
         return $this;
     }

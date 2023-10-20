@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="card-body">
+        <div class="accordion mb-3" id="accordionCartItems">
+            {% for cartItem in this.cart.cartItems %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#cartItem{{ cartItem.id }}"
+                                aria-controls="cartItem{{ cartItem.id }}">
+                            {{ cartItem.moduleName }}
+                        </button>
+                    </h2>
+                    <div id="cartItem{{ cartItem.id }}" class="accordion-collapse collapse"
+                         data-bs-parent="#accordionCartItems">
+                        <div class="accordion-body">
+                            <small>{{ cartItem|cart_item_total|price_humanize }}</small>
+                            <ul class="mb-0">
+                                {% for subModule in cartItem.subModules %}
+                                    <li>{{ subModule }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <p class="mb-0">{{ this.cart|cart_total|price_humanize }}</p>
+    </div>
+</div>

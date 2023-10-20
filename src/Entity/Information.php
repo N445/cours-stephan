@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Entity\User;
+namespace App\Entity;
 
-use App\Repository\User\AddressRepository;
+use App\Repository\User\InformationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: AddressRepository::class)]
-class Address
+#[ORM\Entity(repositoryClass: InformationRepository::class)]
+class Information
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
         max: 255,
@@ -22,7 +22,15 @@ class Address
     )]
     private ?string $name = null;
 
-    #[ORM\Column(length: 38)]
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Doit faire moins de {{ limit }} caractères.',
+    )]
+    private ?string $phoneNumber = null;
+
+    #[ORM\Column(length: 38, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
         max: 38,
@@ -46,7 +54,7 @@ class Address
     )]
     private ?string $address3 = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
         max: 50,
@@ -54,7 +62,7 @@ class Address
     )]
     private ?string $postCode = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
         max: 255,
@@ -62,7 +70,7 @@ class Address
     )]
     private ?string $city = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $country = null;
 
     public function getId(): ?int
@@ -79,6 +87,17 @@ class Address
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phoneNumber;
+    }
+
+    public function setPhoneNumber(?string $phoneNumber): Information
+    {
+        $this->phoneNumber = $phoneNumber;
         return $this;
     }
 

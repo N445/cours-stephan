@@ -42,7 +42,8 @@
                                     Profile
                                 </a>
                             </li>
-                            {% if app.user.cart %}
+                            {% set cart = get_user_cart() %}
+                            {% if cart %}
                                 <li>
                                     <a href="{{ path('APP_CHECKOUT_RECAP') }}" class="dropdown-item">
                                         Panier

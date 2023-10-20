@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Cart\CartMethodPaymentType;
+use App\Form\Cart\RecapCartType;
 use App\Form\User\AddressType;
 use App\Service\Cart\CartProvider;
+use App\Service\Module\ModuleOccurenceCounter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +22,7 @@ class CheckoutController extends AbstractController
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly CartProvider           $cartProvider,
+        private readonly ModuleOccurenceCounter $moduleOccurenceCounter,
     )
     {
     }
@@ -27,8 +30,32 @@ class CheckoutController extends AbstractController
     #[Route('/', name: 'APP_CHECKOUT_RECAP')]
     public function recap(Request $request): Response
     {
+        $cart = $this->cartProvider->getUserCart();
+        if ($cart) {
+            $nbOccurenceByCartItem = [];
+            foreach ($cart->getCartItems() as $cartItem) {
+                $nbOccurenceByCartItem[$cartItem->getId()] = $this->moduleOccurenceCounter
+                    ->getNbOccurenceBySchedule(
+                        $cartItem->getSchedule(),
+                        $cartItem->getOccurenceId(),
+                    )
+                ;
+            }
+        }
+
+        // we can extend AbstractController to get the normal shortcuts
+        $form = $this->createForm(RecapCartType::class, $cart);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($cart);
+            $this->em->flush();
+            return $this->redirectToRoute('APP_CHECKOUT_ADDRESS');
+        }
+
         return $this->render('checkout/recap.html.twig', [
-            'cart' => $this->cartProvider->getUserCart(),
+            'cart' => $cart,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -37,9 +64,9 @@ class CheckoutController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        if (!$address = $user->getAddress()) {
-            $address = (new User\Address())->setCountry('FR');
-            $user->setAddress($address);
+        if (!$address = $user->getInformation()) {
+            $address = (new \App\Entity\Information())->setCountry('FR');
+            $user->setInformation($address);
         }
 
         $form = $this->createForm(AddressType::class, $address);

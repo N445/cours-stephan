@@ -9,7 +9,7 @@ import convertFlashMessagesToNoty from './class/MessagesConverter';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.scss';
-import 'bootstrap';
+import {Collapse} from 'bootstrap';
 
 $(function () {
     convertFlashMessagesToNoty();

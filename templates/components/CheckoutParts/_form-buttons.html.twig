@@ -1,0 +1,28 @@
+
+{% set renderBackButton = flow.getFirstStepNumber() < flow.getLastStepNumber() and flow.getCurrentStepNumber() in (flow.getFirstStepNumber() + 1) .. flow.getLastStepNumber() %}
+{% set renderResetButton = craue_formflow_button_render_reset is defined ? craue_formflow_button_render_reset : true %}
+
+{% set renderResetButton = false %}
+
+
+<div class="d-flex">
+    {%- set isLastStep = flow.getCurrentStepNumber() == flow.getLastStepNumber() -%}
+
+    {% if renderBackButton %}
+        <button>
+            Prev
+        </button>
+    {% endif %}
+
+    {% if not isLastStep %}
+        <button>
+            Suivant
+        </button>
+    {% endif %}
+
+    {% if isLastStep %}
+        <button>
+            Fin
+        </button>
+    {% endif %}
+</div>

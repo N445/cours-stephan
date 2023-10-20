@@ -6,6 +6,7 @@ use App\Entity\Cart\Cart;
 use App\Entity\Cart\CartItem;
 use App\Entity\Module\Module;
 use App\Entity\Module\Schedule;
+use App\Entity\Module\SubModule;
 use App\Service\Module\ModuleEventsProvider;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -61,6 +62,11 @@ class CartHelper
                 ->setScheduleId($schedule->getId())
                 ->setScheduleName($schedule->getName())
                 ->setModule($module)
+                ->setSubModules(
+                    array_map(static function (SubModule $subModule) {
+                        return $subModule->getName();
+                    }, $module->getSubModules()->toArray()),
+                )
                 ->setModuleId($module->getId())
                 ->setModuleName($module->getName())
                 ->setPrice($module->getPrice())

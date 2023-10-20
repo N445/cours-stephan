@@ -2,6 +2,7 @@
 
 namespace App\Entity\Cart;
 
+use App\Entity\Information;
 use App\Entity\User;
 use App\Repository\Cart\CartRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,6 +17,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Cart
 {
     public const PLACE_CART = 'cart';
+    public const PLACE_PENDING = 'pending';
     public const PLACE_CANCELLED = 'cancelled';
     public const PLACE_COMPLETE = 'complete';
 
@@ -25,9 +27,6 @@ class Cart
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\OneToOne(inversedBy: 'cart', cascade: ['persist'])]
-    private ?User $user = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $anonymousToken = null;
@@ -52,26 +51,21 @@ class Cart
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $methodPayment = null;
 
+    #[ORM\ManyToOne(inversedBy: 'carts')]
+    private ?User $user = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Information $information = null;
+
     public function __construct()
     {
         $this->cartItems = new ArrayCollection();
+        $this->information = new Information();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     public function getAnonymousToken(): ?string
@@ -159,6 +153,29 @@ class Cart
     {
         $this->methodPayment = $methodPayment;
 
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getInformation(): ?Information
+    {
+        return $this->information;
+    }
+
+    public function setInformation(?Information $information): Cart
+    {
+        $this->information = $information;
         return $this;
     }
 }

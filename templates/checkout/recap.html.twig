@@ -1,15 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Paiement{% endblock %}
+{% set title = 'Modules choisis' %}
 
 {% block body %}
-    <div class="container">
-     <div class="row">
-         <div class="col-md-12">
-             {{ component('RecapCart',{
-                 initialFormData:cart
-             }) }}
-         </div>
-     </div>
-    </div>
+
+    {{ component('TopBannerComponent',{
+        'title':title
+    }) }}
+
+    {{ component('Checkout',{
+        'initialFormData':cart
+    }) }}
+
+
 {% endblock %}

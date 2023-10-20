@@ -1,6 +1,5 @@
 @import "variables";
 
-
 // Custom.scss
 // Option B: Include parts of Bootstrap
 
@@ -8,7 +7,13 @@
 @import "bootstrap/scss/functions";
 
 // Default variable overrides
-$primary: #5f15a4;
+//$primary: #5f15a4;
+
+$primary: #51A8B1;
+$success: #A8CF45;
+$secondary: #FFDE59;
+$warning: #FFA90D;
+$info: #A6A26A;
 
 // 2. Include any default variable overrides here
 

@@ -1,26 +1,42 @@
 <div{{ attributes }}>
     <div class="card">
         <div class="card-body">
-            {{ form_start(form, {
-                attr: {
-                    'data-action': 'live#action',
-                    'data-action-name': 'prevent|save'
-                }
-            }) }}
-            {% for cartItem in form.cartItems %}
-                {% set value = cartItem.vars.value %}
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h5 class="mb-0">{{ value.moduleName }}</h5>
-                    </div>
-                    <div class="card-body">
-                        {{ form_row(cartItem) }}
-                    </div>
-                </div>
-            {% endfor %}
-            <button class="btn btn-primary">Valider</button>
-            {{ form_end(form) }}
+            {% if this.cart %}
 
+                <div class="accordion mb-3" id="accordionCartItems">
+                    {% for cartItem in this.cart.cartItems %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#cartItem{{ cartItem.id }}" aria-controls="cartItem{{ cartItem.id }}">
+                                    {{ cartItem.moduleName }}
+                                </button>
+                            </h2>
+                            <div id="cartItem{{ cartItem.id }}" class="accordion-collapse collapse"
+                                 data-bs-parent="#accordionCartItems">
+                                <div class="accordion-body">
+                                    <small>{{ cartItem|cart_item_total|price_humanize }}</small>
+                                    <ul class="mb-0">
+                                        {% for subModule in cartItem.subModules %}
+                                            <li>{{ subModule }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <p>{{ this.cart|cart_total|price_humanize }}</p>
+
+                <a href="{{ path('APP_CHECKOUT_RECAP') }}" class="btn btn-primary">
+                    Modifier le panier
+                </a>
+            {% else %}
+                <div class="alert alert-info mb-0">
+                    Pas de panier
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

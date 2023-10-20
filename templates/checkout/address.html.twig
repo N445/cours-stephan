@@ -1,30 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends 'base-checkout.html.twig' %}
 
-{% block title %}Paiement{% endblock %}
+{% set title = 'Vos informations' %}
 
-{% block body %}
-    <div class="container">
-     <div class="row">
-         <div class="col-md-6">
-             <div class="card">
-                 <div class="card-body">
-                     {{ form_start(form) }}
-                     {{ form_row(form.name) }}
-                     {{ form_row(form.address1) }}
-                     {{ form_row(form.address2) }}
-                     {{ form_row(form.address3) }}
-                     {{ form_row(form.postCode) }}
-                     {{ form_row(form.city) }}
-                     <button type="submit" class="btn btn-primary">
-                         Continuer
-                     </button>
-                     {{ form_end(form) }}
-                 </div>
-             </div>
-         </div>
-         <div class="col-md-6">
-             {% include 'checkout/parts/_recap.html.twig' %}
-         </div>
-     </div>
+{% block checkoutBody %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.address1) }}
+            {{ form_row(form.address2) }}
+            {{ form_row(form.address3) }}
+            {{ form_row(form.postCode) }}
+            {{ form_row(form.city) }}
+            <div class="d-flex">
+                <a href="{{ path('APP_CHECKOUT_RECAP') }}" class="btn btn-secondary">
+                    Retour
+                </a>
+                <button type="submit" class="btn btn-primary ms-3">
+                    Mode de réglement
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}

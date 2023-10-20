@@ -1,0 +1,77 @@
+<div{{ attributes }}>
+    {% set flow = this.flow %}
+    
+    
+    <div class="container">
+        {% if this.cart %}
+
+            {%- if flow.getStepLabels() is not empty -%}
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        {% for stepLabel in flow.getStepLabels() %}
+                            <li class="breadcrumb-item">
+                                {%- if craue_isStepLinkable(flow, loop.index) -%}
+                                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all
+                                        | merge(app.request.attributes.get('_route_params'))
+                                        | craue_addDynamicStepNavigationParameters(flow, loop.index)) }}">
+                                        {{- stepLabel | trans -}}
+                                    </a>
+                                {%- else -%}
+                                    {{- stepLabel | trans -}}
+                                {%- endif -%}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </nav>
+            {%- endif -%}
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    {{ dump(flow) }}
+                    {{ form_start(form, {
+                        attr: {
+                            'data-action': 'live#action',
+                            'data-action-name': 'prevent|save'
+                        }
+                    }) }}
+                    {% if flow.currentStepNumber == 1 %}
+                        {% for cartItem in form.cartItems %}
+                            {% set value = cartItem.vars.value %}
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h5 class="mb-0">{{ value.moduleName }}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            {{ form_widget(cartItem.quantity) }}
+                                        </div>
+                                        <div class="col-md">
+                                            {{ form_widget(cartItem.location) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% elseif flow.currentStepNumber == 2 %}
+                    {% endif %}
+                    {{ form_errors(form) }}
+                    {{ form_rest(form) }}
+
+
+                    {% include 'components/CheckoutParts/_form-buttons.html.twig' %}
+
+                    {{ form_end(form) }}
+                </div>
+                <div class="col-md-6">
+                    {% include 'components/CheckoutParts/_right-recap.html.twig' %}
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info mb-0">
+                Pas de panier
+            </div>
+        {% endif %}
+    </div>
+</div>

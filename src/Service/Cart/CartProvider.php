@@ -52,16 +52,19 @@ class CartProvider
         }
 
 
-        return $this->cartRepository->findByUser($this->user);
+        $cart = $this->cartRepository->findByUser($this->user);
+        $this->user->setMainCart($cart);
+        return $cart;
     }
 
     public function getUserCartOrCreate(): Cart
     {
         $this->init();
         if (!$cart = $this->getUserCart()) {
-            return $this->createCart();
+            $cart = $this->createCart();
         }
 
+        $this->user->setMainCart($cart);
         return $cart;
     }
 
