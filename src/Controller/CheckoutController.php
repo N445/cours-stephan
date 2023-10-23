@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\Cart\CartMethodPaymentType;
 use App\Form\Cart\RecapCartType;
+use App\Form\Checkout\CheckoutFlow;
 use App\Form\User\AddressType;
 use App\Service\Cart\CartProvider;
 use App\Service\Module\ModuleOccurenceCounter;
@@ -28,34 +29,43 @@ class CheckoutController extends AbstractController
     }
 
     #[Route('/', name: 'APP_CHECKOUT_RECAP')]
-    public function recap(Request $request): Response
+    public function recap(Request $request, CheckoutFlow $flow): Response
     {
         $cart = $this->cartProvider->getUserCart();
-        if ($cart) {
-            $nbOccurenceByCartItem = [];
-            foreach ($cart->getCartItems() as $cartItem) {
-                $nbOccurenceByCartItem[$cartItem->getId()] = $this->moduleOccurenceCounter
-                    ->getNbOccurenceBySchedule(
-                        $cartItem->getSchedule(),
-                        $cartItem->getOccurenceId(),
-                    )
-                ;
+//        if ($cart) {
+//            $nbOccurenceByCartItem = [];
+//            foreach ($cart->getCartItems() as $cartItem) {
+//                $nbOccurenceByCartItem[$cartItem->getId()] = $this->moduleOccurenceCounter
+//                    ->getNbOccurenceBySchedule(
+//                        $cartItem->getSchedule(),
+//                        $cartItem->getOccurenceId(),
+//                    )
+//                ;
+//            }
+//        }
+
+        $flow->bind($cart);
+
+        // form of the current step
+        $form = $flow->createForm();
+        if ($flow->isValid($form)) {
+            $flow->saveCurrentStepData($form);
+
+            if ($flow->nextStep()) {
+                $form = $flow->createForm();
+            } else {
+                $flow->reset();
+                return $this->redirectToRoute('PAYMENT_PREPARE');
             }
         }
 
-        // we can extend AbstractController to get the normal shortcuts
-        $form = $this->createForm(RecapCartType::class, $cart);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($cart);
-            $this->em->flush();
-            return $this->redirectToRoute('APP_CHECKOUT_ADDRESS');
-        }
+        dump($form);
+        dump($flow);
 
         return $this->render('checkout/recap.html.twig', [
             'cart' => $cart,
-            'form' => $form->createView(),
+            'flow' => $flow,
+            'form' => $form,
         ]);
     }
 

@@ -8,8 +8,25 @@
         'title':title
     }) }}
 
+{#    <div class="container">#}
+{#        #}{# in src/MyCompany/MyBundle/Resources/views/Vehicle/createVehicle.html.twig #}
+{#        <div>#}
+{#            Steps:#}
+{#            {% include '@CraueFormFlow/FormFlow/stepList.html.twig' %}#}
+{#        </div>#}
+{#        {{ form_start(form) }}#}
+{#        {{ form_errors(form) }}#}
+
+
+{#        {{ form_rest(form) }}#}
+
+{#        {% include '@CraueFormFlow/FormFlow/buttons.html.twig' %}#}
+{#        {{ form_end(form) }}#}
+{#    </div>#}
+
     {{ component('Checkout',{
-        'initialFormData':cart
+        'initialFormData':cart,
+        'form':form,
     }) }}
 
 

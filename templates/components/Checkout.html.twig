@@ -29,12 +29,7 @@
             <div class="row">
                 <div class="col-md-6">
                     {{ dump(flow) }}
-                    {{ form_start(form, {
-                        attr: {
-                            'data-action': 'live#action',
-                            'data-action-name': 'prevent|save'
-                        }
-                    }) }}
+                    {{ form_start(form) }}
                     {% if flow.currentStepNumber == 1 %}
                         {% for cartItem in form.cartItems %}
                             {% set value = cartItem.vars.value %}
@@ -60,6 +55,7 @@
                     {{ form_rest(form) }}
 
 
+{#                    {% include '@CraueFormFlow/FormFlow/buttons.html.twig' %}#}
                     {% include 'components/CheckoutParts/_form-buttons.html.twig' %}
 
                     {{ form_end(form) }}

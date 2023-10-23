@@ -1,28 +1,33 @@
-
 {% set renderBackButton = flow.getFirstStepNumber() < flow.getLastStepNumber() and flow.getCurrentStepNumber() in (flow.getFirstStepNumber() + 1) .. flow.getLastStepNumber() %}
 {% set renderResetButton = craue_formflow_button_render_reset is defined ? craue_formflow_button_render_reset : true %}
 
 {% set renderResetButton = false %}
 
 
-<div class="d-flex">
+<div class="row g-3">
     {%- set isLastStep = flow.getCurrentStepNumber() == flow.getLastStepNumber() -%}
 
     {% if renderBackButton %}
-        <button>
-            Prev
-        </button>
+        <div class="col-md">
+            <button name="flow_checkout_transition" type="submit" value="back" formnovalidate="formnovalidate" class="btn btn-primary w-100">
+                Prev
+            </button>
+        </div>
     {% endif %}
 
     {% if not isLastStep %}
-        <button>
-            Suivant
-        </button>
+        <div class="col-md">
+            <button type="submit" class="btn btn-primary w-100">
+                Suivant
+            </button>
+        </div>
     {% endif %}
 
     {% if isLastStep %}
-        <button>
-            Fin
-        </button>
+        <div class="col-md">
+            <button type="submit" class="btn btn-primary w-100">
+                Fin
+            </button>
+        </div>
     {% endif %}
 </div>
