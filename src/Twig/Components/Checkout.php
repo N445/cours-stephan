@@ -42,14 +42,12 @@ final class Checkout extends AbstractController
         if ($this->flow->isValid($form)) {
             $this->flow->saveCurrentStepData($form);
 
-            if (dump($this->flow->nextStep())) {
+            if ($this->flow->nextStep()) {
                 $form = $this->flow->createForm();
             } else {
                 $this->flow->reset();
             }
         }
-
-        dump($this->flow);
 
         return $form;
     }
