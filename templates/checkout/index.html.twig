@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Modules choisis' %}
+
+{% block body %}
+
+    {{ component('TopBannerComponent',{
+        'title':title
+    }) }}
+
+    {{ component('Checkout',{
+        'initialFormData':cart,
+        'form':form,
+    }) }}
+
+
+{% endblock %}

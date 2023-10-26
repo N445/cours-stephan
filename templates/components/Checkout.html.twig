@@ -1,24 +1,16 @@
 <div{{ attributes }}>
     {% set flow = this.flow %}
-    
-    
+
+
     <div class="container">
         {% if this.cart %}
 
             {%- if flow.getStepLabels() is not empty -%}
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        {% for stepLabel in flow.getStepLabels() %}
-                            <li class="breadcrumb-item">
-                                {%- if craue_isStepLinkable(flow, loop.index) -%}
-                                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all
-                                        | merge(app.request.attributes.get('_route_params'))
-                                        | craue_addDynamicStepNavigationParameters(flow, loop.index)) }}">
-                                        {{- stepLabel | trans -}}
-                                    </a>
-                                {%- else -%}
-                                    {{- stepLabel | trans -}}
-                                {%- endif -%}
+                        {% for step in flow.steps %}
+                            <li class="breadcrumb-item{{ step.number == flow.currentStepNumber?' text-primary':'' }}">
+                                {{- step.label | trans -}}
                             </li>
                         {% endfor %}
                     </ol>
@@ -28,8 +20,12 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    {{ dump(flow) }}
-                    {{ form_start(form) }}
+                    {% if flow.currentStepNumber == 1 %}
+                        {{ form_start(form) }}
+                    {% else %}
+                        {{ form_start(form, {attr: {'data-model': 'norender|*'}}) }}
+                    {% endif %}
+
                     {% if flow.currentStepNumber == 1 %}
                         {% for cartItem in form.cartItems %}
                             {% set value = cartItem.vars.value %}
@@ -49,13 +45,19 @@
                                 </div>
                             </div>
                         {% endfor %}
-                    {% elseif flow.currentStepNumber == 2 %}
+                    {% elseif flow.getCurrentStepNumber() != flow.getLastStepNumber() %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                {{ form_rest(form) }}
+                            </div>
+                        </div>
+                    {% else %}
+                        {{ form_rest(form) }}
                     {% endif %}
                     {{ form_errors(form) }}
-                    {{ form_rest(form) }}
 
 
-{#                    {% include '@CraueFormFlow/FormFlow/buttons.html.twig' %}#}
+                    {#                    {% include '@CraueFormFlow/FormFlow/buttons.html.twig' %} #}
                     {% include 'components/CheckoutParts/_form-buttons.html.twig' %}
 
                     {{ form_end(form) }}

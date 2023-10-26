@@ -18,7 +18,7 @@ framework:
           from: [ cart,pending ]
           to: cancelled
         to_pending:
-          from: [ cart ]
+          from: [ pending,cart ]
           to: pending
         to_complete:
           from: [ pending ]

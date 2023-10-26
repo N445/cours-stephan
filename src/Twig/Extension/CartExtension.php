@@ -33,8 +33,6 @@ class CartExtension extends AbstractExtension
             // If your filter generates SAFE HTML, you should add a third
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
-            new TwigFilter('cart_item_total', [CartPriceHelper::class, 'getCartItemPrice']),
-            new TwigFilter('cart_total', [CartPriceHelper::class, 'getCartPrice']),
             new TwigFilter('price_humanize', [CartRuntime::class, 'price_humanize']),
         ];
     }

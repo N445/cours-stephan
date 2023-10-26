@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Workflow\WorkflowInterface;
 
-#[Route("/paiement/")]
+#[Route("/paiement")]
 #[IsGranted("ROLE_USER")]
 class PaymentController extends AbstractController
 {

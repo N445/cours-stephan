@@ -11,7 +11,7 @@
                 <tbody>
                 <tr>
                     <th>Identifiant</th>
-                    <td>{{ app.user }}</td>
+                    <td>{{ app.user.information }}</td>
                 </tr>
                 <tr>
                     <th>Créé le</th>
@@ -23,6 +23,7 @@
                 </tr>
                 </tbody>
             </table>
+            {{ dump(app.user.information) }}
         </div>
     </div>
 {% endblock %}

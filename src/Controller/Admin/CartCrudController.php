@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 
 class CartCrudController extends AbstractCrudController
 {
@@ -36,6 +37,7 @@ class CartCrudController extends AbstractCrudController
                                                               'Validé'   => 'complete',
                                                           ]),
             AssociationField::new('cartItems', 'Modules'),
+            MoneyField::new('total', 'Total')->setCurrency('EUR'),
         ];
     }
 }

@@ -15,7 +15,7 @@
                             <div id="cartItem{{ cartItem.id }}" class="accordion-collapse collapse"
                                  data-bs-parent="#accordionCartItems">
                                 <div class="accordion-body">
-                                    <small>{{ cartItem|cart_item_total|price_humanize }}</small>
+                                    <small>{{ cartItem.total|price_humanize }}</small>
                                     <ul class="mb-0">
                                         {% for subModule in cartItem.subModules %}
                                             <li>{{ subModule }}</li>
@@ -27,9 +27,9 @@
                     {% endfor %}
                 </div>
 
-                <p>{{ this.cart|cart_total|price_humanize }}</p>
+                <p>{{ this.cart.total|price_humanize }}</p>
 
-                <a href="{{ path('APP_CHECKOUT_RECAP') }}" class="btn btn-primary">
+                <a href="{{ path('APP_CHECKOUT') }}" class="btn btn-primary">
                     Modifier le panier
                 </a>
             {% else %}

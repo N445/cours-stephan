@@ -38,14 +38,14 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a href="" class="dropdown-item">
+                                <a href="{{ path('APP_PROFILE') }}" class="dropdown-item">
                                     Profile
                                 </a>
                             </li>
                             {% set cart = get_user_cart() %}
                             {% if cart %}
                                 <li>
-                                    <a href="{{ path('APP_CHECKOUT_RECAP') }}" class="dropdown-item">
+                                    <a href="{{ path('APP_CHECKOUT') }}" class="dropdown-item">
                                         Panier
                                     </a>
                                 </li>

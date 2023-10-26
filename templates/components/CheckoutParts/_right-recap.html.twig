@@ -13,7 +13,7 @@
                     <div id="cartItem{{ cartItem.id }}" class="accordion-collapse collapse"
                          data-bs-parent="#accordionCartItems">
                         <div class="accordion-body">
-                            <small>{{ cartItem|cart_item_total|price_humanize }}</small>
+                            <small>{{ cartItem.total|price_humanize }}</small>
                             <ul class="mb-0">
                                 {% for subModule in cartItem.subModules %}
                                     <li>{{ subModule }}</li>
@@ -24,6 +24,6 @@
                 </div>
             {% endfor %}
         </div>
-        <p class="mb-0">{{ this.cart|cart_total|price_humanize }}</p>
+        <p class="mb-0">{{ this.cart.total|price_humanize }}</p>
     </div>
 </div>

@@ -73,6 +73,7 @@ class CartProvider
     {
         if ($this->user) {
             $cart = (new Cart())->setUser($this->user);
+            $cart->setInformation(clone $this->user->getInformation());
         } else {
             $cart = (new Cart())->setAnonymousToken($this->anonymousToken);
         }

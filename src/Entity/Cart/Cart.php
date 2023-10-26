@@ -5,6 +5,7 @@ namespace App\Entity\Cart;
 use App\Entity\Information;
 use App\Entity\User;
 use App\Repository\Cart\CartRepository;
+use App\Service\Cart\CartPriceHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,10 +17,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 #[Gedmo\Loggable]
 class Cart
 {
-    public const PLACE_CART = 'cart';
-    public const PLACE_PENDING = 'pending';
+    public const PLACE_CART      = 'cart';
+    public const PLACE_PENDING   = 'pending';
     public const PLACE_CANCELLED = 'cancelled';
-    public const PLACE_COMPLETE = 'complete';
+    public const PLACE_COMPLETE  = 'complete';
 
     use TimestampableEntity;
 
@@ -59,7 +60,7 @@ class Cart
 
     public function __construct()
     {
-        $this->cartItems = new ArrayCollection();
+        $this->cartItems   = new ArrayCollection();
         $this->information = new Information();
     }
 
@@ -177,5 +178,10 @@ class Cart
     {
         $this->information = $information;
         return $this;
+    }
+
+    public function getTotal(): ?int
+    {
+        return CartPriceHelper::getCartPrice($this);
     }
 }

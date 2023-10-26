@@ -26,7 +26,7 @@ class CartPriceHelper
         return array_reduce(
             $cart->getCartItems()->toArray(),
             static function (int $carry, CartItem $cartItem) {
-                $carry += self::getCartItemPrice($cartItem);
+                $carry += $cartItem->getTotal();
                 return $carry;
             },
             0,

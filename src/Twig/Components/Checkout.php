@@ -51,7 +51,7 @@ final class Checkout extends AbstractController
 
         dump($this->flow);
 
-      return $form;
+        return $form;
     }
 
     public function getCart(): ?Cart
@@ -60,56 +60,19 @@ final class Checkout extends AbstractController
     }
 
 
-    #[LiveAction]
-    public function save(): void
-    {
-
-//        // Submit the form! If validation fails, an exception is thrown
-//        // and the component is automatically re-rendered with the errors
+//    #[LiveAction]
+//    public function save(): void
+//    {
 //        $this->submitForm();
+//        $form = $this->getForm();
+//        /** @var Cart $cart */
+//        $cart = $form->getData();
 //
-//        $post = $this->getForm()->getData();
-//        $this->em->persist($post);
+//        $this->flow->nextStep();
+//
+//        $this->em->persist($cart);
 //        $this->em->flush();
-//
-//        $this->addFlash('success', 'Post saved!');
-//
-//        return $this->redirectToRoute('APP_CHECKOUT_RECAP');
-
-
-
-//        // Submit the form! If validation fails, an exception is thrown
-//        // and the component is automatically re-rendered with the errors
-        $this->submitForm();
-        $form = $this->getForm();
-        /** @var Cart $cart */
-        $cart = $form->getData();
-
-        $this->flow->nextStep();
-
-//
-//        $this->flow->bind($cart);
-//
-//        if (!$form->isValid()) {
-//            return;
-//        }
-//
-//        $this->flow->saveCurrentStepData($form);
-//
-//        if ($this->flow->nextStep()) {
-//            // form for the next step
-//            $this->form     = $this->flow->createForm();
-//            $this->formView = $this->form->createView();
-//        } else {
-//            $this->flow->reset();
-//        }
-
-        $this->em->persist($cart);
-        $this->em->flush();
-    }
-
-    private function getDataModelValue(): ?string
-    {
-        return 'norender|*';
-    }
+//        dump('oik');
+//        die;
+//    }
 }

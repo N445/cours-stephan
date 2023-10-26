@@ -21,7 +21,7 @@ class UserCrudController extends AbstractCrudController
         return [
             EmailField::new('email', 'Email'),
             BooleanField::new('isVerified', 'Email vérifiée'),
-            AssociationField::new('cart', 'Panier')->hideOnForm(),
+            AssociationField::new('carts', 'Paniers')->hideOnForm(),
             ChoiceField::new('roles', 'Rôles')->setChoices([
                                                                User::ROLE_USER  => User::ROLE_USER,
                                                                User::ROLE_ADMIN => User::ROLE_ADMIN,

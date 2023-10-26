@@ -7,6 +7,7 @@ use App\Entity\Module\Schedule;
 use App\Model\Module\MainModule;
 use App\Repository\Cart\CartItemRepository;
 use App\Service\Cart\CartItemLocationHelper;
+use App\Service\Cart\CartPriceHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -247,5 +248,10 @@ class CartItem
         $this->subModules = $subModules;
 
         return $this;
+    }
+
+    public function getTotal():?int
+    {
+        return CartPriceHelper::getCartItemPrice($this);
     }
 }

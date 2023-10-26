@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+    {{ component('TopBannerComponent',{
+        'title':title
+    }) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group">
+                    <a href="{{ path('APP_PROFILE') }}" class="list-group-item list-group-item-action active" aria-current="true">
+                        Profile
+                    </a>
+                    <a href="{{ path('APP_PROFILE_INFORMATION') }}" class="list-group-item list-group-item-action">
+                        Informations
+                    </a>
+                    <a href="{{ path('APP_PROFILE_PAYMENTS') }}" class="list-group-item list-group-item-action">
+                        Paiements
+                    </a>
+                </div>
+            </div>
+            <div class="col-md">
+                {% block profileBody %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
