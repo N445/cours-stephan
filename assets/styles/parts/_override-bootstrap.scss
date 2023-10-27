@@ -1,3 +1,6 @@
+@import "./../fonts/inter/inter";
+@import "./../fonts/montserrat/montserrat";
+
 @import "variables";
 
 // Custom.scss
@@ -8,6 +11,19 @@
 
 // Default variable overrides
 //$primary: #5f15a4;
+
+$font-family-sans-serif: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$font-family-monospace: 'Inter', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+
+h1 {
+  font-family: "Montserrat", serif;
+  font-weight: bold;
+}
+
+h2, h3 {
+  font-family: "Inter", serif;
+  font-weight: bold;
+}
 
 $primary: #51A8B1;
 $success: #A8CF45;

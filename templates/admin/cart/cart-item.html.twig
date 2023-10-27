@@ -1,0 +1,24 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Module</th>
+        <th>Planning</th>
+        <th>Horaire</th>
+        <th>Quantité</th>
+        <th>Lieu</th>
+        <th>Prix</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in field.value %}
+        <tr>
+            <td>{{ item.moduleName }}</td>
+            <td>{{ item.scheduleName }}</td>
+            <td>{{ item.moduleDateTime|date('d/m/Y H:i') }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.location|get_location_label }}</td>
+            <td>{{ item.price|price_humanize }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

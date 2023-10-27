@@ -56,21 +56,4 @@ final class Checkout extends AbstractController
     {
         return $this->initialFormData;
     }
-
-
-//    #[LiveAction]
-//    public function save(): void
-//    {
-//        $this->submitForm();
-//        $form = $this->getForm();
-//        /** @var Cart $cart */
-//        $cart = $form->getData();
-//
-//        $this->flow->nextStep();
-//
-//        $this->em->persist($cart);
-//        $this->em->flush();
-//        dump('oik');
-//        die;
-//    }
 }

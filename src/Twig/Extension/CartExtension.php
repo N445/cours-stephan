@@ -2,6 +2,7 @@
 
 namespace App\Twig\Extension;
 
+use App\Service\Cart\CartItemLocationHelper;
 use App\Service\Cart\CartPriceHelper;
 use App\Service\Cart\CartProvider;
 use App\Twig\Runtime\CartRuntime;
@@ -34,6 +35,7 @@ class CartExtension extends AbstractExtension
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
             new TwigFilter('price_humanize', [CartRuntime::class, 'price_humanize']),
+            new TwigFilter('get_location_label', [CartItemLocationHelper::class, 'getLabel']),
         ];
     }
 }
