@@ -1,0 +1,65 @@
+{% extends 'base-profile.html.twig' %}
+
+{% set title = 'Mon profil - Information édition' %}
+
+
+{% block profileBody %}
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Nom</th>
+                    <td>
+                        {{ form_widget(form.name) }}
+                        {{ form_errors(form.name) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Téléphone</th>
+                    <td>
+                        {{ form_widget(form.phoneNumber) }}
+                        {{ form_errors(form.phoneNumber) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Adresse</th>
+                    <td>
+                        {{ form_widget(form.address1) }}
+                        {{ form_errors(form.address1) }} <br>
+                        {{ form_widget(form.address2) }}
+                        {{ form_errors(form.address2) }} <br>
+                        {{ form_widget(form.address3) }}
+                        {{ form_errors(form.address3) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Code postal</th>
+                    <td>
+                        {{ form_widget(form.postCode) }}
+                        {{ form_errors(form.postCode) }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Ville</th>
+                    <td>
+                        {{ form_widget(form.city) }}
+                        {{ form_errors(form.city) }}
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="100%" class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            Modifier
+                        </button>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

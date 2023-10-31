@@ -7,6 +7,7 @@ use App\Repository\Module\ModuleRepository;
 use App\Repository\Module\ScheduleRepository;
 use App\Service\Cart\CartProvider;
 use App\Service\Module\ModuleFullCalendarEventsProvider;
+use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,18 +29,21 @@ class ReservationController extends AbstractController
     public function reservationShedules(): Response
     {
         return $this->render('reservation/reservation-schedules.html.twig', [
-            'schedules' => $this->scheduleRepository->findAll(),
+            'schedules' => $this->scheduleRepository->getAvailableSchedules(),
         ]);
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     #[Route('/reservation/{scheduleId}', name: 'APP_RESERVATION')]
     public function reservation(int $scheduleId): Response
     {
-        if (!$schedule = $this->scheduleRepository->find($scheduleId)) {
+        if (!$schedule = $this->scheduleRepository->getAvailableSchedule($scheduleId)) {
             return $this->redirectToRoute('APP_RESERVATION_SCHEDULES');
         }
 
-        $modules = $this->moduleRepository->findAll();
+        $modules = $this->moduleRepository->getModulesBySchedule($schedule);
 
         $cart = $this->cartProvider->getUserCartOrCreate();
 

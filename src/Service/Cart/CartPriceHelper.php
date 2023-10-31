@@ -12,11 +12,15 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class CartPriceHelper
 {
+    public static function cartItemHasLocationPromo(CartItem $cartItem): bool
+    {
+        return $cartItem->isLocationHote() && $cartItem->getQuantity() >= 5;
+    }
     public static function getCartItemPrice(CartItem $cartItem): int
     {
         $totalPrice = $cartItem->getPrice() * $cartItem->getQuantity();
 
-        $promotion = $cartItem->isLocationHote() && $cartItem->getQuantity() >= 5 ? $cartItem->getPrice() : 0;
+        $promotion = self::cartItemHasLocationPromo($cartItem) ? $cartItem->getPrice() : 0;
 
         return $totalPrice - $promotion;
     }

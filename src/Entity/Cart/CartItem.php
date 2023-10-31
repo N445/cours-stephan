@@ -250,8 +250,13 @@ class CartItem
         return $this;
     }
 
-    public function getTotal():?int
+    public function getTotal(): ?int
     {
         return CartPriceHelper::getCartItemPrice($this);
+    }
+
+    public function hasLocationPromo(): bool
+    {
+        return CartPriceHelper::cartItemHasLocationPromo($this);
     }
 }

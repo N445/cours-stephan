@@ -3,6 +3,7 @@
 namespace App\Repository\Module;
 
 use App\Entity\Module\Module;
+use App\Entity\Module\Schedule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,23 @@ class ModuleRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Module::class);
+    }
+
+    /**
+     * @param Schedule $schedule
+     *
+     * @return Module[]
+     */
+    public function getModulesBySchedule(Schedule $schedule): array
+    {
+        return $this->createQueryBuilder('m')
+                    ->addSelect('p')
+                    ->leftJoin('m.plannings', 'p')
+                    ->where('p.schedule = :schedule')
+                    ->setParameter('schedule', $schedule)
+                    ->getQuery()
+                    ->getResult()
+        ;
     }
 
 //    /**

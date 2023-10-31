@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{ title }} - {{ parent() }}{% endblock %}
 
 {% block body %}
     {{ component('TopBannerComponent',{
@@ -10,13 +10,13 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="list-group">
-                    <a href="{{ path('APP_PROFILE') }}" class="list-group-item list-group-item-action active" aria-current="true">
+                    <a href="{{ path('APP_PROFILE') }}" class="list-group-item list-group-item-action {{ app.current_route == 'APP_PROFILE'?' active':'' }}" aria-current="true">
                         Profile
                     </a>
-                    <a href="{{ path('APP_PROFILE_INFORMATION') }}" class="list-group-item list-group-item-action">
+                    <a href="{{ path('APP_PROFILE_INFORMATION') }}" class="list-group-item list-group-item-action {{ app.current_route in ['APP_PROFILE_INFORMATION','APP_PROFILE_INFORMATION_EDIT']?' active':'' }}">
                         Informations
                     </a>
-                    <a href="{{ path('APP_PROFILE_PAYMENTS') }}" class="list-group-item list-group-item-action">
+                    <a href="{{ path('APP_PROFILE_PAYMENTS') }}" class="list-group-item list-group-item-action {{ app.current_route == 'APP_PROFILE_PAYMENTS'?' active':'' }}">
                         Paiements
                     </a>
                 </div>

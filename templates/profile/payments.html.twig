@@ -1,29 +1,33 @@
 {% extends 'base-profile.html.twig' %}
 
 
-{% set title = 'Mon profile' %}
-
+{% set title = 'Mon profil - Paiements' %}
 
 {% block profileBody %}
     <div class="card">
         <div class="card-body">
             <table class="table">
-                <tbody>
-                <tr>
-                    <th>Identifiant</th>
-                    <td>{{ app.user }}</td>
-                </tr>
+                <thead>
                 <tr>
                     <th>Créé le</th>
-                    <td>{{ app.user.createdAt|date('d/m/Y H:i') }}</td>
-                </tr>
-                <tr>
                     <th>Modifié le</th>
-                    <td>{{ app.user.updatedAt|date('d/m/Y H:i') }}</td>
+                    <th>État</th>
+                    <th>Mode de paiement</th>
+                    <th>Total</th>
                 </tr>
+                </thead>
+                <tbody>
+                {% for cart in app.user.carts %}
+                    <tr>
+                        <td>{{ cart.createdAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ cart.updatedAt|date('d/m/Y H:i') }}</td>
+                        <td>{{ cart.place|get_place_label }}</td>
+                        <td>{{ cart.methodPayment|get_payment_label }}</td>
+                        <td>{{ cart.total|price_humanize }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
-            {{ dump(app.user) }}
         </div>
     </div>
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base-profile.html.twig' %}
 
 
-{% set title = 'Mon profile' %}
+{% set title = 'Mon profil - Information' %}
 
 
 {% block profileBody %}
@@ -10,20 +10,40 @@
             <table class="table">
                 <tbody>
                 <tr>
-                    <th>Identifiant</th>
-                    <td>{{ app.user.information }}</td>
+                    <th>Nom</th>
+                    <td>{{ app.user.information.name }}</td>
                 </tr>
                 <tr>
-                    <th>Créé le</th>
-                    <td>{{ app.user.createdAt|date('d/m/Y H:i') }}</td>
+                    <th>Téléphone</th>
+                    <td>{{ app.user.information.phoneNumber }}</td>
                 </tr>
                 <tr>
-                    <th>Modifié le</th>
-                    <td>{{ app.user.updatedAt|date('d/m/Y H:i') }}</td>
+                    <th>Adresse</th>
+                    <td>
+                        {{ app.user.information.address1 }} <br>
+                        {{ app.user.information.address2 }} <br>
+                        {{ app.user.information.address3 }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Code postal</th>
+                    <td>{{ app.user.information.postCode }}</td>
+                </tr>
+                <tr>
+                    <th>Ville</th>
+                    <td>{{ app.user.information.city }}</td>
                 </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                      <td colspan="100%" class="text-end">
+                          <a href="{{ path('APP_PROFILE_INFORMATION_EDIT') }}" class="btn btn-primary">
+                              Modifier
+                          </a>
+                      </td>
+                    </tr>
+                </tfoot>
             </table>
-            {{ dump(app.user.information) }}
         </div>
     </div>
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Repository\Module;
 
 use App\Entity\Module\Schedule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,6 +20,37 @@ class ScheduleRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Schedule::class);
+    }
+
+    /**
+     * @return Schedule[]
+     */
+    public function getAvailableSchedules(): array
+    {
+        return $this->createQueryBuilder('s')
+                    ->where('s.endAt > :now')
+                    ->setParameter('now', new \DateTime('NOW'))
+                    ->getQuery()
+                    ->getResult()
+        ;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Schedule|null
+     * @throws NonUniqueResultException
+     */
+    public function getAvailableSchedule(int $id): ?Schedule
+    {
+        return $this->createQueryBuilder('s')
+                    ->where('s.endAt > :now')
+                    ->setParameter('now', new \DateTime('NOW'))
+                    ->andWhere('s.id = :id')
+                    ->setParameter('id', $id)
+                    ->getQuery()
+                    ->getOneOrNullResult()
+        ;
     }
 
 //    /**

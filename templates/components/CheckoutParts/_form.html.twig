@@ -1,0 +1,41 @@
+{% if flow.currentStepNumber == 1 %}
+    {{ form_start(form) }}
+{% else %}
+    {{ form_start(form, {attr: {'data-model': 'norender|*'}}) }}
+{% endif %}
+
+                    {% if flow.currentStepNumber == 1 %}
+                        {% for cartItem in form.cartItems %}
+                            {% set value = cartItem.vars.value %}
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h5 class="mb-0">{{ value.moduleName }}</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            {{ form_widget(cartItem.quantity) }}
+                                        </div>
+                                        <div class="col-md">
+                                            {{ form_widget(cartItem.location) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% elseif flow.getCurrentStepNumber() != flow.getLastStepNumber() %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                {{ form_rest(form) }}
+                            </div>
+                        </div>
+                    {% else %}
+                        {{ form_rest(form) }}
+                    {% endif %}
+                    {{ form_errors(form) }}
+
+
+                    {#                    {% include '@CraueFormFlow/FormFlow/buttons.html.twig' %} #}
+                    {% include 'components/CheckoutParts/_form-buttons.html.twig' %}
+
+                    {{ form_end(form) }}

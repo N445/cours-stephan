@@ -21,16 +21,21 @@ class InformationType extends AbstractType
                 'label' => 'Adresse',
             ])
             ->add('address2', TextType::class, [
-                'label' => 'Adresse 2',
+                'label'    => 'Adresse 2',
+                'required' => false,
             ])
             ->add('address3', TextType::class, [
-                'label' => 'Adresse 3',
+                'label'    => 'Adresse 3',
+                'required' => false,
             ])
             ->add('postCode', TextType::class, [
                 'label' => 'Code postal',
             ])
             ->add('city', TextType::class, [
                 'label' => 'Ville',
+            ])
+            ->add('phoneNumber', TextType::class, [
+                'label' => 'Téléphone',
             ])
 //            ->add('country', CountryType::class, [
 //                'label' => 'Pays',
