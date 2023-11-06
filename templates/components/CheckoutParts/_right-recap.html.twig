@@ -12,7 +12,7 @@
             </thead>
             <tbody>
             {% for cartItem in this.cart.cartItems %}
-                <tr>
+                <tr class="{{ cartItem.isValid?'':'table-danger' }}">
                     <td>{{ cartItem.moduleName }}</td>
                     <td>{{ cartItem.moduleDateTime|date('d/m/Y H:i') }}</td>
                     <td class="text-end">{{ cartItem.price|price_humanize }}</td>

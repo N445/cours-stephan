@@ -8,6 +8,7 @@ use App\Model\Module\MainModule;
 use App\Repository\Cart\CartItemRepository;
 use App\Service\Cart\CartItemLocationHelper;
 use App\Service\Cart\CartPriceHelper;
+use App\Service\Cart\CartValidator;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -258,5 +259,10 @@ class CartItem
     public function hasLocationPromo(): bool
     {
         return CartPriceHelper::cartItemHasLocationPromo($this);
+    }
+
+    public function isValid(): bool
+    {
+        return CartValidator::cartItemIsValid($this);
     }
 }

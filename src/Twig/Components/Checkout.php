@@ -3,7 +3,11 @@
 namespace App\Twig\Components;
 
 use App\Entity\Cart\Cart;
+use App\Entity\Cart\CartItem;
 use App\Form\Checkout\CheckoutFlow;
+use App\Repository\Cart\CartItemRepository;
+use App\Service\Cart\CartHelper;
+use App\Service\Cart\CartProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -11,6 +15,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -28,6 +33,9 @@ final class Checkout extends AbstractController
         public CheckoutFlow                     $flow,
         private readonly EntityManagerInterface $em,
         private readonly RequestStack           $requestStack,
+        private readonly CartItemRepository     $cartItemRepository,
+        private readonly CartProvider           $cartProvider,
+        private readonly CartHelper             $cartHelper,
     )
     {
     }
@@ -55,5 +63,18 @@ final class Checkout extends AbstractController
     public function getCart(): ?Cart
     {
         return $this->initialFormData;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    #[LiveAction]
+    public function removeCartItem(#[LiveArg] CartItem $cartItemId): void
+    {
+        if (!$cartItem = $this->cartItemRepository->find($cartItemId)) {
+            return;
+        }
+        $this->cartHelper->removeCartItemFromCart($this->initialFormData, $cartItem);
+        $this->initialFormData->sortCartItems();
     }
 }

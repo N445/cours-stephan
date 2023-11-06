@@ -5,30 +5,47 @@
 
 
 <div class="row g-3">
-    {%- set isLastStep = flow.getCurrentStepNumber() == flow.getLastStepNumber() -%}
-
-    {% if renderBackButton %}
+    {% if this.cart.cartItems.count == 0 %}
         <div class="col-md">
-            <button name="flow_checkout_transition" type="submit" value="back" formnovalidate="formnovalidate"
-                    class="btn btn-primary w-100">
-                Précédent
-            </button>
+            <a href="{{ path('APP_RESERVATION_SCHEDULES') }}" class="btn btn-danger w-100">
+                Pas de module choisis
+            </a>
         </div>
+    {% else %}
+        {% if this.cart.isValid %}
+            {%- set isLastStep = flow.getCurrentStepNumber() == flow.getLastStepNumber() -%}
+
+            {% if renderBackButton %}
+                <div class="col-md">
+                    <button name="flow_checkout_transition" type="submit" value="back" formnovalidate="formnovalidate"
+                            class="btn btn-primary w-100">
+                        Précédent
+                    </button>
+                </div>
+            {% endif %}
+
+            {% if not isLastStep %}
+                <div class="col-md">
+                    <button type="submit" class="btn btn-primary w-100">
+                        Suivant
+                    </button>
+                </div>
+            {% endif %}
+
+            {% if isLastStep %}
+                <div class="col-md">
+                    <button type="submit" class="btn btn-primary w-100">
+                        Payer
+                    </button>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="col-md">
+                <button type="button" class="btn btn-danger w-100">
+                    Panier non valide
+                </button>
+            </div>
+        {% endif %}
     {% endif %}
 
-    {% if not isLastStep %}
-        <div class="col-md">
-            <button type="submit" class="btn btn-primary w-100">
-                Suivant
-            </button>
-        </div>
-    {% endif %}
-
-    {% if isLastStep %}
-        <div class="col-md">
-            <button type="submit" class="btn btn-primary w-100">
-                Payer
-            </button>
-        </div>
-    {% endif %}
 </div>

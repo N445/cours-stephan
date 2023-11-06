@@ -5,24 +5,37 @@
 {% endif %}
 
                     {% if flow.currentStepNumber == 1 %}
-                        {% for cartItem in form.cartItems %}
-                            {% set value = cartItem.vars.value %}
-                            <div class="card mb-3">
-                                <div class="card-header">
-                                    <h5 class="mb-0">{{ value.moduleName }}</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-5">
-                                            {{ form_widget(cartItem.quantity) }}
-                                        </div>
-                                        <div class="col-md">
-                                            {{ form_widget(cartItem.location) }}
+                        {% if form.cartItems|length > 0 %}
+                            {% for cartItem in form.cartItems %}
+                                {% set value = cartItem.vars.value %}
+                                <div class="card mb-3">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">{{ value.moduleName }}</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                {{ form_widget(cartItem.quantity) }}
+                                            </div>
+                                            <div class="col-md">
+                                                {{ form_widget(cartItem.location) }}
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="card-footer">
+                                        <button class="text-danger btn btn-link" type="button" data-action="live#action"
+                                                data-action-name="removeCartItem(cartItemId={{ value.id }})">
+                                            Supprimer
+                                        </button>
+                                    </div>
                                 </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="d-none">
+                                {{ form_widget(form.cartItems) }}
                             </div>
-                        {% endfor %}
+                        {% endif %}
+
                     {% elseif flow.getCurrentStepNumber() != flow.getLastStepNumber() %}
                         <div class="card mb-3">
                             <div class="card-body">

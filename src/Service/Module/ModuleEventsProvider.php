@@ -103,6 +103,10 @@ class ModuleEventsProvider
                 ]),
             );
 
+            if ($occurrence <= new \DateTime('NOW')) {
+                continue;
+            }
+
             if ($this->occurenceId && $this->occurenceId !== $occurenceId) {
                 continue;
             }

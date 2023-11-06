@@ -6,6 +6,7 @@ use App\Entity\Information;
 use App\Entity\User;
 use App\Repository\Cart\CartRepository;
 use App\Service\Cart\CartPriceHelper;
+use App\Service\Cart\CartValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -183,5 +184,10 @@ class Cart
     public function getTotal(): ?int
     {
         return CartPriceHelper::getCartPrice($this);
+    }
+
+    public function isValid(): bool
+    {
+        return CartValidator::cartIsValid($this);
     }
 }
