@@ -22,4 +22,5 @@ return [
     Payum\Bundle\PayumBundle\PayumBundle::class => ['all' => true],
     Symfony\UX\Typed\TypedBundle::class => ['all' => true],
     Craue\FormFlowBundle\CraueFormFlowBundle::class => ['all' => true],
+    Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
 ];

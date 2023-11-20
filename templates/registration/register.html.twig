@@ -1,9 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}
+    Inscription - {{ parent() }}
+{% endblock %}
 
 {% block body %}
-
+    {{ component('TopBannerComponent',{
+        'title':'Inscription',
+        'page':'registration'
+    }) }}
     <div class="container">
         {% for flash_error in app.flashes('verify_email_error') %}
             <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
@@ -12,11 +17,6 @@
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header">
-                        <h1 class="h3 mb-0">
-                            Inscription
-                        </h1>
-                    </div>
                     <div class="card-body">
                         {{ form_errors(registrationForm) }}
 
