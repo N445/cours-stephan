@@ -33,7 +33,6 @@ class ReservationController extends AbstractController
     public function reservationShedules(): Response
     {
         $schedules = $this->scheduleRepository->getAvailableSchedules();
-        dump($schedules);
         $this->scheduleFullCalendarEventsProvider->getFullcalendarEventsDates($schedules);
         return $this->render('reservation/reservation-schedules.html.twig', [
             'schedules'             => $schedules,
@@ -51,8 +50,6 @@ class ReservationController extends AbstractController
         $schedules = array_map(function (Planning $planning): Schedule {
             return $planning->getSchedule();
         }, $module->getPlannings()->toArray());
-
-        dump($schedules);;
 
         return $this->render('reservation/reservation-schedules.html.twig', [
             'schedules'             => $schedules,

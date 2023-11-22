@@ -87,9 +87,6 @@ class ModuleEvents
 
     public function removeEvent(MainModule $event): ModuleEvents
     {
-//        $this->events->remove($event->getOccurenceId());
-//        dump($this->events);
-//        die;
         if ($this->events->contains($event)){
             $this->events->remove($event);
         }

@@ -15,9 +15,9 @@ class ScheduleFullCalendarEventsProvider
 
     public function getFullcalendarEventsDates(array $schedules): array
     {
-        return dump(array_map(function (Schedule $schedule): array {
+        return array_map(function (Schedule $schedule): array {
             return $this->getFullCalendarEvent($schedule);
-        }, $schedules));
+        }, $schedules);
     }
 
     private function getFullCalendarEvent(Schedule $schedule): array
