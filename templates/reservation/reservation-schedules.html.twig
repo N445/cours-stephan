@@ -7,21 +7,25 @@
         'title':'Programmes'
     }) }}
     <div class="container">
-        <div class="schedules">
-            {% for schedule in schedules %}
-                <div class="schedule">
-                    <a href="{{ path('APP_RESERVATION',{scheduleId:schedule.id}) }}" class="link">  </a>
-                    <div class="content">
-                        <div class="name">
-                            {{ schedule.name }}
-                        </div>
-                        <div class="dates">
-                            Du  {{ schedule.startAt|date('d/m/Y') }}
-                            au {{ schedule.endAt|date('d/m/Y') }}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
+        {{ component('ScheduleCalendar',{
+            schedules:schedules,
+        }) }}
+
+{#        <div class="schedules">#}
+{#            {% for schedule in schedules %}#}
+{#                <div class="schedule">#}
+{#                    <a href="{{ path('APP_RESERVATION',{scheduleId:schedule.id}) }}" class="link">  </a>#}
+{#                    <div class="content">#}
+{#                        <div class="name">#}
+{#                            {{ schedule.name }}#}
+{#                        </div>#}
+{#                        <div class="dates">#}
+{#                            Du  {{ schedule.startAt|date('d/m/Y') }}#}
+{#                            au {{ schedule.endAt|date('d/m/Y') }}#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
     </div>
 {% endblock %}

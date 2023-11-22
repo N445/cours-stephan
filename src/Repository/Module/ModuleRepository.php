@@ -22,6 +22,20 @@ class ModuleRepository extends ServiceEntityRepository
         parent::__construct($registry, Module::class);
     }
 
+    public function betById(int $id): ?Module
+    {
+        return $this->createQueryBuilder('m')
+                    ->addSelect('p', 'sm', 'sh')
+                    ->leftJoin('m.plannings', 'p')
+                    ->leftJoin('m.subModules', 'sm')
+                    ->leftJoin('p.schedule', 'sh')
+                    ->where('m.id = :id')
+                    ->setParameter('id', $id)
+                    ->getQuery()
+                    ->getOneOrNullResult()
+        ;
+    }
+
     /**
      * @param Schedule $schedule
      *

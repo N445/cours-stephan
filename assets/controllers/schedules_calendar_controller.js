@@ -1,6 +1,6 @@
 import {getComponent} from '@symfony/ux-live-component';
 import {Controller} from "@hotwired/stimulus";
-import CheckoutCalendar from "../class/Checkout/CheckoutCalendar";
+import ScheduleCalendar from "../class/Checkout/ScheduleCalendar";
 
 import './../styles/planning.scss';
 
@@ -8,6 +8,6 @@ export default class extends Controller {
     async initialize() {
         this.component = await getComponent(this.element);
 
-        this.checkoutCalendar = new CheckoutCalendar(this);
+        this.scheduleCalendar = new ScheduleCalendar(this);
     }
 }

@@ -1,0 +1,7 @@
+<div {{ attributes.defaults(stimulus_controller('schedules_calendar')) }}>
+    <div id="calendar"
+         data-start-at="{{ 'now'|date('Y-m-d H:i:s') }}"
+         data-events="{{ this.events|json_encode }}"
+    >
+    </div>
+</div>

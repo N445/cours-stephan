@@ -1,7 +1,7 @@
 {% macro moduleCard(module) %}
     <div class="module card text-bg-primary">
-        <div class="card-body">
+        <a href="{{ path('APP_RESERVATION_SCHEDULES_BY_MODULE', {'moduleId': module.id}) }}" class="card-body">
             {{ module.name }}
-        </div>
+        </a>
     </div>
 {% endmacro %}
