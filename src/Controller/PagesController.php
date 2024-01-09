@@ -48,4 +48,11 @@ class PagesController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/faq', name: 'APP_FAQ')]
+    public function faq(): Response
+    {
+        return $this->render('pages/faq.html.twig', [
+        ]);
+    }
 }

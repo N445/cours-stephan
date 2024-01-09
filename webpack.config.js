@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('homepage', './assets/javascript/pages/homepage')
+    .addEntry('contact', './assets/javascript/pages/contact')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

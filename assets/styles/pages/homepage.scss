@@ -1,3 +1,4 @@
+@import "../parts/variables";
 @import "../parts/override-bootstrap";
 
 :root {
@@ -55,11 +56,27 @@ section {
     }
   }
 
+  &#reserver {
+    .main-link {
+      background-image: linear-gradient(to right, #ffde59, #ff914d);
+      width: 100%;
+      padding: 30px 50px;
+      text-transform: uppercase;
+      text-align: center;
+      display: block;
+      border-radius: 200px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+    }
+  }
+
   &.modules {
     //overflow: hidden;
 
     .swiper {
       position: relative;
+      padding: 20px 0;
 
       &:before, &:after {
         content: "";
@@ -79,6 +96,10 @@ section {
         top: 0;
         right: 0;
         background-image: linear-gradient(to left, rgba(white, 1), rgba(white, 0));
+      }
+
+      .swiper-pagination {
+        bottom: 0;
       }
 
       .swiper-slide {

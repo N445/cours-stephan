@@ -6,11 +6,7 @@
             <div class="swiper-wrapper">
                 {% for module in modules %}
                     <div class="swiper-slide">
-                        <div class="module card text-bg-primary">
-                            <div class="card-body">
-                                {{ module.name }}
-                            </div>
-                        </div>
+                        {{ moduleMacro.moduleCard(module) }}
                     </div>
                 {% endfor %}
             </div>
@@ -24,5 +20,13 @@
             <!-- If we need scrollbar -->
             <div class="swiper-scrollbar"></div>
         </div>
+
+        <p class="my-5">
+            *Il faut environ 20 mn pour corriger une copie de bac. Une annotation rigoureuse permettra à chaque étudiant d’effectuer les réglages
+            nécessaires (orthographe lexicale, orthographe grammaticale et problèmes techniques divers et variés). C’est en opérant ces réglages,
+            copie après copie, que l’on fait évoluer foncièrement son niveau. <br>
+            2* À RENDRE PAR L’ÉTUDIANT DANS LES 15 JOURS APRÈS LES DERNIERS COURS DU MODULE <br>
+            3*Correction effectuée moins de 8 jours après la réception de la copie par mail
+        </p>
     </div>
 </section>

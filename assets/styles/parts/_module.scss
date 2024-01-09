@@ -1,12 +1,27 @@
 .modules {
   .module {
     min-height: 200px;
+    text-decoration: none;
+    display: flex;
 
-    .card-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    .card-header {
+      background-color: white;
+    }
+
+
+    //.card-body {
+    //  display: flex;
+    //  flex-direction: column;
+    //  justify-content: center;
+    //  align-items: center;
+    //}
+
+
+    .card-footer {
+      background-color: $orange;
+      text-align: center;
+      font-weight: bold;
+      color: white;
     }
   }
 }

@@ -19,14 +19,14 @@ const swiper = new Swiper('.swiper', {
         el: '.swiper-pagination',
         dynamicBullets: true,
     },
-    effect: 'coverflow',
-    coverflowEffect: {
-        rotate: 15,
-        stretch: 1,
-        depth: 100,
-        modifier: 2,
-        slideShadows: false,
-    },
+    // effect: 'coverflow',
+    // coverflowEffect: {
+    //     rotate: 15,
+    //     stretch: 1,
+    //     depth: 100,
+    //     modifier: 2,
+    //     slideShadows: false,
+    // },
 
     // Navigation arrows
     navigation: {

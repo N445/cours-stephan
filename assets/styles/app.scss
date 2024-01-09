@@ -17,12 +17,24 @@
 @import "bootstrap/scss/accordion";
 @import "bootstrap/scss/breadcrumb";
 
-
 @import "parts/reservation";
 @import "parts/module";
 @import "parts/top-banner";
 @import "@fortawesome/fontawesome-free/css/all.css";
 
+
+.section-title {
+  text-align: center;
+  text-transform: uppercase;
+  background-image: linear-gradient(to right, $primary, $success);
+  padding: 50px 0;
+  color: white;
+  margin-bottom: map-get($spacers, 5);
+
+  & > * {
+    margin-bottom: 0;
+  }
+}
 
 .schedules {
   .schedule {
