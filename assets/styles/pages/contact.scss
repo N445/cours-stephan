@@ -1,9 +1,3 @@
 @import "../parts/variables";
 @import "../parts/override-bootstrap";
 
-section {
-  &#info {
-    background-image: linear-gradient(to right, $primary, $success);
-    padding: 100px 0;
-  }
-}
