@@ -86,26 +86,26 @@ class ModuleCreateModuleCommand extends Command
     {
 
         return [
-            "Module « commentaire composé »" => [
+            "Commentaire composé" => [
                 "Description des composantes (les « ingrédients »)",
                 "La méthode (une « recette »)",
                 "Application immédiate de la méthode",
                 "Constitution d’un modèle complet, rédigé",
                 "Un devoir blanc à effectuer par l’étudiant* (corrigé et annoté par mes soins)",
             ],
-            "Module « dissertation bac français »" => [
+            "Dissertation bac français" => [
                 "Description des composantes (les « ingrédients »)",
                 "La méthode (une « recette »)",
                 "Application immédiate de la méthode",
                 "Constitution d’un modèle complet, rédigé",
                 "Un devoir blanc à effectuer par l’étudiant* (corrigé et annoté par mes soins)",
             ],
-            "Module « entrainement à l’écrit de français »" => [
+            "Entrainement à l’écrit de français" => [
                 "3h, 3 sujets d’entrainement au commentaire",
                 "3h, 3 sujets d’entrainement à la dissertation",
                 "2 devoirs complets à effectuer par l’étudiant* (corrigés et annotés par mes soins)",
             ],
-            "Module « préparation oral du bac »" => [
+            "Préparation oral du bac" => [
                 "Comment faire une fiche sur la base d’un cours",
                 "Une application et un modèle de fiche",
                 "Comment apprendre une fiche",
@@ -113,24 +113,24 @@ class ModuleCreateModuleCommand extends Command
                 "Construction de la présentation de l’œuvre choisie",
                 "1 oral blanc complet",
             ],
-            "Module « dissertation de philo »" => [
+            "Dissertation de philo" => [
                 "Description des composantes (les « ingrédients »)",
                 "La méthode (une « recette »)",
                 "Application",
                 "Constitution d’un modèle complet, rédigé",
                 "Un devoir blanc à effectuer par l’étudiant* (corrigé et annoté par mes soins)",
             ],
-            "Module « l’essentiel du brevet »" => [
+            "L’essentiel du brevet" => [
                 "Le sujet de réflexion et l’invention",
                 "Comment répondre efficacement aux questions sur un texte",
                 "Les notions essentielles (grammaire, rhétorique)",
                 "Remise à niveau de l’orthographe",
             ],
-            "Module « préparation de l’épreuve du brevet »" => [
+            "Préparation de l’épreuve du brevet" => [
                 "6 heures, 4 sujets d’entrainement",
                 "2 devoirs complets à effectuer par l’élève* (corrigés et annotés par mes soins)",
             ],
-            "Module art de la rhétorique pour adultes (remise à niveau, préparation de concours, épanouissement personnel)" => [
+            "Art de la rhétorique pour adultes (remise à niveau, préparation de concours, épanouissement personnel)" => [
                 "Analyser une argumentation, un raisonnement",
                 "Effectuer une synthèse, un résumé",
                 "Construire un raisonnement structuré en arborescence",
