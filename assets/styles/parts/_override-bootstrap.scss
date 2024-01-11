@@ -37,6 +37,15 @@ $info: #A6A26A;
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
 
+// Create your own map
+$custom-colors: (
+        "custom-orange": $orange
+);
+
+// Merge the maps
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+
 // 4. Include any default map overrides here
 
 // 5. Include remainder of required parts

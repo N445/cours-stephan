@@ -5,9 +5,13 @@
         <ul class="list-group">
             {% for module in modules %}
                 <li class="list-group-item d-flex justify-content-between align-items-start ps-5">
-                    <div class="ms-2 me-auto">
-                        <div class="fw-bold">Module {{ module.name }}</div>
-                        {#                        Content for list item #}
+                    <div class="row w-100">
+                        <div class="col-md-2">
+                            <div class="fw-bold"><span class="me-5">Module</span></div>
+                        </div>
+                        <div class="col-md-10">
+                            {{ module.name }}
+                        </div>
                     </div>
                 </li>
             {% endfor %}
@@ -89,7 +93,9 @@
                         Chaque module dure 6 heures, reparties en 4 fois 1h30.
                     </p>
                     <p>
-                        Groupes de 5 élèves maximum. <br>
+                        Groupes de 5 élèves maximum.
+                    </p>
+                    <p>
                         En présentiel ou en visio.
                     </p>
                     <p>
