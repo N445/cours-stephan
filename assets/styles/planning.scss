@@ -8,15 +8,15 @@
 .fc-event {
   transition: .2s all ease-in-out;
 
-  background-color: $primary-bg-subtle !important;
-  border-color: $primary-border-subtle !important;
+  //background-color: $primary-bg-subtle !important;
+  //border-color: $primary-border-subtle !important;
 
   .fc-event-main {
     color: $primary-text-emphasis !important;
   }
 
   &.sub-event {
-    background-color: tint-color($primary, 90%) !important;
+    //background-color: tint-color($primary, 90%) !important;
   }
 
   &.event-clicked {

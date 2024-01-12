@@ -5,6 +5,8 @@ namespace App\Service\Module;
 use App\Entity\Module\Schedule;
 use App\Model\Module\MainModule;
 use App\Model\Module\MainModuleEvent;
+use App\Model\Module\ModuleCalendar;
+use App\Service\Helper\ColorHelper;
 
 class ModuleFullCalendarEventsProvider
 {
@@ -34,7 +36,7 @@ class ModuleFullCalendarEventsProvider
             $dates = array_merge(
                 $dates,
                 array_map(
-                    fn(MainModuleEvent $mainModuleEvent) => $this->moduleEventToFullCalendarEvent($mainModuleEvent),
+                    fn(MainModuleEvent $mainModuleEvent) => $this->moduleEventToFullCalendarEvent($moduleCalendar, $mainModuleEvent),
                     $moduleCalendar->getEvents(),
                 ),
             );
@@ -44,7 +46,7 @@ class ModuleFullCalendarEventsProvider
         return $dates;
     }
 
-    private function moduleEventToFullCalendarEvent(MainModuleEvent $mainModuleEvent): array
+    private function moduleEventToFullCalendarEvent(ModuleCalendar $moduleCalendar, MainModuleEvent $mainModuleEvent): array
     {
         $classes = [
             $mainModuleEvent->isMainEvent() ? 'main-event' : 'sub-event',
@@ -53,12 +55,16 @@ class ModuleFullCalendarEventsProvider
         ];
 
         return [
-            "title"         => $mainModuleEvent->getTitle(),
-            "start"         => $mainModuleEvent->getStart()->format(DATE_ATOM),
-            "end"           => $mainModuleEvent->getEnd()->format(DATE_ATOM),
+            "title"           => $mainModuleEvent->getTitle(),
+            "start"           => $mainModuleEvent->getStart()->format(DATE_ATOM),
+            "end"             => $mainModuleEvent->getEnd()->format(DATE_ATOM),
+            "backgroundColor" => $mainModuleEvent->isMainEvent()
+                ? ColorHelper::hexatoRgba($moduleCalendar->getModule()->getColor(), .2)
+                : ColorHelper::hexatoRgba($moduleCalendar->getModule()->getColor(), .1),
+            "borderColor"     => $moduleCalendar->getModule()->getColor(),
 //            "backgroundColor" => $moduleEvent->isMainEvent() ? "#7C99C3" : '#F0F6FF',
-            "classNames"    => implode(' ', $classes),
-            "extendedProps" => [
+            "classNames"      => implode(' ', $classes),
+            "extendedProps"   => [
                 'moduleId'    => $mainModuleEvent->getModuleId(),
                 'occurenceId' => $mainModuleEvent->getOccurenceId(),
                 'type'        => $mainModuleEvent->isMainEvent() ? 'main-event' : 'sub-event',

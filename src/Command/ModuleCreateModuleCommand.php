@@ -49,12 +49,14 @@ class ModuleCreateModuleCommand extends Command
 
         $nbCreatedModule = 0;
         $nbCreatedSubModule = 0;
+        $i = 1;
         foreach ($this->getModules() as $moduleName => $subModules) {
             if ($modulesNames[$moduleName] ?? null) {
                 continue;
             }
 
             $module = (new Module())
+                ->setNumber($i)
                 ->setName($moduleName)
                 ->setPrice(20000)
                 ->setNbPlaceBySchedule(15)
@@ -73,6 +75,7 @@ class ModuleCreateModuleCommand extends Command
             }
 
             $this->em->persist($module);
+            $i++;
         }
         $this->em->flush();
 

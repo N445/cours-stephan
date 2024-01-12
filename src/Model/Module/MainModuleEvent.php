@@ -7,12 +7,12 @@ use App\Entity\Module\Schedule;
 
 class MainModuleEvent
 {
-    private string $title;
+    private string    $title;
     private \DateTime $start;
     private \DateTime $end;
-    private bool $isMainEvent;
-    private string $occurenceId;
-    private int $moduleId;
+    private bool      $isMainEvent;
+    private string    $occurenceId;
+    private int       $moduleId;
 
     public function getTitle(): string
     {

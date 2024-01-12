@@ -47,6 +47,12 @@ class Module
     #[Groups(['component'])]
     private ?int $nbPlaceBySchedule = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $number = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color = null;
+
     public function __construct()
     {
         $this->subModules = new ArrayCollection();
@@ -204,6 +210,30 @@ class Module
     public function setNbPlaceBySchedule(int $nbPlaceBySchedule): static
     {
         $this->nbPlaceBySchedule = $nbPlaceBySchedule;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(?int $number): static
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
 
         return $this;
     }
