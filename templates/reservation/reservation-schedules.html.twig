@@ -1,31 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Programmes{% endblock %}
+{% block title %}Planning - {{ parent() }}{% endblock %}
 
 {% block body %}
     {{ component('TopBannerComponent',{
-        'title':'Programmes'
+        'title':'Planning'
     }) }}
     <div class="container">
+
+        <p>
+            Cliquez, dans le calendrier, sur la période et la session de votre choix. Vous accéderez alors à la
+            programmation des modules.
+        </p>
+
         {{ component('ScheduleCalendar',{
             schedules:schedules,
         }) }}
 
-{#        <div class="schedules">#}
-{#            {% for schedule in schedules %}#}
-{#                <div class="schedule">#}
-{#                    <a href="{{ path('APP_RESERVATION',{scheduleId:schedule.id}) }}" class="link">  </a>#}
-{#                    <div class="content">#}
-{#                        <div class="name">#}
-{#                            {{ schedule.name }}#}
-{#                        </div>#}
-{#                        <div class="dates">#}
-{#                            Du  {{ schedule.startAt|date('d/m/Y') }}#}
-{#                            au {{ schedule.endAt|date('d/m/Y') }}#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
+        {#        <div class="schedules"> #}
+        {#            {% for schedule in schedules %} #}
+        {#                <div class="schedule"> #}
+        {#                    <a href="{{ path('APP_RESERVATION',{scheduleId:schedule.id}) }}" class="link">  </a> #}
+        {#                    <div class="content"> #}
+        {#                        <div class="name"> #}
+        {#                            {{ schedule.name }} #}
+        {#                        </div> #}
+        {#                        <div class="dates"> #}
+        {#                            Du  {{ schedule.startAt|date('d/m/Y') }} #}
+        {#                            au {{ schedule.endAt|date('d/m/Y') }} #}
+        {#                        </div> #}
+        {#                    </div> #}
+        {#                </div> #}
+        {#            {% endfor %} #}
+        {#        </div> #}
     </div>
 {% endblock %}

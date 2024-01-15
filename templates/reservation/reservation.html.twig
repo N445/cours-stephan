@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reservation{% endblock %}
+{% block title %}Réservation - {{ parent() }}{% endblock %}
 
 {% block body %}
     {{ component('TopBannerComponent',{
-        'title':'Reservation'
+        'title':'Réservation'
     }) }}
     <div class="container">
+        <p>
+            Cliquez sur le module souhaité pour réserver.
+        </p>
         {{ component('CheckoutCalendar',{
             schedule:schedule,
             modules:modules,

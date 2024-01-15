@@ -25,8 +25,8 @@ export default class CheckoutCalendar {
             initialView: 'timeGridWeek',
             hiddenDays: [0],
             events: $('[data-events]').data('events'),
-            slotMinTime: '08:00:00',
-            slotMaxTime: '20:00:00',
+            slotMinTime: '09:00:00',
+            slotMaxTime: '19:00:00',
             validRange: {
                 start: $('[data-start-at]').data('start-at'),
                 end: $('[data-end-at]').data('end-at')
