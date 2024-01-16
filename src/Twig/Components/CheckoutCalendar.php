@@ -6,10 +6,12 @@ use App\Entity\Cart\Cart;
 use App\Entity\Cart\CartItem;
 use App\Entity\Module\Module;
 use App\Entity\Module\Schedule;
+use App\Model\Module\ModuleCalendar;
 use App\Repository\Cart\CartItemRepository;
 use App\Repository\Module\ModuleRepository;
 use App\Service\Cart\CartHelper;
 use App\Service\Cart\CartProvider;
+use App\Service\Module\ModuleEventsProvider;
 use App\Service\Module\ModuleFullCalendarEventsProvider;
 use App\Service\Module\ModuleRRuleProvider;
 use Doctrine\ORM\EntityManagerInterface;
@@ -33,6 +35,9 @@ final class CheckoutCalendar
     #[LiveProp]
     public ?Schedule $schedule = null;
 
+    /**
+     * @var Module[]
+     */
     public array $modules;
 
     #[LiveProp(writable: true)]
@@ -48,9 +53,29 @@ final class CheckoutCalendar
         private readonly EntityManagerInterface           $em,
         private readonly ModuleFullCalendarEventsProvider $moduleFullCalendarEventsProvider,
         private readonly CartItemRepository               $cartItemRepository,
-        private readonly CartHelper                       $cartHelper
+        private readonly CartHelper                       $cartHelper,
+        private readonly ModuleEventsProvider             $moduleEventsProvider,
     )
     {
+    }
+
+    /**
+     * @return ModuleCalendar[]
+     * @throws \Exception
+     */
+    public function getModulesFormated(): array
+    {
+        return $this->moduleEventsProvider
+                        ->init($this->schedule)
+                        ->getModulesCalendar($this->modules)
+        ;
+    }
+
+    public function occurencesAddedToCart():array
+    {
+        return array_map(static function (CartItem $cartItem) {
+            return $cartItem->getOccurenceId();
+        }, $this->cart->getCartItems()->toArray());
     }
 
     /**
@@ -92,9 +117,9 @@ final class CheckoutCalendar
     private function refreshEvents(): void
     {
         $this->modules = $this->moduleRepository->findAll();
-        $this->events = $this->moduleFullCalendarEventsProvider->getFullcalendarEventsDates($this->schedule, $this->modules, array_map(static function (CartItem $cartItem) {
+        $this->events  = $this->moduleFullCalendarEventsProvider->getFullcalendarEventsDates($this->schedule, $this->modules, array_map(static function (CartItem $cartItem) {
             return $cartItem->getOccurenceId();
         }, $this->cart->getCartItems()->toArray()));
-        $this->dispatchBrowserEvent('fullcalendar:render');
+//        $this->dispatchBrowserEvent('fullcalendar:render');
     }
 }

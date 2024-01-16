@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Serializer;
 class ModuleCalendar
 {
     private Schedule $schedule;
-    private Module $module;
+    private Module   $module;
 
     private ArrayCollection $mainModules;
 
@@ -48,6 +48,7 @@ class ModuleCalendar
 
     /**
      * @param string $occurenceId
+     *
      * @return ?MainModule
      */
     public function getMainModuleByOccurenceId(string $occurenceId): ?MainModule
@@ -60,7 +61,11 @@ class ModuleCalendar
      */
     public function getMainModules(): ArrayCollection
     {
-        return $this->mainModules;
+        $mainModules = $this->mainModules->toArray();
+        usort($mainModules, function (MainModule $a, MainModule $b) {
+            return $a->getStart() > $b->getStart();
+        });
+        return new ArrayCollection($mainModules);
     }
 
     public function addMainModules(MainModule $mainModule): ModuleCalendar
@@ -100,7 +105,8 @@ class ModuleCalendar
         return (new Serializer([new DateTimeNormalizer(), new ObjectNormalizer(defaultContext: $defaultContext)], []))
             ->normalize(
                 $events,
-                'array'
-            );
+                'array',
+            )
+        ;
     }
 }

@@ -1,12 +1,42 @@
 <div {{ attributes.defaults(stimulus_controller('checkout_calendar')) }}>
     <div class="row">
         <div class="col-md-8">
-            <div id="calendar"
-                 data-start-at="{{ 'now'|date('Y-m-d H:i:s') }}"
-                 data-end-at="{{ schedule.endAt|date('Y-m-d H:i:s') }}"
-                 data-events="{{ this.events|json_encode }}"
-            >
-            </div>
+
+            {% set occurencesAddedToCart = this.occurencesAddedToCart %}
+
+            <ul class="list-group">
+                {% for moduleFormated in this.modulesFormated %}
+                    {% set module = moduleFormated.module %}
+                    <li class="list-group-item" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ module.name }}</h5>
+                            <small class="text-nowrap">{{ module.price|price_humanize }}</small>
+                        </div>
+                        <div class="list-group">
+                            {% for mainModule in moduleFormated.mainModules %}
+                                <a href="#" class="list-group-item list-group-item-action event-add-to-cart{{ mainModule.occurenceId in this.occurencesAddedToCart ? ' active':'' }}" aria-current="true"
+                                   data-module-id="{{ module.id }}"
+                                   data-occurence-id="{{ mainModule.occurenceId }}"
+                                >
+                                        Du {{ mainModule.start|carbon_format('l jS F Y') }}
+                                        au {{ mainModule.end|carbon_format('l jS F Y') }}
+                                        <br>
+                                        Entre {{ mainModule.start|carbon_format('H:i') }}
+                                        et {{ mainModule.end|carbon_format('H:i') }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+
+
+{#            <div id="calendar"#}
+{#                 data-start-at="{{ 'now'|date('Y-m-d H:i:s') }}"#}
+{#                 data-end-at="{{ schedule.endAt|date('Y-m-d H:i:s') }}"#}
+{#                 data-events="{{ this.events|json_encode }}"#}
+{#            >#}
+{#            </div>#}
         </div>
         <div class="col-md-4">
             {% if cart %}
@@ -26,14 +56,15 @@
 
                                         <p>
                                             Du {{ item.mainModule.start|date('d/m/Y') }}
-                                            au {{ item.mainModule.start|date('d/m/Y') }}
+                                            au {{ item.mainModule.end|date('d/m/Y') }}
                                             <br>
-                                            Entre {{ item.mainModule.start|date('H:i') }} et {{ item.mainModule.end|date('H:i') }}
+                                            Entre {{ item.mainModule.start|date('H:i') }}
+                                            et {{ item.mainModule.end|date('H:i') }}
                                         </p>
-                                        <button class="text-danger btn btn-link" type="button" data-action="live#action"
-                                                data-action-name="removeCartItem(cartItemId={{ item.id }})">
-                                            Supprimer
-                                        </button>
+{#                                        <button class="text-danger btn btn-link" type="button" data-action="live#action"#}
+{#                                                data-action-name="removeCartItem(cartItemId={{ item.id }})">#}
+{#                                            Supprimer#}
+{#                                        </button>#}
                                     </li>
                                 {% endfor %}
                             </ul>

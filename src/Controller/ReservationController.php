@@ -8,6 +8,7 @@ use App\Entity\Module\Schedule;
 use App\Repository\Module\ModuleRepository;
 use App\Repository\Module\ScheduleRepository;
 use App\Service\Cart\CartProvider;
+use App\Service\Module\ModuleEventsProvider;
 use App\Service\Module\ModuleFullCalendarEventsProvider;
 use App\Service\Module\Schedule\ScheduleFullCalendarEventsProvider;
 use Doctrine\ORM\NonUniqueResultException;
@@ -25,6 +26,7 @@ class ReservationController extends AbstractController
         private readonly ModuleFullCalendarEventsProvider   $moduleFullCalendarEventsProvider,
         private readonly CartProvider                       $cartProvider,
         private readonly ScheduleFullCalendarEventsProvider $scheduleFullCalendarEventsProvider,
+        private readonly ModuleEventsProvider $moduleEventsProvider,
     )
     {
     }
@@ -71,13 +73,19 @@ class ReservationController extends AbstractController
 
         $cart = $this->cartProvider->getUserCartOrCreate();
 
+        $events = $this->moduleFullCalendarEventsProvider->getFullcalendarEventsDates(
+            schedule     : $schedule,
+            modules      : $modules,
+            occurencesIDs: array_map(static function (CartItem $cartItem) {
+                               return $cartItem->getOccurenceId();
+                           }, $cart->getCartItems()->toArray()),
+        );
+
         return $this->render('reservation/reservation.html.twig', [
             'schedule' => $schedule,
             'modules'  => $modules,
             'cart'     => $cart,
-            'events'   => $this->moduleFullCalendarEventsProvider->getFullcalendarEventsDates($schedule, $modules, array_map(static function (CartItem $cartItem) {
-                return $cartItem->getOccurenceId();
-            }, $cart->getCartItems()->toArray())),
+            'events'   => $events,
         ]);
     }
 }

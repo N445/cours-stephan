@@ -11,59 +11,83 @@ export default class CheckoutCalendar {
 
     constructor(liveComponent) {
         this.liveComponent = liveComponent;
-        this.calendar = new Calendar(document.getElementById('calendar'), {
-            plugins: [timeGridPlugin, interactionPlugin],
-            themeSystem: 'bootstrap5',
-            editable: true,
-            droppable: true,
-            allDaySlot: false,
-            height: 'auto',
-            eventDurationEditable: false,
-            eventOverlap: false,
-            locale: frLocale,
-            firstDay: 1,
-            initialView: 'timeGridWeek',
-            hiddenDays: [0],
-            events: $('[data-events]').data('events'),
-            slotMinTime: '09:00:00',
-            slotMaxTime: '19:00:00',
-            validRange: {
-                start: $('[data-start-at]').data('start-at'),
-                end: $('[data-end-at]').data('end-at')
-            },
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: ''
-            },
-            eventClick: (info) => {
-                let extendedProps = info.event._def.extendedProps;
-                if ('sub-event' === extendedProps['type']) {
-                    return;
-                }
 
-                this.selectedModule = new Module(info.event);
+        $('.event-add-to-cart').on('click', (e) => {
+            e.preventDefault();
+            let target = $(e.currentTarget);
+            let moduleId = target.data('module-id');
+            let occurenceId = target.data('occurence-id');
 
-                let occurenceId = extendedProps['occurenceId'];
-
-                localStorage.setItem("occurenceId", occurenceId);
-
-                // this.selectEventByOccurenceId(occurenceId);
-                this.liveComponent.component.action('addModule', {
-                    moduleId: this.selectedModule.id,
-                    occurenceId: occurenceId,
-                })
+            if(target.hasClass('active')){
+                target.removeClass('active');
+            }else{
+                target.addClass('active');
             }
-        });
 
-        this.calendar.render();
+            this.liveComponent.component.action('addModule', {
+                moduleId: moduleId,
+                occurenceId: occurenceId,
+            })
 
-        window.addEventListener('fullcalendar:render', () => console.log('fullcalendar:render'));
-        window.addEventListener('fullcalendar:render', () => {
-            console.log('fullcalendar:render')
-            this.calendar.setOption('events', this.liveComponent.component.valueStore.props.events)
-            this.calendar.render()
-        });
+            console.log(target);
+            console.log(moduleId);
+            console.log(occurenceId);
+        })
+
+
+        // this.calendar = new Calendar(document.getElementById('calendar'), {
+        //     plugins: [timeGridPlugin, interactionPlugin],
+        //     themeSystem: 'bootstrap5',
+        //     editable: true,
+        //     droppable: true,
+        //     allDaySlot: false,
+        //     height: 'auto',
+        //     eventDurationEditable: false,
+        //     eventOverlap: false,
+        //     locale: frLocale,
+        //     firstDay: 1,
+        //     initialView: 'timeGridWeek',
+        //     hiddenDays: [0],
+        //     events: $('[data-events]').data('events'),
+        //     slotMinTime: '09:00:00',
+        //     slotMaxTime: '19:00:00',
+        //     validRange: {
+        //         start: $('[data-start-at]').data('start-at'),
+        //         end: $('[data-end-at]').data('end-at')
+        //     },
+        //     headerToolbar: {
+        //         left: 'prev,next today',
+        //         center: 'title',
+        //         right: ''
+        //     },
+        //     eventClick: (info) => {
+        //         let extendedProps = info.event._def.extendedProps;
+        //         if ('sub-event' === extendedProps['type']) {
+        //             return;
+        //         }
+        //
+        //         this.selectedModule = new Module(info.event);
+        //
+        //         let occurenceId = extendedProps['occurenceId'];
+        //
+        //         localStorage.setItem("occurenceId", occurenceId);
+        //
+        //         // this.selectEventByOccurenceId(occurenceId);
+        //         this.liveComponent.component.action('addModule', {
+        //             moduleId: this.selectedModule.id,
+        //             occurenceId: occurenceId,
+        //         })
+        //     }
+        // });
+
+        // this.calendar.render();
+
+        // window.addEventListener('fullcalendar:render', () => console.log('fullcalendar:render'));
+        // window.addEventListener('fullcalendar:render', () => {
+        //     console.log('fullcalendar:render')
+        //     this.calendar.setOption('events', this.liveComponent.component.valueStore.props.events)
+        //     this.calendar.render()
+        // });
     }
 
 
