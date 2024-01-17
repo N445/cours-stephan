@@ -116,7 +116,7 @@ final class CheckoutCalendar
      */
     private function refreshEvents(): void
     {
-        $this->modules = $this->moduleRepository->findAll();
+        $this->modules = $this->moduleRepository->getModulesBySchedule($this->schedule);;
         $this->events  = $this->moduleFullCalendarEventsProvider->getFullcalendarEventsDates($this->schedule, $this->modules, array_map(static function (CartItem $cartItem) {
             return $cartItem->getOccurenceId();
         }, $this->cart->getCartItems()->toArray()));

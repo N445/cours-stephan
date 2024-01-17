@@ -17,7 +17,7 @@ class CartItemLocationHelper
     {
         return [
             self::PROFESSOR => '22 Boulevard de Belleville, 75020 Paris',
-            self::HOTE      => 'Domicile d’un hôte de cours',
+//            self::HOTE      => 'Domicile d’un hôte de cours',
             self::VISIO     => 'En Visio',
         ];
     }

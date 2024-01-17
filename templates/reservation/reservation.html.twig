@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Réservation - {{ parent() }}{% endblock %}
+{% block title %}Réservation {{ schedule.name}} - {{ parent() }}{% endblock %}
 
 {% block body %}
     {{ component('TopBannerComponent',{
-        'title':'Réservation'
+        'title':'Réservation '~schedule.name,
+        'subTitle':'Du '~schedule.startAt|carbon_format('l jS F Y')~' au '~schedule.endAt|carbon_format('l jS F Y')
     }) }}
     <div class="container">
-        <p>
+        <p class="h5">
             Cliquez sur le module souhaité pour réserver.
         </p>
         {{ component('CheckoutCalendar',{

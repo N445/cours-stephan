@@ -129,6 +129,16 @@ class CartItem
         return $this;
     }
 
+    public function getStartAt(): ?\DateTime
+    {
+        return $this->moduleDateTime;
+    }
+
+    public function getEndAt(): ?\DateTime
+    {
+        return (clone $this->moduleDateTime)->add(new \DateInterval('P3DT1H30M'));
+    }
+
     public function getCart(): ?Cart
     {
         return $this->cart;

@@ -143,6 +143,9 @@ class ModuleEventsProvider
             $mainModule->setStart($mainModule->getMainModuleEvents()->first()->getStart());
             $mainModule->setEnd($mainModule->getMainModuleEvents()->last()->getEnd());
 
+//            $mainModule->setStart((clone $startAt));
+//            $mainModule->setEnd((clone $startAt)->add(new \DateInterval('P3D')));
+
             $this->moduleCalendar->addMainModules($mainModule);
 
         }

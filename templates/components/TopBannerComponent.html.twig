@@ -1,3 +1,6 @@
 <div id="top-banner" {{ attributes }}>
     <h1>{{ title }}</h1>
+    {% if subTitle is defined %}
+        <p>{{ subTitle }}</p>
+    {% endif %}
 </div>
