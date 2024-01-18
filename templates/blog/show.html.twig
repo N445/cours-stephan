@@ -13,7 +13,7 @@
     <div class="container">
         <a href="{{ path('APP_BLOGS') }}" class="btn btn-primary mb-3">Toutes les actualités</a>
         <div class="card">
-            <img src="{{ vich_uploader_asset(blog) }}" class="card-img-top" alt="{{ blog.title }}">
+            <img src="{{ vich_uploader_asset(blog) }}" class="card-img-top" alt="{{ blog.title }}" style="max-height: 500px;object-fit: cover;">
 
             <div class="card-body">
                 <p class="card-text">
