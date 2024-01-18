@@ -10,6 +10,7 @@
         "craue/formflow-bundle": "^3.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "easycorp/easyadmin-bundle": "^4.7",
+        "knplabs/knp-paginator-bundle": "^6.3",
         "liip/imagine-bundle": "^2.12",
         "nesbot/carbon": "^2.71",
         "payum/offline": "^1.7",
@@ -40,7 +41,9 @@
         "symfonycasts/reset-password-bundle": "^1.18",
         "symfonycasts/verify-email-bundle": "^1.14",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/string-extra": "^3.8",
+        "twig/twig": "^2.12|^3.0",
+        "vich/uploader-bundle": "^2.3"
     },
     "config": {
         "allow-plugins": {

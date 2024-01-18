@@ -1,0 +1,38 @@
+{% import 'macro/_blog-macro.html.twig' as blogMacro %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Actualités - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ component('TopBannerComponent',{
+        'title':'Actualités',
+    }) }}
+    <div class="container">
+
+        {# total items count #}
+        <div class="count">
+            {{ pagination.getTotalItemCount }} actualités
+        </div>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+        <div class="blogs row row-cols-1 g-3">
+            {% for blog in pagination %}
+                <div class="col">
+                    {{ blogMacro.card(blog) }}
+                </div>
+            {% endfor %}
+        </div>
+        {# display navigation #}
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+
+
+    </div>
+{% endblock %}
+

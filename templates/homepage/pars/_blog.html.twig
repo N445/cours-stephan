@@ -1,0 +1,16 @@
+{% import 'macro/_blog-macro.html.twig' as blogMacro %}
+
+<section id="blog" data-aos="fade-up" data-aos-delay="0">
+    <div class="container">
+        <div class="blogs row row-cols-1 g-3">
+            {% for blog in blogs %}
+                <div class="col">
+                    {{ blogMacro.card(blog) }}
+                </div>
+            {% endfor %}
+        </div>
+        <p class="text-end">
+            <a href="{{ path('APP_BLOGS') }}"> Voir toutes les actualités</a>
+        </p>
+    </div>
+</section>

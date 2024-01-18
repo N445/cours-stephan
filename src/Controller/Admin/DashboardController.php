@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Blog\Blog;
 use App\Entity\Cart\Cart;
 use App\Entity\Contact;
 use App\Entity\Module\Module;
@@ -37,6 +38,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Planning', 'fa-regular fa-calendar-days', Schedule::class);
         yield MenuItem::linkToCrud('Module', 'fa-solid fa-graduation-cap', Module::class);
         yield MenuItem::linkToCrud('Sous module', 'fa-brands fa-leanpub', SubModule::class);
+        yield MenuItem::subMenu('Contenu');
+        yield MenuItem::linkToCrud('Blog', 'fa-solid fa-newspaper', Blog::class);
 
         yield MenuItem::subMenu('Utilisateurs');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class);

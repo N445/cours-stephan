@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\Blog\BlogRepository;
 use App\Repository\Module\ModuleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +12,7 @@ class HomepageController extends AbstractController
 {
     public function __construct(
         private readonly ModuleRepository $moduleRepository,
+        private readonly BlogRepository   $blogRepository,
     )
     {
     }
@@ -20,6 +22,7 @@ class HomepageController extends AbstractController
     {
         return $this->render('homepage/index.html.twig', [
             'modules' => $this->moduleRepository->findAll(),
+            'blogs'   => $this->blogRepository->getBlogs(3),
         ]);
     }
 }

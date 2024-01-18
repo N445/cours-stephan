@@ -1,0 +1,13 @@
+{% macro card(blog) %}
+    <div class="card flex-md-row mb-4 box-shadow h-md-250">
+        <div class="card-body d-flex flex-column align-items-start">
+            <h3 class="mb-0">
+                <a class="text-dark" href="{{ path('APP_BLOGS_SHOW', {'id': blog.id}) }}">{{ blog.title }}</a>
+            </h3>
+            <div class="mb-1 text-muted">{{ blog.createdAt|date('d/m/Y') }}</div>
+            <p class="card-text mb-auto">{{ (blog.content|striptags)|u.truncate(400,'...',false)|raw }}</p>
+            <a href="{{ path('APP_BLOGS_SHOW', {'id': blog.id}) }}">Continuer de lire</a>
+        </div>
+        <img class="card-img-right flex-auto d-none d-md-block" alt="{{ blog.title }}" style="width: 200px; height: 250px; object-fit: cover" src="{{ vich_uploader_asset(blog) }}" data-holder-rendered="true">
+    </div>
+{% endmacro %}

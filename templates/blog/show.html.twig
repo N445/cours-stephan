@@ -1,0 +1,29 @@
+{% import 'macro/_blog-macro.html.twig' as blogMacro %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ blog.title }} - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ component('TopBannerComponent',{
+        'title':blog.title,
+    }) }}
+    <div class="container">
+        <a href="{{ path('APP_BLOGS') }}" class="btn btn-primary mb-3">Toutes les actualités</a>
+        <div class="card">
+            <img src="{{ vich_uploader_asset(blog) }}" class="card-img-top" alt="{{ blog.title }}">
+
+            <div class="card-body">
+                <p class="card-text">
+                    {{ blog.content|raw }}
+                </p>
+            </div>
+            <div class="card-footer text-body-secondary">
+                {{ blog.createdAt|date('d/m/Y') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
