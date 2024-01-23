@@ -33,7 +33,7 @@ class Module
     #[ORM\ManyToMany(targetEntity: SubModule::class, inversedBy: 'modules')]
     private Collection $subModules;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Planning::class,cascade: ['persist','remove'])]
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Planning::class, cascade: ['persist', 'remove'])]
     private Collection $plannings;
 
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: CartItem::class)]
@@ -57,7 +57,7 @@ class Module
     {
         $this->subModules = new ArrayCollection();
         $this->plannings  = new ArrayCollection();
-        $this->cartItems = new ArrayCollection();
+        $this->cartItems  = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -125,9 +125,13 @@ class Module
      */
     public function getPlanningBySchedule(Schedule $schedule): ?Planning
     {
-        return array_filter($this->plannings->toArray(), static function (Planning $planning) use ($schedule) {
-            return $planning->getSchedule() === $schedule;
-        })[0] ?? null;
+        return array_values(
+            array_filter(
+                $this->plannings->toArray(),
+                static function (Planning $planning) use ($schedule) {
+                    return $planning->getSchedule()->getId() === $schedule->getId();
+                })
+        )[0] ?? null;
     }
 
     /**

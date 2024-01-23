@@ -104,4 +104,11 @@ final class CheckoutCalendar
             ->getModulesCalendar($this->modules)
         ;
     }
+
+
+    public function getModulesOccurences(Module $module): array
+    {
+        $moduleCalendar = $this->moduleEventsProvider->init($this->schedule)->getModuleCalendar($module,4 === $module->getId());
+        return $moduleCalendar->getMainModules()->toArray();
+    }
 }

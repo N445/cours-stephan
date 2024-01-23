@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Cart\CartItem;
 use App\Entity\Module\Planning;
 use App\Entity\Module\Schedule;
-use App\Model\Module\ModulesCalendars;
 use App\Repository\Module\ModuleRepository;
 use App\Repository\Module\ScheduleRepository;
 use App\Service\Cart\CartProvider;
@@ -77,9 +75,6 @@ class ReservationController extends AbstractController
         return $this->render('reservation/reservation.html.twig', [
             'schedule'        => $schedule,
             'modules'         => $modules,
-            'modulesFormated' => $this->moduleEventsProvider
-                ->init($schedule)
-                ->getModulesCalendar($modules),
             'cart'            => $cart,
         ]);
     }

@@ -4,15 +4,14 @@
 
             {% set occurencesAddedToCart = this.occurencesAddedToCart %}
             <ul class="list-group">
-                {% for moduleFormated in modulesFormated %}
-                    {% set module = moduleFormated.module %}
+                {% for module in modules %}
                     <li class="list-group-item" aria-current="true" style="border-left: 10px solid {{ module.color }}">
                         <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">Module {{ module.number }} <br> {{ module.name }}</h5>
                             <small class="text-nowrap">{{ module.price|price_humanize }}</small>
                         </div>
                         <div class="list-group">
-                            {% for mainModule in moduleFormated.mainModules %}
+                            {% for mainModule in this.getModulesOccurences(module) %}
                                 <a href="#" class="list-group-item list-group-item-action event-add-to-cart{{ mainModule.occurenceId in this.occurencesAddedToCart ? ' active':'' }}" aria-current="true"
                                    data-module-id="{{ module.id }}"
                                    data-occurence-id="{{ mainModule.occurenceId }}"
