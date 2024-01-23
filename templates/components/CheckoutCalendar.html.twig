@@ -3,8 +3,6 @@
         <div class="col-md-8">
 
             {% set occurencesAddedToCart = this.occurencesAddedToCart %}
-            {% set modulesFormated = this.modulesFormated %}
-
             <ul class="list-group">
                 {% for moduleFormated in modulesFormated %}
                     {% set module = moduleFormated.module %}
@@ -30,14 +28,6 @@
                     </li>
                 {% endfor %}
             </ul>
-
-
-{#            <div id="calendar"#}
-{#                 data-start-at="{{ 'now'|date('Y-m-d H:i:s') }}"#}
-{#                 data-end-at="{{ schedule.endAt|date('Y-m-d H:i:s') }}"#}
-{#                 data-events="{{ this.events|json_encode }}"#}
-{#            >#}
-{#            </div>#}
         </div>
         <div class="col-md-4">
             {% if cart %}

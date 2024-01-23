@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Cart\CartItem;
 use App\Entity\Module\Planning;
 use App\Entity\Module\Schedule;
+use App\Model\Module\ModulesCalendars;
 use App\Repository\Module\ModuleRepository;
 use App\Repository\Module\ScheduleRepository;
 use App\Service\Cart\CartProvider;
@@ -26,7 +27,7 @@ class ReservationController extends AbstractController
         private readonly ModuleFullCalendarEventsProvider   $moduleFullCalendarEventsProvider,
         private readonly CartProvider                       $cartProvider,
         private readonly ScheduleFullCalendarEventsProvider $scheduleFullCalendarEventsProvider,
-        private readonly ModuleEventsProvider $moduleEventsProvider,
+        private readonly ModuleEventsProvider               $moduleEventsProvider,
     )
     {
     }
@@ -61,6 +62,7 @@ class ReservationController extends AbstractController
 
     /**
      * @throws NonUniqueResultException
+     * @throws \Exception
      */
     #[Route('/reservation/{scheduleId}', name: 'APP_RESERVATION')]
     public function reservation(int $scheduleId): Response
@@ -70,22 +72,15 @@ class ReservationController extends AbstractController
         }
 
         $modules = $this->moduleRepository->getModulesBySchedule($schedule);
-
-        $cart = $this->cartProvider->getUserCartOrCreate();
-
-        $events = $this->moduleFullCalendarEventsProvider->getFullcalendarEventsDates(
-            schedule     : $schedule,
-            modules      : $modules,
-            occurencesIDs: array_map(static function (CartItem $cartItem) {
-                               return $cartItem->getOccurenceId();
-                           }, $cart->getCartItems()->toArray()),
-        );
+        $cart    = $this->cartProvider->getUserCartOrCreate();
 
         return $this->render('reservation/reservation.html.twig', [
-            'schedule' => $schedule,
-            'modules'  => $modules,
-            'cart'     => $cart,
-            'events'   => $events,
+            'schedule'        => $schedule,
+            'modules'         => $modules,
+            'modulesFormated' => $this->moduleEventsProvider
+                ->init($schedule)
+                ->getModulesCalendar($modules),
+            'cart'            => $cart,
         ]);
     }
 }

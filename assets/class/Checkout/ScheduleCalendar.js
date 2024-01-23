@@ -40,13 +40,15 @@ export default class ScheduleCalendar {
                 center: 'title',
                 right: ''
             },
-            eventClick: function(info) {
-                info.jsEvent.preventDefault(); // don't let the browser navigate
-
-                if (info.event.url) {
-                    window.open(info.event.url);
-                }
-            }
+            // eventClick: function(info) {
+            //     info.jsEvent.preventDefault(); // don't let the browser navigate
+            //
+            //     if (info.event.url) {
+            //         document.location.href = info.event.url;
+            //         // window.open(info.event.url);
+            //     }
+            //
+            // }
         });
 
         this.calendar.render();

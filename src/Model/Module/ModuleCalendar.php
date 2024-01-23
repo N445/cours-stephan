@@ -6,6 +6,7 @@ use App\Entity\Module\Module;
 use App\Entity\Module\Schedule;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
@@ -17,6 +18,7 @@ class ModuleCalendar
     private Schedule $schedule;
     private Module   $module;
 
+    #[Groups(['LiveCheckoutCalendar'])]
     private ArrayCollection $mainModules;
 
     public function __construct()
