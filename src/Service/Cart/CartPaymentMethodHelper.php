@@ -7,7 +7,7 @@ class CartPaymentMethodHelper
     public static function getChoices(): array
     {
         return [
-            'PayPal'     => 'paypal',
+            'Paypal ou carte bancaire'     => 'paypal',
             'Hors ligne' => 'offline',
         ];
     }

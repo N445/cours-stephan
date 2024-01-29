@@ -19,7 +19,7 @@ class CartMethodPaymentType extends AbstractType
                 'expanded' => true,
                 'choices'  => [
                     'Hors ligne' => 'offline',
-                    'Paypal'     => 'paypal',
+                    'Paypal ou carte bancaire'     => 'paypal',
                 ],
             ])
         ;
