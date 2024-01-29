@@ -30,7 +30,7 @@ class ScheduleFullCalendarEventsProvider
             "start"           => $schedule->getStartAt()->format(DATE_ATOM),
             "end"             => $schedule->getEndAt()->format(DATE_ATOM),
             "backgroundColor" => $schedule->getColor() ?: null,
-            "textColor"       => $schedule->getColor() ? dump(ColorHelper::getContrastColor($schedule->getColor())) : null,
+            "textColor"       => $schedule->getColor() ? ColorHelper::getContrastColor($schedule->getColor()) : null,
             "borderColor"     => $schedule->getColor() ?: null,
             "classNames"      => implode(' ', $classes),
             'url'             => $this->router->generate('APP_RESERVATION', [
