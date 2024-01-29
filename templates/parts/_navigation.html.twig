@@ -25,6 +25,11 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link " aria-current="page" href="{{ path('APP_BLOGS') }}">
+                        Blog
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link " aria-current="page" href="{{ path('APP_CONTACT') }}">
                         Contact
                     </a>
@@ -43,7 +48,8 @@
             <div class="col-md-3 text-end">
                 {% if app.user %}
                     <div class="btn-group">
-                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                aria-expanded="false">
                             {{ app.user.userIdentifier }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
