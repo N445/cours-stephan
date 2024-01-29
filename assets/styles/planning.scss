@@ -11,9 +11,9 @@
   //background-color: $primary-bg-subtle !important;
   //border-color: $primary-border-subtle !important;
 
-  .fc-event-main {
-    color: $primary-text-emphasis !important;
-  }
+  //.fc-event-main {
+  //  color: $primary-text-emphasis !important;
+  //}
 
   &.sub-event {
     //background-color: tint-color($primary, 90%) !important;
@@ -23,9 +23,9 @@
     background-color: $success-bg-subtle !important;
     border-color: $success-border-subtle-dark !important;
 
-    .fc-event-main {
-      color: $success-text-emphasis !important;
-    }
+    //.fc-event-main {
+    //  color: $success-text-emphasis !important;
+    //}
 
     &.sub-event {
       background-color: tint-color($success-bg-subtle, 90%) !important;

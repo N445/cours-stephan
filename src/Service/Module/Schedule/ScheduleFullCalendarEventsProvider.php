@@ -3,6 +3,7 @@
 namespace App\Service\Module\Schedule;
 
 use App\Entity\Module\Schedule;
+use App\Service\Helper\ColorHelper;
 use Symfony\Component\Routing\RouterInterface;
 
 class ScheduleFullCalendarEventsProvider
@@ -25,15 +26,17 @@ class ScheduleFullCalendarEventsProvider
         $classes = [];
 
         return [
-            "title"         => $schedule->getName(),
-            "start"         => $schedule->getStartAt()->format(DATE_ATOM),
-            "end"           => $schedule->getEndAt()->format(DATE_ATOM),
-//            "backgroundColor" => $moduleEvent->isMainEvent() ? "#7C99C3" : '#F0F6FF',
-            "classNames"    => implode(' ', $classes),
-            'url' => $this->router->generate('APP_RESERVATION', [
+            "title"           => $schedule->getName(),
+            "start"           => $schedule->getStartAt()->format(DATE_ATOM),
+            "end"             => $schedule->getEndAt()->format(DATE_ATOM),
+            "backgroundColor" => $schedule->getColor() ?: null,
+            "textColor"       => $schedule->getColor() ? dump(ColorHelper::getContrastColor($schedule->getColor())) : null,
+            "borderColor"     => $schedule->getColor() ?: null,
+            "classNames"      => implode(' ', $classes),
+            'url'             => $this->router->generate('APP_RESERVATION', [
                 'scheduleId' => $schedule->getId(),
             ]),
-            "extendedProps" => [ ],
+            "extendedProps"   => [],
         ];
     }
 }

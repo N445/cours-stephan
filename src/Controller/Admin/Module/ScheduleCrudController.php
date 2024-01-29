@@ -4,6 +4,7 @@ namespace App\Controller\Admin\Module;
 
 use App\Entity\Module\Schedule;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ColorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -18,6 +19,7 @@ class ScheduleCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name', 'Nom'),
+            ColorField::new('color', 'Couleur'),
             DateField::new('startAt', 'Début'),
             DateField::new('endAt', 'Fin'),
         ];

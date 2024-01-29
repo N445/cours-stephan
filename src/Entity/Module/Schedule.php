@@ -31,6 +31,9 @@ class Schedule
     #[ORM\OneToMany(mappedBy: 'schedule', targetEntity: CartItem::class)]
     private Collection $cartItems;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color = null;
+
     public function __construct()
     {
         $this->plannings = new ArrayCollection();
@@ -140,6 +143,18 @@ class Schedule
                 $cartItem->setSchedule(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
 
         return $this;
     }
