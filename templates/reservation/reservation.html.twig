@@ -4,8 +4,7 @@
 
 {% block body %}
     {{ component('TopBannerComponent',{
-        'title':'Réservation '~schedule.name,
-        'subTitle':'Du '~schedule.startAt|carbon_format('l jS F Y')~' au '~schedule.endAt|carbon_format('l jS F Y')
+        'title':'Réservation '~schedule.name
     }) }}
     <div class="container">
         <p class="h5">
