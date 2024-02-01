@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted("ROLE_USER")]
 class ReservationController extends AbstractController
 {
     public function __construct(
@@ -41,6 +40,7 @@ class ReservationController extends AbstractController
         ]);
     }
 
+    #[IsGranted("ROLE_USER")]
     #[Route('/reservation/module/{moduleId}', name: 'APP_RESERVATION_SCHEDULES_BY_MODULE')]
     public function reservationShedulesByModule(int $moduleId): Response
     {
@@ -58,10 +58,7 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws NonUniqueResultException
-     * @throws \Exception
-     */
+    #[IsGranted("ROLE_USER")]
     #[Route('/reservation/{scheduleId}', name: 'APP_RESERVATION')]
     public function reservation(int $scheduleId): Response
     {
