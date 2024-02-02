@@ -24,6 +24,10 @@ Encore
     .addEntry('homepage', './assets/javascript/pages/homepage')
     .addEntry('contact', './assets/javascript/pages/contact')
 
+    .addStyleEntry('foundation-emails', './assets/styles/email/foundation-emails.scss')
+    .addStyleEntry('emails', './assets/styles/email/emails.scss')
+    .addStyleEntry('email-pdf', './assets/styles/email/email-pdf.scss')
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

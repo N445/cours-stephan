@@ -15,4 +15,11 @@ class AppExtension extends AbstractExtension
             new TwigFilter('carbon_format', [AppExtensionRuntime::class, 'carbon_format']),
         ];
     }
+
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('getPublicPath', [AppExtensionRuntime::class, 'getPublicPath']),
+        ];
+    }
 }

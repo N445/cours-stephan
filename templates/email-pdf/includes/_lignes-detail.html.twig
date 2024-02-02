@@ -1,0 +1,47 @@
+<row>
+    <columns large="12">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="text-center"><strong>Module</strong></th>
+                <th class="text-center"><strong>Date</strong></th>
+                <th class="text-center"><strong>Prix unitaire</strong></th>
+                <th class="text-center"><strong>Places</strong></th>
+                <th class="text-center"><strong>Prix total</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cartItem in cart.cartItems %}
+            <tr>
+                <td>Module {{ cartItem.module.number }} {{ cartItem.moduleName }}</td>
+                <td>
+                    <span>du {{ cartItem.startAt|carbon_format('l jS F Y') }}</span>
+                    <br>
+                    au {{ cartItem.endAt|carbon_format('l jS F Y') }}
+                    <br>
+                    de {{ cartItem.startAt|carbon_format('H:i') }}
+                    à
+                    {{ cartItem.endAt|carbon_format('H:i') }}
+                </td>
+                <td class="text-end">{{ cartItem.price|price_humanize }}</td>
+                <td class="text-end">{{ cartItem.quantity }}</td>
+                <td class="text-end">
+                    {{ cartItem.total|price_humanize }}
+                    {% if cartItem.hasLocationPromo %}
+                        <br>
+                        <small class="text-muted">-{{ cartItem.price|price_humanize }}</small>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="100%" class="text-end">
+                    {{ cart.total|price_humanize }}
+                </th>
+            </tr>
+            </tfoot>
+        </table>
+    </columns>
+</row>

@@ -1,0 +1,17 @@
+Cours Stéphan - Nouvelle demande de contact
+
+Le {{ contact.createdAt|date("d/m/Y \\à H:i") }}
+
+De la part de :
+
+Nom : {{ contact.lastname|upper }}
+Prénom : {{ contact.firstname }}
+Téléphone : {{ contact.phone }}
+Email : {{ contact.email }}
+Société : {{ contact.company }}
+Poste occupé : {{ contact.workPosition }}
+
+Message :
+{{ contact.message }}
+
+IP : {{ contact.ip }}

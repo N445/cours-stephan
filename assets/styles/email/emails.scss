@@ -1,0 +1,32 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/variables-dark";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+@import "../../../node_modules/bootstrap";
+
+body,
+html,
+.body {
+  background: #f3f3f3 !important;
+}
+
+table {
+  &.product-order-items {
+    //margin: 0 -0.5rem;
+
+    th {
+      font-weight: bold;
+    }
+
+    th, td {
+      padding: 0.5rem;
+      border:  1px solid rgb(222, 226, 230);
+    }
+  }
+}
+
+
+.text-end{
+    text-align: right;
+}

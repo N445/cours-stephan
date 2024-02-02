@@ -9,6 +9,7 @@ use App\Service\Cart\CartPriceHelper;
 use App\Service\Cart\CartValidator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Blameable\Traits\BlameableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -59,6 +60,9 @@ class Cart
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Information $information = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTime $payedAt = null;
+
     public function __construct()
     {
         $this->cartItems   = new ArrayCollection();
@@ -92,6 +96,11 @@ class Cart
         $this->place = $place;
 
         return $this;
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->place === 'complete';
     }
 
 
@@ -189,5 +198,16 @@ class Cart
     public function isValid(): bool
     {
         return CartValidator::cartIsValid($this);
+    }
+
+    public function getPayedAt(): ?\DateTime
+    {
+        return $this->payedAt;
+    }
+
+    public function setPayedAt(?\DateTime $payedAt): Cart
+    {
+        $this->payedAt = $payedAt;
+        return $this;
     }
 }

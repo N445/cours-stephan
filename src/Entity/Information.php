@@ -17,7 +17,7 @@ class Information
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        max: 255,
+        max       : 255,
         maxMessage: 'Doit faire moins de {{ limit }} caractères.',
     )]
     private ?string $name = null;
@@ -25,7 +25,7 @@ class Information
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        max: 255,
+        max       : 255,
         maxMessage: 'Doit faire moins de {{ limit }} caractères.',
     )]
     private ?string $phoneNumber = null;
@@ -33,7 +33,7 @@ class Information
     #[ORM\Column(length: 38, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        max: 38,
+        max       : 38,
         maxMessage: 'Doit faire moins de {{ limit }} caractères.',
     )]
     private ?string $address1 = null;
@@ -41,7 +41,7 @@ class Information
     #[ORM\Column(length: 38, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        max: 38,
+        max       : 38,
         maxMessage: 'Doit faire moins de {{ limit }} caractères.',
     )]
     private ?string $address2 = null;
@@ -49,7 +49,7 @@ class Information
     #[ORM\Column(length: 38, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        max: 38,
+        max       : 38,
         maxMessage: 'Doit faire moins de {{ limit }} caractères.',
     )]
     private ?string $address3 = null;
@@ -57,7 +57,7 @@ class Information
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        max: 50,
+        max       : 50,
         maxMessage: 'Doit faire moins de {{ limit }} caractères.',
     )]
     private ?string $postCode = null;
@@ -65,7 +65,7 @@ class Information
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        max: 255,
+        max       : 255,
         maxMessage: 'Doit faire moins de {{ limit }} caractères.',
     )]
     private ?string $city = null;
@@ -76,6 +76,19 @@ class Information
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getFullAddress(): string
+    {
+        return sprintf(
+            "%s\n%s\n%s\n%s %s\n%s",
+            $this->getAddress1(),
+            $this->getAddress2(),
+            $this->getAddress3(),
+            $this->getPostCode(),
+            $this->getCity(),
+            $this->getCountry(),
+        );
     }
 
     public function getName(): ?string

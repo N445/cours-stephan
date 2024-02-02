@@ -1,0 +1,21 @@
+{% extends 'email-pdf/base-email-pdf.html.twig' %}
+
+{% block title %}
+    Confirmer votre email pour votre inscription dans la boutique Cours Stéphan
+{% endblock %}
+
+{% block body %}
+    <container>
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Bonjour</h1>
+                <p>
+                    Merci de confirmer votre email en cliquant sur le lien ci-dessous :
+                </p>
+                <p>
+                    <a href="{{ url('CONFIRM_EMAIL', {token: emailValidation.id}) }}">Confirmer mon email</a>
+                </p>
+            </div>
+        </div>
+    </container>
+{% endblock %}

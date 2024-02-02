@@ -84,7 +84,7 @@ class PaymentController extends AbstractController
         $cart = $this->cartProvider->getUserCart();
         if($status->isCaptured()){
             if (!$this->cartStateMachine->can($cart, 'to_complete')) {
-                $this->addFlash('error', 'Panier non valide bbbbb');
+                $this->addFlash('error', 'Panier non valide');
                 return $this->redirectToRoute('APP_HOMEPAGE');
             }
             $this->cartStateMachine->apply($cart, 'to_complete');
@@ -97,7 +97,7 @@ class PaymentController extends AbstractController
 
         if($status->isCanceled()){
             if (!$this->cartStateMachine->can($cart, 'to_cancelled')) {
-                $this->addFlash('error', 'Panier non valide aaaa');
+                $this->addFlash('error', 'Panier non valide');
                 return $this->redirectToRoute('APP_HOMEPAGE');
             }
             $this->cartStateMachine->apply($cart, 'to_cancelled');
@@ -107,7 +107,7 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('APP_HOMEPAGE');
         }
 
-        $this->addFlash('info', 'Rien');
+//        $this->addFlash('info', 'Rien');
         return $this->redirectToRoute('APP_HOMEPAGE');
     }
 }

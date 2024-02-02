@@ -1,0 +1,50 @@
+{% apply inky_to_html|inline_css(encore_entry_css_source('foundation-emails'),encore_entry_css_source('email-pdf')) %}
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Footer</title>
+    </head>
+    <body>
+    <footer>
+        <row>
+            <columns>
+                <img src="{{ getPublicPath()~asset('images/logo.png') }}" alt="Logo Cours Stéphan"
+                     class="img-fluid">
+            </columns>
+            <columns>
+            </columns>
+            <columns>
+            </columns>
+            <columns>
+                <address>
+                    22 Boulevard de Belleville <br>
+                    75020 PARIS <br>
+                    Tél: 05 45 37 18 18
+                </address>
+            </columns>
+        </row>
+        <p class="text-right">Page : <span id="page"></span></p>
+    </footer>
+
+
+    <script>
+        // bout de js qui permet d'afficher "Page :2" en bas a droite de la page
+        // ici il faut laisser var si non ça marche plus
+        // code trouvé dans une solution en ligne
+        var vars={};
+        var x=window.location.search.substring(1).split('&');
+        for (var i in x) {
+            var z=x[i].split('=',2);
+            vars[z[0]] = unescape(z[1]);
+        }
+        document.getElementById('page').innerHTML = vars.page;
+        // document.getElementById('topage').innerHTML = vars.topage;
+    </script>
+    </body>
+    </html>
+
+{% endapply %}

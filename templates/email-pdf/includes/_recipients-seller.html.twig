@@ -1,0 +1,12 @@
+<row>
+    <columns large="4">
+        <p><strong>Adresse de facturation</strong></p>
+        <p>
+            {{ cart.information.fullAddress|nl2br }}
+        </p>
+    </columns>
+    <columns large="4">
+        <p><strong>Date : </strong>{{ cart.payedAt|date('d/m/Y') }}</p>
+    </columns>
+</row>
+

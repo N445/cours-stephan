@@ -1,0 +1,23 @@
+<header>
+    <row>
+        <columns large="12">
+            {% if isPdf %}
+                <img src="{{ getPublicPath()~asset('images/logo.png') }}"
+                     alt="Logo Cours Stéphan" class="img-fluid">
+            {% else %}
+{#                <img src="{{ absolute_url(asset('images/email-pdf/novenci.jpg')) }}"#}
+{#                     alt="Logo Cours Stéphan" class="img-fluid">#}
+                <img src="{{ email.image('@images/logo.png') }}" class="logo" alt="Cours Stéphan logo">
+            {% endif %}
+        </columns>
+{#        <columns large="4">#}
+{#            <p>#}
+{#                <strong>{{ order.ANOMFAC }}</strong><br>#}
+{#                {{ order.AADR1FACT }}<br>#}
+{#                {{ order.ACODPFACT }} {{ order.AVILLEFACT }}#}
+{#            </p>#}
+{#        </columns>#}
+    </row>
+</header>
+
+

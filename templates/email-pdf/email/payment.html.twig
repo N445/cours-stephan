@@ -1,0 +1,14 @@
+{% extends 'email-pdf/base-email-pdf.html.twig' %}
+
+{% block title %}
+    Commande
+{% endblock %}
+
+{% block body %}
+    <container>
+        {% include 'email-pdf/includes/_header.html.twig' with {isPdf:false} %}
+        {% include 'email-pdf/includes/_title.html.twig' %}
+        {% include 'email-pdf/includes/_recipients-seller.html.twig' %}
+        {% include 'email-pdf/includes/_lignes-detail.html.twig' %}
+    </container>
+{% endblock %}

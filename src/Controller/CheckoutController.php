@@ -10,6 +10,7 @@ use App\Form\Checkout\CheckoutFlow;
 use App\Form\User\AddressType;
 use App\Service\Cart\CartHelper;
 use App\Service\Cart\CartProvider;
+use App\Service\Cart\EmailPdf\CartEmailSender;
 use App\Service\Module\ModuleOccurenceCounter;
 use Doctrine\ORM\EntityManagerInterface;
 use Payum\Core\Payum;
@@ -31,6 +32,7 @@ class CheckoutController extends AbstractController
         private readonly Payum                  $payum,
         private readonly CartHelper             $cartHelper,
         private readonly WorkflowInterface      $cartStateMachine,
+        private readonly CartEmailSender        $cartEmailSender,
     )
     {
     }
@@ -109,7 +111,7 @@ class CheckoutController extends AbstractController
     #[Route("/success", name: "APP_CHECKOUT_SUCCESS")]
     public function success(Request $request): Response
     {
-        $token = $this->payum->getHttpRequestVerifier()->verify($request);
+        $token   = $this->payum->getHttpRequestVerifier()->verify($request);
         $gateway = $this->payum->getGateway($token->getGatewayName());
 
         // Or Payum can fetch the entity for you while executing a request (preferred).
@@ -119,22 +121,24 @@ class CheckoutController extends AbstractController
 
 
         $cart = $this->cartProvider->getUserCart();
-        if($status->isCaptured()){
+        if ($status->isCaptured()) {
             if (!$this->cartStateMachine->can($cart, 'to_complete')) {
-                $this->addFlash('error', 'Panier non valide bbbbb');
+                $this->addFlash('error', 'Panier non valide');
                 return $this->redirectToRoute('APP_HOMEPAGE');
             }
             $this->cartStateMachine->apply($cart, 'to_complete');
+            $cart->setPayedAt(new \DateTimeImmutable('NOW'));
             $this->em->persist($cart);
             $this->em->flush();
             $this->addFlash('success', 'Panier validé');
+            $this->cartEmailSender->sendMail($cart);
             return $this->redirectToRoute('APP_HOMEPAGE');
         }
 
 
-        if($status->isCanceled()){
+        if ($status->isCanceled()) {
             if (!$this->cartStateMachine->can($cart, 'to_cancelled')) {
-                $this->addFlash('error', 'Panier non valide aaaa');
+                $this->addFlash('error', 'Panier non valide');
                 return $this->redirectToRoute('APP_HOMEPAGE');
             }
             $this->cartStateMachine->apply($cart, 'to_cancelled');
@@ -144,7 +148,6 @@ class CheckoutController extends AbstractController
             return $this->redirectToRoute('APP_HOMEPAGE');
         }
 
-        $this->addFlash('info', 'Rien');
         return $this->redirectToRoute('APP_HOMEPAGE');
     }
 }

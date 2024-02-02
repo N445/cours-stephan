@@ -1,0 +1,88 @@
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/variables-dark";
+@import "../../../node_modules/bootstrap/scss/maps";
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/root";
+
+@import "../../../node_modules/bootstrap/scss/utilities";
+@import "../../../node_modules/bootstrap/scss/tables";
+@import "../../../node_modules/bootstrap/scss/images";
+
+//@import "~bootstrap";
+
+
+.product-detail {
+  .small-text {
+    font-size: 12px !important;
+  }
+}
+
+.new-page {
+  page-break-before: always;
+}
+
+
+.pb-0 {
+  padding-bottom: 0 !important;
+}
+
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+
+
+.text-end {
+  text-align: right;
+}
+
+header {
+  img {
+    width: 300px;
+  }
+}
+
+table {
+  &.table {
+    margin-bottom: 20px;
+
+    &.table-bordered {
+      border: 1px solid black;
+
+      th, td {
+        border:    1px solid black;
+        font-size: 13px;
+      }
+
+      td {
+        //border-top:     none;
+        //border-bottom:  none;
+      }
+    }
+  }
+}
+
+
+table { page-break-inside: auto }
+
+tr { page-break-inside: avoid; page-break-after: auto }
+
+thead { display: table-header-group }
+
+tfoot { display: table-footer-group }
+
+img {
+  width: 100%;
+}
+
+.legal-text {
+  * {
+    font-size: 13px !important;
+  }
+}
+
+footer {
+  * {
+    font-size: 13px !important;
+  }
+}
