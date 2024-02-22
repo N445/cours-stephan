@@ -14,4 +14,4 @@ payum:
             username:  '%env(PAYPAL_USER)%'
             password:  '%env(PAYPAL_PASSWORD)%'
             signature: '%env(PAYPAL_SIGNATURE)%'
-            sandbox: true
+            sandbox: false
