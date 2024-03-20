@@ -81,29 +81,33 @@ class CheckoutController extends AbstractController
         $this->em->persist($cart);
         $this->em->flush();
 
-
         /** @var User $user */
         $user        = $this->getUser();
         $gatewayName = $cart->getMethodPayment();
 
         $gateway = $this->payum->getGateway($gatewayName);
+
         $storage = $this->payum->getStorage(Payment::class);
 
-        /** @var Payment $details */
-        $details = $storage->create();
+        /** @var Payment $payment */
+        $payment = $storage->create();
 
-        $details->setNumber(uniqid('', true));
-        $details->setCurrencyCode('EUR');
-        $details->setTotalAmount($this->cartHelper->getTotalCart($cart));
+        $payment->setNumber(uniqid('', true));
+        $payment->setCurrencyCode('EUR');
+        $payment->setTotalAmount($this->cartHelper->getTotalCart($cart));
+        $payment->setClientId($user->getId());
+        $payment->setClientEmail($user->getEmail());
 
-        $details->setClientEmail($user->getEmail());
-        $storage->update($details);
+        $storage->update($payment);
 
         $captureToken = $this->payum->getTokenFactory()->createCaptureToken(
             $gatewayName,
-            $details,
+            $payment,
             'APP_CHECKOUT_SUCCESS', // the route to redirect after capture;
         );
+
+        dump($payment);
+        dump($captureToken);
 
         return $this->redirect($captureToken->getTargetUrl());
     }
@@ -119,6 +123,8 @@ class CheckoutController extends AbstractController
         /** @var Payment $payment */
         $payment = $status->getFirstModel();
 
+        dump($payment);
+        dump($status);
 
         $cart = $this->cartProvider->getUserCart();
         if ($status->isCaptured()) {
@@ -148,6 +154,13 @@ class CheckoutController extends AbstractController
             return $this->redirectToRoute('APP_HOMEPAGE');
         }
 
+
+        if ($status->isFailed()) {
+            $this->addFlash('error', $payment->getDetails()['L_LONGMESSAGE0'] ?? 'Une erreur est survenu');
+            return $this->redirectToRoute('APP_HOMEPAGE');
+        }
+
+        $this->addFlash('error', $payment->getDetails()['L_LONGMESSAGE0'] ?? 'Une erreur est survenu');
         return $this->redirectToRoute('APP_HOMEPAGE');
     }
 }

@@ -14,7 +14,6 @@ class CartToPdf
 {
     public function __construct(
         private readonly Environment         $twig,
-        private readonly Pdf                 $knpSnappyPdf,
         private readonly Security            $security,
         private readonly KernelInterface     $kernel
     )
@@ -34,7 +33,8 @@ class CartToPdf
 
         $tmpFile = (new Filesystem())->tempnam(sys_get_temp_dir(), 'novenci-product-order-confirmation');
 
-        $this->knpSnappyPdf
+
+        (new Pdf())
             ->setBinary($this->kernel->getProjectDir() . '/vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64')
             ->setOption('encoding', 'UTF-8')
             ->setOption('enable-local-file-access', true)

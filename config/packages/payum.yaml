@@ -9,9 +9,10 @@ payum:
     gateways:
         offline:
             factory: offline
-        paypal:
-            factory: paypal_express_checkout
-            username:  '%env(PAYPAL_USER)%'
-            password:  '%env(PAYPAL_PASSWORD)%'
-            signature: '%env(PAYPAL_SIGNATURE)%'
-            sandbox: false
+        paypal_express_checkout:
+            factory: paypal_rest
+            client_id: '%env(PAYPAL_CLIENT_ID)%'
+            client_secret: '%env(PAYPAL_CLIENT_SECRET)%'
+            config_path: ~
+            config:
+                mode: '%env(PAYPAL_MODE)%'
