@@ -24,24 +24,24 @@
     "php-http/message-factory": "^1.1",
     "rlanvin/php-rrule": "^2.4",
     "stof/doctrine-extensions-bundle": "^1.8",
-    "symfony/asset": "6.3.*",
-    "symfony/console": "6.3.*",
-    "symfony/dotenv": "6.3.*",
+    "symfony/asset": "6.4.*",
+    "symfony/console": "6.4.*",
+    "symfony/dotenv": "6.4.*",
     "symfony/flex": "^2",
-    "symfony/framework-bundle": "6.3.*",
-    "symfony/mailer": "6.3.*",
+    "symfony/framework-bundle": "6.4.*",
+    "symfony/mailer": "6.4.*",
     "symfony/maker-bundle": "^1.51",
     "symfony/monolog-bundle": "^3.0",
-    "symfony/runtime": "6.3.*",
+    "symfony/runtime": "6.4.*",
     "symfony/stimulus-bundle": "^2.12",
-    "symfony/twig-bundle": "6.3.*",
+    "symfony/twig-bundle": "6.4.*",
     "symfony/ux-live-component": "^2.12",
     "symfony/ux-twig-component": "^2.12",
     "symfony/ux-typed": "^2.12",
-    "symfony/var-dumper": "6.3.*",
+    "symfony/var-dumper": "6.4.*",
     "symfony/webpack-encore-bundle": "^2.0",
-    "symfony/workflow": "6.3.*",
-    "symfony/yaml": "6.3.*",
+    "symfony/workflow": "6.4.*",
+    "symfony/yaml": "6.4.*",
     "symfonycasts/reset-password-bundle": "^1.18",
     "symfonycasts/verify-email-bundle": "^1.14",
     "twig/cssinliner-extra": "^3.8",
@@ -96,12 +96,12 @@
   "extra": {
     "symfony": {
       "allow-contrib": false,
-      "require": "6.3.*"
+      "require": "6.4.*"
     }
   },
   "require-dev": {
-    "symfony/debug-bundle": "6.3.*",
-    "symfony/stopwatch": "6.3.*",
-    "symfony/web-profiler-bundle": "6.3.*"
+    "symfony/debug-bundle": "6.4.*",
+    "symfony/stopwatch": "6.4.*",
+    "symfony/web-profiler-bundle": "6.4.*"
   }
 }
