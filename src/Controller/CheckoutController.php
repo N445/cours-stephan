@@ -106,9 +106,6 @@ class CheckoutController extends AbstractController
             'APP_CHECKOUT_SUCCESS', // the route to redirect after capture;
         );
 
-        dump($payment);
-        dump($captureToken);
-
         return $this->redirect($captureToken->getTargetUrl());
     }
 
@@ -122,9 +119,6 @@ class CheckoutController extends AbstractController
         $gateway->execute($status = new GetHumanStatus($token));
         /** @var Payment $payment */
         $payment = $status->getFirstModel();
-
-        dump($payment);
-        dump($status);
 
         $cart = $this->cartProvider->getUserCart();
         if ($status->isCaptured()) {
