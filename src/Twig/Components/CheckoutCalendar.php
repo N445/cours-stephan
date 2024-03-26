@@ -85,6 +85,7 @@ final class CheckoutCalendar extends AbstractController
         $this->cartHelper->addModuleToCartOrRemoveIfExist($this->cart, $this->schedule, $module, $occurenceId);
         $this->cart->sortCartItems();
         $this->refreshEvents();
+        return null;
     }
 
     /**
@@ -104,6 +105,7 @@ final class CheckoutCalendar extends AbstractController
         $this->cartHelper->removeCartItemFromCart($this->cart, $cartItem);
         $this->cart->sortCartItems();
         $this->refreshEvents();
+        return null;
     }
 
     /**
