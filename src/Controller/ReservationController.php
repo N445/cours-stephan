@@ -40,7 +40,6 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    #[IsGranted("ROLE_USER")]
     #[Route('/reservation/module/{moduleId}', name: 'APP_RESERVATION_SCHEDULES_BY_MODULE')]
     public function reservationShedulesByModule(int $moduleId): Response
     {
@@ -58,7 +57,6 @@ class ReservationController extends AbstractController
         ]);
     }
 
-    #[IsGranted("ROLE_USER")]
     #[Route('/reservation/{scheduleId}', name: 'APP_RESERVATION')]
     public function reservation(int $scheduleId): Response
     {

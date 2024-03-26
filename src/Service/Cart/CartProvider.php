@@ -57,9 +57,12 @@ class CartProvider
         return $cart;
     }
 
-    public function getUserCartOrCreate(): Cart
+    public function getUserCartOrCreate(): ?Cart
     {
         $this->init();
+        if(!$this->user){
+            return null;
+        }
         if (!$cart = $this->getUserCart()) {
             $cart = $this->createCart();
         }

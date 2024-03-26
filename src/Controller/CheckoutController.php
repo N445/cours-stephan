@@ -127,7 +127,7 @@ class CheckoutController extends AbstractController
                 return $this->redirectToRoute('APP_HOMEPAGE');
             }
             $this->cartStateMachine->apply($cart, 'to_complete');
-            $cart->setPayedAt(new \DateTimeImmutable('NOW'));
+            $cart->setPayedAt(new \DateTime('NOW'));
             $this->em->persist($cart);
             $this->em->flush();
             $this->addFlash('success', 'Panier validé');

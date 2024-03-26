@@ -15,6 +15,8 @@ use App\Service\Cart\CartHelper;
 use App\Service\Cart\CartProvider;
 use App\Service\Module\ModuleEventsProvider;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
@@ -23,7 +25,7 @@ use Symfony\UX\LiveComponent\ComponentToolsTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent()]
-final class CheckoutCalendar
+final class CheckoutCalendar extends AbstractController
 {
     use DefaultActionTrait;
     use ComponentToolsTrait;
@@ -57,6 +59,10 @@ final class CheckoutCalendar
 
     public function occurencesAddedToCart(): array
     {
+        dump($this);
+        if (!$this->cart) {
+            return [];
+        }
         return array_map(static function (CartItem $cartItem) {
             return $cartItem->getOccurenceId();
         }, $this->cart->getCartItems()->toArray());
@@ -66,10 +72,14 @@ final class CheckoutCalendar
      * @throws \Exception
      */
     #[LiveAction]
-    public function addModule(#[LiveArg] int $moduleId, #[LiveArg] string $occurenceId): void
+    public function addModule(#[LiveArg] int $moduleId, #[LiveArg] string $occurenceId): ?Response
     {
+        if (!$this->cart) {
+            return $this->redirectToRoute('APP_LOGIN');
+        }
         if (!$module = $this->moduleRepository->find($moduleId)) {
-            return;
+            $this->refreshEvents();
+            return null;
         }
 
         $this->cart = $this->cartProvider->getUserCartOrCreate();
@@ -82,10 +92,14 @@ final class CheckoutCalendar
      * @throws \Exception
      */
     #[LiveAction]
-    public function removeCartItem(#[LiveArg] CartItem $cartItemId): void
+    public function removeCartItem(#[LiveArg] CartItem $cartItemId): ?Response
     {
+        if (!$this->cart) {
+            return $this->redirectToRoute('APP_LOGIN');
+        }
         if (!$cartItem = $this->cartItemRepository->find($cartItemId)) {
-            return;
+            $this->refreshEvents();
+            return null;
         }
         $this->cart = $this->cartProvider->getUserCartOrCreate();
         $this->cartHelper->removeCartItemFromCart($this->cart, $cartItem);
@@ -108,7 +122,7 @@ final class CheckoutCalendar
 
     public function getModulesOccurences(Module $module): array
     {
-        $moduleCalendar = $this->moduleEventsProvider->init($this->schedule)->getModuleCalendar($module,4 === $module->getId());
+        $moduleCalendar = $this->moduleEventsProvider->init($this->schedule)->getModuleCalendar($module);
         return $moduleCalendar->getMainModules()->toArray();
     }
 }
