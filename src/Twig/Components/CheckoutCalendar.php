@@ -59,7 +59,6 @@ final class CheckoutCalendar extends AbstractController
 
     public function occurencesAddedToCart(): array
     {
-        dump($this);
         if (!$this->cart) {
             return [];
         }
