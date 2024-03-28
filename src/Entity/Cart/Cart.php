@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\Cart\CartRepository;
 use App\Service\Cart\CartPriceHelper;
 use App\Service\Cart\CartValidator;
+use App\Service\Helper\PaymentMethod;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -165,6 +166,16 @@ class Cart
         $this->methodPayment = $methodPayment;
 
         return $this;
+    }
+
+    public function isPaymentVirement(): bool
+    {
+        return $this->getMethodPayment() === PaymentMethod::VIREMENT;
+    }
+
+    public function isPaymentPayPal(): bool
+    {
+        return $this->getMethodPayment() === PaymentMethod::PAYPAL;
     }
 
     public function getUser(): ?User

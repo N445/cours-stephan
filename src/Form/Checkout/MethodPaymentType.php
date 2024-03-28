@@ -3,6 +3,7 @@
 namespace App\Form\Checkout;
 
 use App\Entity\Cart\Cart;
+use App\Service\Helper\PaymentMethod;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -18,8 +19,8 @@ class MethodPaymentType extends AbstractType
                 'label'    => 'Mode de réglement',
                 'expanded' => true,
                 'choices'  => [
-                    'Hors ligne' => 'offline',
-                    'Paypal ou carte bancaire'     => 'paypal_express_checkout',
+                    'Virement bancaire'        => PaymentMethod::VIREMENT,
+                    'Paypal ou carte bancaire' => PaymentMethod::PAYPAL,
                 ],
             ])
         ;

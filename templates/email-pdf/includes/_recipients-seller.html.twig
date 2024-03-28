@@ -8,5 +8,12 @@
     <columns large="4">
         <p><strong>Date : </strong>{{ cart.payedAt|date('d/m/Y') }}</p>
     </columns>
+    {% if cart.paymentVirement  %}
+        <columns large="4">
+            <p>RIB de MONSIEUR STEPHAN LEVACHER</p>
+            <p><strong>IBAN : </strong>FR93 3000 2005 5700 0005 1652 K34</p>
+            <p><strong>BIC : </strong>CRLYFRPP</p>
+        </columns>
+    {% endif %}
 </row>
 

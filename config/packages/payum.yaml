@@ -7,7 +7,7 @@ payum:
         App\Entity\Payum\Payment: { doctrine: orm }
 
     gateways:
-        offline:
+        virement:
             factory: offline
         paypal_express_checkout:
             factory: paypal_rest
