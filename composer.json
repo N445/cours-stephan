@@ -12,6 +12,7 @@
     "easycorp/easyadmin-bundle": "^4.7",
     "h4cc/wkhtmltoimage-amd64": "^0.12.4",
     "h4cc/wkhtmltopdf-amd64": "^0.12.4",
+    "knplabs/knp-paginator-bundle": "^6.3",
     "knplabs/knp-snappy": "^1.4",
     "liip/imagine-bundle": "^2.12",
     "nesbot/carbon": "^2.71",

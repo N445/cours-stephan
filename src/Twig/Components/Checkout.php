@@ -69,7 +69,7 @@ final class Checkout extends AbstractController
      * @throws \Exception
      */
     #[LiveAction]
-    public function removeCartItem(#[LiveArg] CartItem $cartItemId): void
+    public function removeCartItem(#[LiveArg('cartItem')] CartItem $cartItemId): void
     {
         if (!$cartItem = $this->cartItemRepository->find($cartItemId)) {
             return;

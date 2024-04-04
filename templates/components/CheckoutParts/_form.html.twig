@@ -24,7 +24,9 @@
                                     </div>
                                     <div class="card-footer">
                                         <button class="text-danger btn btn-link" type="button" data-action="live#action"
-                                                data-action-name="removeCartItem(cartItemId={{ value.id }})">
+                                                data-live-action-param="removeCartItem"
+                                                data-live-cart-item-param="{{ value.id }}"
+                                        >
                                             Supprimer
                                         </button>
                                     </div>

@@ -25,10 +25,10 @@ class Schedule
     #[ORM\Column]
     private ?\DateTimeImmutable $endAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'schedule', targetEntity: Planning::class)]
+    #[ORM\OneToMany(mappedBy: 'schedule', targetEntity: Planning::class,cascade: ['remove'])]
     private Collection $plannings;
 
-    #[ORM\OneToMany(mappedBy: 'schedule', targetEntity: CartItem::class)]
+    #[ORM\OneToMany(mappedBy: 'schedule', targetEntity: CartItem::class,cascade: ['remove'])]
     private Collection $cartItems;
 
     #[ORM\Column(length: 255, nullable: true)]

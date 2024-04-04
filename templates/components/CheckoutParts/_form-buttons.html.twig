@@ -35,7 +35,7 @@
             {% if isLastStep %}
                 <div class="col-md">
                     <button type="submit" class="btn btn-primary w-100">
-                        Payer
+                        {{ this.cart.isPaymentVirement?'Recevoir le RIB par mail':'Payer' }}
                     </button>
                 </div>
             {% endif %}
