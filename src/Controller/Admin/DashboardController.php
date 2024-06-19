@@ -8,6 +8,7 @@ use App\Entity\Contact;
 use App\Entity\Module\Module;
 use App\Entity\Module\Schedule;
 use App\Entity\Module\SubModule;
+use App\Entity\Testimonial\Testimonial;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -45,6 +46,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class);
         yield MenuItem::linkToCrud('Paniers', 'fa-solid fa-cart-shopping', Cart::class);
         yield MenuItem::linkToCrud('Contact', 'fa-solid fa-message', Contact::class);
+        yield MenuItem::linkToCrud('Testimonial', 'fa-solid fa-comment', Testimonial::class);
 
     }
 }

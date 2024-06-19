@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Temoignage - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ component('TopBannerComponent',{
+        'title':'Temoignage',
+        'page':'testimonial'
+    }) }}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {% for testimonial in testimonials %}
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h6 class="mb-0">{{ testimonial.firstname }} {{ testimonial.lastname }}</h6>
+                        </div>
+                        <div class="card-body">
+                            {{ testimonial.message }}
+                        </div>
+                        <div class="card-footer">
+                            <small class="text-muted">{{ testimonial.createdAt|date('d/m/Y H:i') }}</small>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Donnez votre avis</h6>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        <div class="row row-cols-md-2">
+                            <div class="col-md">{{ form_row(form.firstname) }}</div>
+                            <div class="col-md">{{ form_row(form.lastname) }}</div>
+                        </div>
+                        {{ form_row(form.email) }}
+                        {{ form_row(form.message) }}
+                        {{ form_widget(form) }}
+                        <button type="submit" class="btn btn-primary">
+                            Envoyer
+                        </button>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
