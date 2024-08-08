@@ -68,11 +68,13 @@ class ModuleEventsProvider
             );
         }
 
+        dump($this->moduleCalendar->getMainModules());
         foreach ($this->moduleCalendar->getMainModules() as $mainModule) {
             if ($mainModule->getEnd() > $this->schedule->getEndAt()) {
                 $this->moduleCalendar->removeMainModules($mainModule);
             }
         }
+        dump($this->moduleCalendar->getMainModules());
 
         return $this->moduleCalendar;
     }
