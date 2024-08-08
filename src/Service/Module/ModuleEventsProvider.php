@@ -111,11 +111,11 @@ class ModuleEventsProvider
                 continue;
             }
 
-            if ($nbReservedPlaceWithThisOccurence = $this->alreadyResevedOccurence[$occurenceId] ?? null) {
-                if ($nbReservedPlaceWithThisOccurence >= $this->module->getNbPlaceBySchedule()) {
-                    continue;
-                }
-            }
+//            if ($nbReservedPlaceWithThisOccurence = $this->alreadyResevedOccurence[$occurenceId] ?? null) {
+//                if ($nbReservedPlaceWithThisOccurence >= $this->module->getNbPlaceBySchedule()) {
+//                    continue;
+//                }
+//            }
 
             $startAt = (clone $occurrence)->add(new \DateInterval($time));
             $endAt   = (clone $startAt)->add(new \DateInterval('PT1H30M'));
