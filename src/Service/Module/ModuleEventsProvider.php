@@ -104,18 +104,21 @@ class ModuleEventsProvider
             );
 
             if ($occurrence <= new \DateTime('NOW')) {
+                dump('107');
                 continue;
             }
 
             if ($this->occurenceId && $this->occurenceId !== $occurenceId) {
+                dump('112');
                 continue;
             }
 
-//            if ($nbReservedPlaceWithThisOccurence = $this->alreadyResevedOccurence[$occurenceId] ?? null) {
-//                if ($nbReservedPlaceWithThisOccurence >= $this->module->getNbPlaceBySchedule()) {
-//                    continue;
-//                }
-//            }
+            if ($nbReservedPlaceWithThisOccurence = $this->alreadyResevedOccurence[$occurenceId] ?? null) {
+                dump('117');
+                if ($nbReservedPlaceWithThisOccurence >= $this->module->getNbPlaceBySchedule()) {
+                    continue;
+                }
+            }
 
             $startAt = (clone $occurrence)->add(new \DateInterval($time));
             $endAt   = (clone $startAt)->add(new \DateInterval('PT1H30M'));
