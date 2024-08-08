@@ -149,7 +149,6 @@ class ModuleEventsProvider
             $this->moduleCalendar->addMainModules($mainModule);
 
         }
-        dump($this->moduleCalendar);
     }
 
     private function addModuleSubEvents(MainModule $mainModule, \DateTime $startAt, \DateTime $endAt): void
