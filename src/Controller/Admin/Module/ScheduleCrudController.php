@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Module;
 
 use App\Entity\Module\Schedule;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ColorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
@@ -13,6 +14,32 @@ class ScheduleCrudController extends AbstractCrudController
     public static function getEntityFqcn(): string
     {
         return Schedule::class;
+    }
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param Schedule               $entityInstance
+     *
+     * @return void
+     */
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $entityInstance->setEndAt($entityInstance->getEndAt()->setTime(23,59,59));
+        $entityManager->persist($entityInstance);
+        $entityManager->flush();
+    }
+
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @param Schedule               $entityInstance
+     *
+     * @return void
+     */
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $entityInstance->setEndAt($entityInstance->getEndAt()->setTime(23,59,59));
+        $entityManager->persist($entityInstance);
+        $entityManager->flush();
     }
 
     public function configureFields(string $pageName): iterable
