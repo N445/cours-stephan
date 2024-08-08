@@ -92,6 +92,7 @@ class ModuleEventsProvider
 
     private function addModulePlanningDayTimes(string $day, \DateTime $occurrence): void
     {
+        dump($this->getPlanningDaytimes($this->currentPlanning, $day));
         foreach ($this->getPlanningDaytimes($this->currentPlanning, $day) as $time) {
             $occurenceId = md5(
                 implode('-', [
@@ -104,17 +105,14 @@ class ModuleEventsProvider
             );
 
             if ($occurrence <= new \DateTime('NOW')) {
-                dump('107');
                 continue;
             }
 
             if ($this->occurenceId && $this->occurenceId !== $occurenceId) {
-                dump('112');
                 continue;
             }
 
             if ($nbReservedPlaceWithThisOccurence = $this->alreadyResevedOccurence[$occurenceId] ?? null) {
-                dump('117');
                 if ($nbReservedPlaceWithThisOccurence >= $this->module->getNbPlaceBySchedule()) {
                     continue;
                 }
