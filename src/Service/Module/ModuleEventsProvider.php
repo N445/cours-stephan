@@ -92,7 +92,6 @@ class ModuleEventsProvider
 
     private function addModulePlanningDayTimes(string $day, \DateTime $occurrence): void
     {
-        dump($this->getPlanningDaytimes($this->currentPlanning, $day));
         foreach ($this->getPlanningDaytimes($this->currentPlanning, $day) as $time) {
             $occurenceId = md5(
                 implode('-', [
