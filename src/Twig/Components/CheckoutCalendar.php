@@ -124,6 +124,7 @@ final class CheckoutCalendar extends AbstractController
     public function getModulesOccurences(Module $module): array
     {
         $moduleCalendar = $this->moduleEventsProvider->init($this->schedule)->getModuleCalendar($module);
+        dump($moduleCalendar->getMainModules()->toArray());
         return $moduleCalendar->getMainModules()->toArray();
     }
 }
